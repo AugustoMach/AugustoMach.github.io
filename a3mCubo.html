@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cubo VR</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      #vr-canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Verifica se o navegador suporta WebXR
+      if ('xr' in navigator) {
+        navigator.xr
+          .isSessionSupported('immersive-vr')
+          .then(function (supported) {
+            if (supported) {
+              showEnterVRButton();
+            }
+          })
+          .catch(function (error) {
+            console.log('Erro ao verificar suporte WebXR: ' + error);
+          });
+      } else {
+        console.log('Seu navegador não suporta WebXR.');
+      }
+
+      // Função para criar o cubo em VR
+      function createCube(scene) {
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+        return cube;
+      }
+
+      // Função para iniciar a sessão de realidade virtual
+      function startXRSession() {
+        navigator.xr
+          .requestSession('immersive-vr')
+          .then(function (session) {
+            // Configura a renderização em VR
+            const renderer = new THREE.WebGLRenderer({ xrCompatible: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Configura a câmera em VR
+            const camera = new THREE.PerspectiveCamera(
+              75,
+              window.innerWidth / window.innerHeight,
+              0.1,
+              1000
+            );
+
+            // Configura a cena em VR
+            const scene = new THREE.Scene();
+            const cube = createCube(scene);
+
+            // Configura o controle de VR
+            session.updateRenderState({ baseLayer: new XRWebGLLayer(session, renderer) });
+            session.requestAnimationFrame(onXRFrame);
+
+            // Função para atualizar o frame em VR
+            function onXRFrame(t, frame) {
+              session.requestAnimationFrame(onXRFrame);
+
+              // Atualiza a posição e rotação do cubo com base nos dados do frame
+              const pose = frame.getViewerPose();
+              if (pose) {
+                const position = pose.transform.position;
+                const orientation = pose.transform.orientation;
+                cube.position.set(position.x, position.y, position.z);
+                cube.quaternion.set(orientation.x, orientation.y, orientation.z, orientation.w);
+              }
+
+              renderer.render(scene, camera);
+            }
+          })
+          .catch(function (error) {
+            console.log('Erro ao iniciar sessão de VR: ' + error);
+          });
+      }
+
+      // Função para mostrar o botão "Entrar em VR"
+      function showEnterVRButton() {
+        const button = document.createElement('button');
+        button.textContent = 'Entrar em VR';
+        button.style.position = 'absolute';
+        button.style.zIndex = '999';
+        button.style.top = '10px';
+        button.style.left = '10px';
+        document.body.appendChild(button);
+
+        button.addEventListener('click', function () {
+          button.style.display = 'none';
+          startXRSession();
+        });
+      }
+    </script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/build/three.js"></script>
+    <script src="https://immersive-web.github.io/webxr-polyfill/build/webxr-polyfill.js"></script>
+  </body>
+</html>
