@@ -28,8 +28,27 @@
         // Adicione o conteúdo da cena VR aqui
 
         // Cubo giratório
-        const box = BABYLON.MeshBuilder.CreateBox("box", { size: .1 }, scene);
-        box.position.y = 1;
+        const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
+        box.position.z = 1.5;
+
+        const materials = [
+          new BABYLON.StandardMaterial("material1", scene),
+          new BABYLON.StandardMaterial("material2", scene),
+          new BABYLON.StandardMaterial("material3", scene),
+          new BABYLON.StandardMaterial("material4", scene),
+          new BABYLON.StandardMaterial("material5", scene),
+          new BABYLON.StandardMaterial("material6", scene)
+        ];
+
+        materials[0].diffuseColor = new BABYLON.Color3(1, 0, 0); // Vermelho
+        materials[1].diffuseColor = new BABYLON.Color3(0, 1, 0); // Verde
+        materials[2].diffuseColor = new BABYLON.Color3(0, 0, 1); // Azul
+        materials[3].diffuseColor = new BABYLON.Color3(1, 1, 0); // Amarelo
+        materials[4].diffuseColor = new BABYLON.Color3(1, 0, 1); // Magenta
+        materials[5].diffuseColor = new BABYLON.Color3(0, 1, 1); // Ciano
+
+        box.material = new BABYLON.MultiMaterial("multiMaterial", scene);
+        box.material.subMaterials = materials;
 
         const animation = new BABYLON.Animation(
           "rotationAnimation",
@@ -55,7 +74,7 @@
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
 
         engine.onResizeObservable.add(() => {
           engine.resize();
