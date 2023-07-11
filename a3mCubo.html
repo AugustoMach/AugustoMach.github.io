@@ -28,12 +28,10 @@
         // Load the sound and play it automatically once ready
         // const music = new BABYLON.Sound("cello", "sounds/cellolong.wav", scene, null, { loop: true, autoplay: true });
 
-
-        const texMat = new BABYLON.StandardMaterial("texMat");
-        texMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
-        // Our built-in 'ground' shape.
+        const grdMat = new BABYLON.StandardMaterial("grdMat");
+        grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
-        //ground.material = grdMat;
+        ground.material = grdMat;
 		
         // Our built-in 'sphere' shape.
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
@@ -54,24 +52,24 @@
         //roof.position.y = 1.22;
 		//mesh.rotation = new BABYLON.Vector3(alpha, beta, gamma); //alpha, beta, gamma in radians 
 
-        const materials = [
-          new BABYLON.StandardMaterial("material1", scene),
-          new BABYLON.StandardMaterial("material2", scene),
-          new BABYLON.StandardMaterial("material3", scene),
-          new BABYLON.StandardMaterial("material4", scene),
-          new BABYLON.StandardMaterial("material5", scene),
-          new BABYLON.StandardMaterial("material6", scene)
-        ];
+   //     const materials = [
+     //     new BABYLON.StandardMaterial("material1", scene),
+     //     new BABYLON.StandardMaterial("material2", scene),
+     //     new BABYLON.StandardMaterial("material3", scene),
+     //     new BABYLON.StandardMaterial("material4", scene),
+     //     new BABYLON.StandardMaterial("material5", scene),
+     //     new BABYLON.StandardMaterial("material6", scene)
+      //  ];
 
-        materials[0].diffuseColor = new BABYLON.Color3(1, 0, 0); // Vermelho
-        materials[1].diffuseColor = new BABYLON.Color3(0, 1, 0); // Verde
-        materials[2].diffuseColor = new BABYLON.Color3(0, 0, 1); // Azul
-        materials[3].diffuseColor = new BABYLON.Color3(1, 1, 0); // Amarelo
-        materials[4].diffuseColor = new BABYLON.Color3(1, 0, 1); // Magenta
-        materials[5].diffuseColor = new BABYLON.Color3(0, 1, 1); // Ciano
+     //   materials[0].diffuseColor = new BABYLON.Color3(1, 0, 0); // Vermelho
+     //   materials[1].diffuseColor = new BABYLON.Color3(0, 1, 0); // Verde
+      //  materials[2].diffuseColor = new BABYLON.Color3(0, 0, 1); // Azul
+      //  materials[3].diffuseColor = new BABYLON.Color3(1, 1, 0); // Amarelo
+     ////   materials[4].diffuseColor = new BABYLON.Color3(1, 0, 1); // Magenta
+     //   materials[5].diffuseColor = new BABYLON.Color3(0, 1, 1); // Ciano
 
-        box.material = new BABYLON.MultiMaterial("multiMaterial", scene);
-        box.material.subMaterials = materials;
+     //   box.material = new BABYLON.MultiMaterial("multiMaterial", scene);
+     //   box.material.subMaterials = materials;
 
         const animation = new BABYLON.Animation(
           "rotationAnimation",
