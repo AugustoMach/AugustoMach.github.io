@@ -30,6 +30,8 @@
         // Cubo giratório
         const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
         box.position.y = 1;
+        box.position.z = 2;
+
 
         const materials = [
           new BABYLON.StandardMaterial("material1", scene),
@@ -40,7 +42,7 @@
           new BABYLON.StandardMaterial("material6", scene)
         ];
 
-        materials[0].diffuseColor = new BABYLON.Color3(1, 0, 0); // Vermelho
+        materials[0].diffuseColor = new BABYLON.Color3(1, 0, 1); // Vermelho
         materials[1].diffuseColor = new BABYLON.Color3(0, 1, 0); // Verde
         materials[2].diffuseColor = new BABYLON.Color3(0, 0, 1); // Azul
         materials[3].diffuseColor = new BABYLON.Color3(1, 1, 0); // Amarelo
