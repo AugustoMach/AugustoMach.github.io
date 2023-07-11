@@ -27,9 +27,31 @@
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
         // Adicione o conteúdo da cena VR aqui
 
-        // Exemplo de caixa 3D
+        // Cubo giratório
         const box = BABYLON.MeshBuilder.CreateBox("box", { size: 1 }, scene);
         box.position.y = 1;
+
+        const animation = new BABYLON.Animation(
+          "rotationAnimation",
+          "rotation.y",
+          30,
+          BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+          BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+        );
+
+        const keys = [];
+        keys.push({
+          frame: 0,
+          value: 0
+        });
+        keys.push({
+          frame: 100,
+          value: Math.PI * 2
+        });
+
+        animation.setKeys(keys);
+        box.animations.push(animation);
+        scene.beginAnimation(box, 0, 100, true);
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
@@ -54,4 +76,3 @@
   </script>
 </body>
 </html>
-
