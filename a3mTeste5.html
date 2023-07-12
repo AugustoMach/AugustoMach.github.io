@@ -46,23 +46,6 @@
       textContext.fillText("Enzo 2023", 50, 180);
       textTexture.update();
 
-      // Configurar movimentação com o controle
-      xrHelper.input.onControllerAddedObservable.add((controller) => {
-        const motionController = controller.motionController;
-        if (motionController.handness === 'right') {
-          const pointer = BABYLON.MeshBuilder.CreateLines("pointer", { points: [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, -5)] }, scene);
-          pointer.color = new BABYLON.Color3(1, 0, 0); // cor vermelha para o pointer
-
-          motionController.onTriggerStateChangedObservable.add((button) => {
-            if (button.value === 1) { // Botão de gatilho pressionado
-              box.position.z += 0.1; // Movimentar o cubo para frente
-            }
-          });
-
-          const controllerMesh = motionController.rootMesh;
-          controllerMesh.position.copyFromFloats(0.1, -0.2, -0.5);
-        }
-      }
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
