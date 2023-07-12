@@ -33,6 +33,20 @@
       const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.5 }, scene);
       box.position.z = 2;
 
+      // Adicionar texto
+      const textTexture = new BABYLON.DynamicTexture("textTexture", { width: 512, height: 128 }, scene);
+      const textMaterial = new BABYLON.StandardMaterial("textMaterial", scene);
+      textMaterial.diffuseTexture = textTexture;
+      const textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", { size: 1 }, scene);
+      textPlane.position.y = 2;
+      textPlane.material = textMaterial;
+
+      const textContext = textTexture.getContext();
+      textContext.fillStyle = "white";
+      textContext.font = "48px Arial";
+      textContext.fillText("Hello VR!", 50, 80);
+      textTexture.update();
+
       // Configurar comportamento de pulo ao ser atingido pelo laser
       xrHelper.input.onControllerAddedObservable.add((controller) => {
         const motionController = controller.motionController;
@@ -72,3 +86,4 @@
   </script>
 </body>
 </html>
+
