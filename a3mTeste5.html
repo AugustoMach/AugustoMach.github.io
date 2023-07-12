@@ -30,7 +30,7 @@
       const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 5, height: 5 }, scene);
 
       // Criar cubo
-      const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.5 }, scene);
+      const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
 	  box.position = new BABYLON.Vector3(0, 1, 2);
 
       // Configurar comportamento de pulo ao ser atingido pelo laser
@@ -48,6 +48,21 @@
         });
       });
 	  */
+	        // Configurar comportamento de pulo ao ser atingido pelo laser
+      xrHelper.input.onControllerAddedObservable.add((controller) => {
+        controller.onMotionControllerInitObservable.add((motionController) => {
+          motionController.onButtonStateChangedObservable.add((button) => {
+            if (button.pressed && button.buttonId === "trigger") { // Botão de gatilho pressionado
+              const pickInfo = scene.pickWithRay(motionController.pointer, (mesh) => {
+                return mesh === box;
+              });
+              if (pickInfo.hit) {
+                box.position.y += 0.5; // Aumenta a posição em Y para simular um pulo
+              }
+            }
+          });
+        });
+      });
 
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
