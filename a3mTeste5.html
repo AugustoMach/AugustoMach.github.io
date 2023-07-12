@@ -37,35 +37,34 @@
       const textTexture = new BABYLON.DynamicTexture("textTexture", { width: 512, height: 100 }, scene);
       const textMaterial = new BABYLON.StandardMaterial("textMaterial", scene);
       textMaterial.diffuseTexture = textTexture;
-      const textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", { size: 1 }, scene);
-      textPlane.position = new BABYLON.Vector3(0, 2, 4);
+      const textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", { size: 2 }, scene);
+	  textPlane.position = new BABYLON.Vector3(0, 2, 4);
       textPlane.material = textMaterial;
       const textContext = textTexture.getContext();
       textContext.fillStyle = "white";
       textContext.font = "48px Arial";
-      textContext.fillText("Enzo 2023", 50, 180);
+      textContext.fillText("Enzo 2023", 50, 100);
       textTexture.update();
 
-      
+      // Configurações de luz e câmera
       var xr = await scene.createDefaultXRExperienceAsync({
       });
       xr.input.onControllerAddedObservable.add((controller) => {
         controller.onMotionControllerInitObservable.add((motionController) => {
-           if (motionController.handness === 'left') {
+           if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
                     if (triggerComponent.pressed) {
-                        box.scaling= new BABYLON.Vector3(1.2,1.2,1.2);
+                       box.scaling= new BABYLON.Vector3(1.2,1.2,1.2);
                     }else{
-                        box.scaling= new BABYLON.Vector3(1,1,1);
+                       box.scaling= new BABYLON.Vector3(1,1,1);
                     }
                 });
              }
          })
-     });
+      });
 
-      
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
