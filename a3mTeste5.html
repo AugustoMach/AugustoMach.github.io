@@ -46,7 +46,7 @@
       textContext.fillText("Hello VR!", 50, 80);
       textTexture.update();
 
-      // Configurar comportamento de pulo ao ser atingido pelo laser
+      /* Configurar comportamento de pulo ao ser atingido pelo laser
       xrHelper.input.onControllerAddedObservable.add((controller) => {
         const motionController = controller.motionController;
         if (motionController.handness === 'right') {
@@ -62,6 +62,7 @@
           });
         }
       });
+	  */
 
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
