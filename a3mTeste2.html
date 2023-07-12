@@ -24,23 +24,19 @@
 
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
-
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
-	    // Configuração da física
-	    const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
-       // scene.enablePhysics(gravityVector, new BABYLON.CannonJSPlugin());
+        // Som de fundo
+        // const music = new BABYLON.Sound("cello", "sounds/cellolong.wav", scene, null, { loop: true, autoplay: true });
 
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
-		//ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.5 }, scene);
-	
+		
         // Esfera
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 1.5, 2);
-       // const spherePhysicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
+        sphere.position = new BABYLON.Vector3(0, .1, 2);
 
         // Cubo giratório
         const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
@@ -55,7 +51,13 @@
           BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
         );
 		
-		
+		// Cilindro - telhado
+       // const roof = BABYLON.MeshBuilder.CreateCylinder("roof", {diameter: 0.5, height: 0.5, tessellation: 1}, scene);
+        //roof.scaling.x = 0.75;
+        //roof.rotation.z = Math.PI / 2;
+	//	roof.position = new BABYLON.Vector3(0, 3, 2);
+        //roof.position.y = 1.22;
+		//mesh.rotation = new BABYLON.Vector3(alpha, beta, gamma); //alpha, beta, gamma in radians 
 
         const keys = [];
         keys.push({
@@ -83,6 +85,39 @@
       return scene;
     }
 	
+	function carro() {
+	    //base
+    const outline = [
+        new BABYLON.Vector3(-0.3, 0, -0.1),
+        new BABYLON.Vector3(0.2, 0, -0.1),
+    ]
+
+    //curved front
+    for (let i = 0; i < 20; i++) {
+        outline.push(new BABYLON.Vector3(0.2 * Math.cos(i * Math.PI / 40), 0, 0.2 * Math.sin(i * Math.PI / 40) - 0.1));
+    }
+
+    //top
+    outline.push(new BABYLON.Vector3(0, 0, 0.1));
+    outline.push(new BABYLON.Vector3(-0.3, 0, 0.1));
+
+    //back formed automatically
+
+    //face UVs
+    const faceUV = [];
+    faceUV[0] = new BABYLON.Vector4(0, 0.5, 0.38, 1);
+    faceUV[1] = new BABYLON.Vector4(0, 0, 1, 0.5);
+    faceUV[2] = new BABYLON.Vector4(0.38, 1, 0, 0.5);
+
+    //material
+    const carMat = new BABYLON.StandardMaterial("carMat");
+    carMat.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/car.png");
+
+    const car = BABYLON.MeshBuilder.ExtrudePolygon("car", {shape: outline, depth: 0.2, faceUV: faceUV, wrap: true});
+    car.material = carMat;
+	return true;
+	}
+
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
