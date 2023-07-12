@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WebXR VR Demo</title>
+  <title>a3mWebXR VR Demo</title>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
@@ -25,13 +25,27 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
-        // Adicione o conteúdo da cena VR aqui
+        // Som de fundo
+        const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
+
+        // Chao
+        const grdMat = new BABYLON.StandardMaterial("grdMat");
+        grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
+        ground.material = grdMat;
+		
+        // Esfera
+        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
+        sphere.position = new BABYLON.Vector3(0, 1.5, 2);
 
         // Cubo giratório
+		const boxMat = new BABYLON.StandardMaterial("boxMat");
+        boxMat.diffuseTexture = new BABYLON.Texture("caixa1.png")
         const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
-        box.position.y = 0.5;
-
-        const animation = new BABYLON.Animation(
+		//box.scaling = new BABYLON.Vector3(.2, .2, .2);
+		box.position = new BABYLON.Vector3(0, 1, 2);
+		box.material = boxMat;
+		const animation = new BABYLON.Animation(
           "rotationAnimation",
           "rotation.y",
           30,
@@ -52,18 +66,18 @@
         animation.setKeys(keys);
         box.animations.push(animation);
         scene.beginAnimation(box, 0, 100, true);
-
-        // Configurações de luz e câmera
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-
-        // Configuração do raio de laser
+		
+		 // Configuração do raio de laser
         const laserPointer = new BABYLON.WebXRDefaultExperience(scene).input.xrInput.controllers[0].pointer;
         laserPointer.onMeshPicked.add((mesh) => {
           if (mesh === box) {
             box.position.y += 0.5;
           }
-        });
+		});
+
+        // Configurações de luz e câmera
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
 
         engine.onResizeObservable.add(() => {
           engine.resize();
@@ -72,7 +86,7 @@
 
       return scene;
     }
-
+	
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
