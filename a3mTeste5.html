@@ -38,38 +38,31 @@
       const textMaterial = new BABYLON.StandardMaterial("textMaterial", scene);
       textMaterial.diffuseTexture = textTexture;
       const textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", { size: 1 }, scene);
-	  textPlane.position = new BABYLON.Vector3(0, 2, 4);
+      textPlane.position = new BABYLON.Vector3(0, 2, 4);
       textPlane.material = textMaterial;
       const textContext = textTexture.getContext();
       textContext.fillStyle = "white";
-      textContext.font = "48px Arial bold";
-      textContext.fillText("Teste Vr - Enzo - 2023", 50, 180);
+      textContext.font = "48px Arial";
+      textContext.fillText("Enzo 2023", 50, 180);
       textTexture.update();
 
       // Configurar movimentação com o controle
       xrHelper.input.onControllerAddedObservable.add((controller) => {
-        const grip = controller.grip;
-        const pointer = BABYLON.MeshBuilder.CreateLines("pointer", { points: [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, -5)] }, scene);
-        pointer.color = new BABYLON.Color3(1, 0, 0); // cor vermelha para o pointer
+        const motionController = controller.motionController;
+        if (motionController.handness === 'right') {
+          const pointer = BABYLON.MeshBuilder.CreateLines("pointer", { points: [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, -5)] }, scene);
+          pointer.color = new BABYLON.Color3(1, 0, 0); // cor vermelha para o pointer
 
-        grip.onButtonStateChangedObservable.add((button) => {
-          if (button.value === 1) { // Botão de gatilho pressionado
-            box.position.z += 0.1; // Movimentar o cubo para frente
-          }
-        });
+          motionController.onTriggerStateChangedObservable.add((button) => {
+            if (button.value === 1) { // Botão de gatilho pressionado
+              box.position.z += 0.1; // Movimentar o cubo para frente
+            }
+          });
 
-        const positionVector = new BABYLON.Vector3();
-        xrHelper.input.onControllerMeshLoadedObservable.add((controllerMesh) => {
-          if (controllerMesh.handness === "right") {
-            positionVector.copyFromFloats(0.1, -0.2, -0.5);
-          } else if (controllerMesh.handness === "left") {
-            positionVector.copyFromFloats(-0.1, -0.2, -0.5);
-          }
-          controllerMesh.position = positionVector;
-          controllerMesh.parent = grip;
-        });
-      });
-
+          const controllerMesh = motionController.rootMesh;
+          controllerMesh.position.copyFromFloats(0.1, -0.2, -0.5);
+        }
+      }
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
