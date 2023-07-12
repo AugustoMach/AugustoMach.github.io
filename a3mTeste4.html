@@ -35,13 +35,14 @@
         box.position.y = 0.5;
 
         // Configurar comportamento de pulo ao ser atingido pelo laser
+        /*
         const laserPointer = new BABYLON.WebXRDefaultExperience(scene).input.xrInput.controllers[0].pointer;
         laserPointer.onMeshPicked.add((mesh) => {
           if (mesh === box) {
             box.position.y += 1; // Aumenta a posição em Y para simular um pulo
           }
         });
-
+         */
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
