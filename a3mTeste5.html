@@ -38,7 +38,7 @@
       const textMaterial = new BABYLON.StandardMaterial("textMaterial", scene);
       textMaterial.diffuseTexture = textTexture;
       const textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", { size: 1 }, scene);
-      textPlane.position.y = 2;
+      textPlane.position.z = 4;
       textPlane.material = textMaterial;
 
       const textContext = textTexture.getContext();
@@ -50,7 +50,7 @@
       // Configurar comportamento de pulo ao ser atingido pelo laser
       xrHelper.input.onControllerAddedObservable.add((controller) => {
         const motionController = controller.motionController;
-        if (motionController.handness === 'left') {
+        if (motionController.handness === 'right') {
           motionController.onTriggerStateChangedObservable.add((button) => {
             if (button.value === 1) { // Botão de gatilho pressionado
               const pickInfo = scene.pickWithRay(motionController.pointer, (mesh) => {
