@@ -46,6 +46,26 @@
       textContext.fillText("Enzo 2023", 50, 180);
       textTexture.update();
 
+      
+      var xr = await scene.createDefaultXRExperienceAsync({
+      });
+      xr.input.onControllerAddedObservable.add((controller) => {
+        controller.onMotionControllerInitObservable.add((motionController) => {
+           if (motionController.handness === 'left') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+                    if (triggerComponent.pressed) {
+                        Box_Left_Trigger.scaling= new BABYLON.Vector3(1.2,1.2,1.2);
+                    }else{
+                        Box_Left_Trigger.scaling= new BABYLON.Vector3(1,1,1);
+                    }
+                });
+             }
+         })
+     });
+
+      
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
