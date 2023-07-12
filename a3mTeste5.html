@@ -56,9 +56,9 @@
                 let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
                     if (triggerComponent.pressed) {
-                        Box_Left_Trigger.scaling= new BABYLON.Vector3(1.2,1.2,1.2);
+                        box.scaling= new BABYLON.Vector3(1.2,1.2,1.2);
                     }else{
-                        Box_Left_Trigger.scaling= new BABYLON.Vector3(1,1,1);
+                        box.scaling= new BABYLON.Vector3(1,1,1);
                     }
                 });
              }
