@@ -26,7 +26,7 @@
       const scene = new BABYLON.Scene(engine);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
         // Som de fundo
-        // const music = new BABYLON.Sound("cello", "sounds/cellolong.wav", scene, null, { loop: true, autoplay: true });
+        const music = new BABYLON.Sound("musica", "sons/musica.mp3", scene, null, { loop: true, autoplay: true });
 
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
@@ -39,10 +39,12 @@
         sphere.position = new BABYLON.Vector3(0, 1.5, 2);
 
         // Cubo giratório
+		const boxMat = new BABYLON.StandardMaterial("boxMat");
+        boxMat.diffuseTexture = new BABYLON.Texture("texturas/caixa1.png")
         const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
 		//box.scaling = new BABYLON.Vector3(.2, .2, .2);
 		box.position = new BABYLON.Vector3(0, 1, 2);
-		//box.material = texMat;
+		box.material = boxMat;
 		const animation = new BABYLON.Animation(
           "rotationAnimation",
           "rotation.y",
