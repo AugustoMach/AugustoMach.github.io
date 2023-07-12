@@ -28,19 +28,19 @@
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
 	    // Configuração da física
 	    const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
-        scene.enablePhysics(gravityVector, new BABYLON.CannonJSPlugin());
+       // scene.enablePhysics(gravityVector, new BABYLON.CannonJSPlugin());
 
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
-		ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.5 }, scene);
+		//ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.5 }, scene);
 	
         // Esfera
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.5, 2);
-        const spherePhysicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
+       // const spherePhysicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, scene);
 
         // Cubo giratório
         const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
