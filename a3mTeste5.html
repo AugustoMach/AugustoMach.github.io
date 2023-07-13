@@ -31,14 +31,14 @@
 
       // Criar cubo
       const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
-      box.position = new BABYLON.Vector3(0, 1, 2);
+      box.position = new BABYLON.Vector3(0, .1, 1);
 
       // Adicionar texto
       const textTexture = new BABYLON.DynamicTexture("textTexture", { width: 512, height: 100 }, scene);
       const textMaterial = new BABYLON.StandardMaterial("textMaterial", scene);
       textMaterial.diffuseTexture = textTexture;
       const textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", { size: 2 }, scene);
-	  textPlane.position = new BABYLON.Vector3(0, 2, 4);
+	  textPlane.position = new BABYLON.Vector3(0, 3, 5);
       textPlane.material = textMaterial;
       const textContext = textTexture.getContext();
       textContext.fillStyle = "white";
@@ -50,19 +50,19 @@
       var xr = await scene.createDefaultXRExperienceAsync({ });
       xr.input.onControllerAddedObservable.add((controller) => {
         controller.onMotionControllerInitObservable.add((motionController) => {
-           if (motionController.handness === 'right') {
+            if (motionController.handness === 'right' || motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
                 let gatilho = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
                 gatilho.onButtonStateChangedObservable.add(() => {
                     if (gatilho.pressed) {
-                       box.scaling= new BABYLON.Vector3(1.2,1.2,1.2);
-					   box.position.z += 0.1;
+                       box.scaling= new BABYLON.Vector3(1.1,1.1,1.1);
+					   box.position.z += 0.01;
                     }else{
                        box.scaling= new BABYLON.Vector3(1,1,1);
                     }
                 });
-             }
-         })
+            }
+        })
       });
 
       // Configurações de luz e câmera
