@@ -25,13 +25,18 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
       const xrHelper = await scene.createDefaultXRExperienceAsync({});
+      // Som de fundo
+      const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
 
       // Criar chão
       const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 5, height: 5 }, scene);
 
       // Criar cubo
       const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
-      box.position = new BABYLON.Vector3(0, .1, 1);
+      box.position = new BABYLON.Vector3(0, 1, 1);
+	  
+	  //var boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.ShapeType.SPHERE, { mass: 1, restitution: 0.9 }, scene);
+     // var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.ShapeType.BOX, { mass: 0, restitution: 0.9 }, scene);
 
       // Adicionar texto
       const textTexture = new BABYLON.DynamicTexture("textTexture", { width: 512, height: 100 }, scene);
@@ -73,6 +78,13 @@
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
 
+    // This creates and positions a device orientation camera 	
+    //var camera = new BABYLON.VRDeviceOrientationFreeCamera("DevOr_camera", new BABYLON.Vector3(0, 0, 0), scene);
+    // This targets the camera to scene origin
+    //camera.setTarget(new BABYLON.Vector3(0, 0, 10));
+    // This attaches the camera to the canvas
+    //camera.attachControl(canvas, true);
+	
       engine.onResizeObservable.add(() => {
         engine.resize();
       });
