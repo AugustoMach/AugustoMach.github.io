@@ -26,6 +26,15 @@
             // Configuração de câmera VR
             var vrHelper = scene.createDefaultVRExperience(); // Cria um helper de VR
             vrHelper.enableInteractions(); // Habilita interações VR
+			
+			// Som de fundo
+            const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
+   
+            // Chao
+            const grdMat = new BABYLON.StandardMaterial("grdMat");
+            grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
+            const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
+            ground.material = grdMat;
 
             // Adicione aqui a criação e posicionamento de objetos na cena
 
