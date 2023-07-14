@@ -70,10 +70,10 @@
 	  
       var xr = await scene.createDefaultXRExperienceAsync();
 	  // Verificar suporte ao WebXR
-      if (!xr.baseExperience.featuresManager.supportsWebXR) {
-        console.log("Este dispositivo não suporta WebXR.");
-        return scene;
-      }
+     // if (!xr.baseExperience.featuresManager.supportsWebXR) {
+       // console.log("Este dispositivo não suporta WebXR.");
+       // return scene;
+    //  }
 	  
       xr.input.onControllerAddedObservable.add((controller) => {
         controller.onMotionControllerInitObservable.add((motionController) => {
@@ -92,21 +92,22 @@
             }
         })
       });
+	  
       // Obter posição das mãos/controles
-      var leftHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
-      var rightHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");      
-      scene.onBeforeRenderObservable.add(function () {
+      //var leftHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
+      //var rightHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");      
+      //scene.onBeforeRenderObservable.add(function () {
        // Verificar a posição da mão esquerda
-        if (leftHand.handMesh) {
-          var leftHandPosition = leftHand.handMesh.absolutePosition;
-          console.log("Posição da mão esquerda:", leftHandPosition);
-       }        
+        //if (leftHand.handMesh) {
+         // var leftHandPosition = leftHand.handMesh.absolutePosition;
+         // console.log("Posição da mão esquerda:", leftHandPosition);
+       //}        
        //  Verificar a posição da mão direita
-        if (rightHand.handMesh) {
-          var rightHandPosition = rightHand.handMesh.absolutePosition;
-          console.log("Posição da mão direita:", rightHandPosition);
-        }
-      });
+      //  if (rightHand.handMesh) {
+        //  var rightHandPosition = rightHand.handMesh.absolutePosition;
+        //  console.log("Posição da mão direita:", rightHandPosition);
+       // }
+     // });
 	  
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
