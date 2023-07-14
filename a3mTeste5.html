@@ -68,7 +68,7 @@
       // Configurar movimentação com o controle
 	  const gunshot = new BABYLON.Sound("gunshot", "click1.wav", scene);
 	  
-      var xr = await scene.createDefaultXRExperienceAsync({ });
+      var xr = await scene.createDefaultXRExperienceAsync();
       xr.input.onControllerAddedObservable.add((controller) => {
         controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right' || motionController.handness === 'left') {
@@ -87,17 +87,22 @@
         })
       });
 
+      // Verificar suporte ao WebXR
+      if (!xr.baseExperience.featuresManager.supportsWebXR) {
+        console.log("Este dispositivo não suporta WebXR.");
+        return scene;
+      }
       // Obter posição das mãos/controles
-      var leftHand = vrHelper.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
-      var rightHand = vrHelper.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");      
+      var leftHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
+      var rightHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");      
       scene.onBeforeRenderObservable.add(function () {
-        // Verificar a posição da mão esquerda
+        Verificar a posição da mão esquerda
         if (leftHand.handMesh) {
           var leftHandPosition = leftHand.handMesh.absolutePosition;
           console.log("Posição da mão esquerda:", leftHandPosition);
-        }
+       }
         
-        // Verificar a posição da mão direita
+         Verificar a posição da mão direita
         if (rightHand.handMesh) {
           var rightHandPosition = rightHand.handMesh.absolutePosition;
           console.log("Posição da mão direita:", rightHandPosition);
