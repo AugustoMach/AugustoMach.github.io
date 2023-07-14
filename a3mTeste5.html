@@ -35,6 +35,20 @@
       const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
       box.position = new BABYLON.Vector3(0, 1, 1);
 	  
+	  // Carregar um modelo GLTF não binário
+     // const ator =  BABYLON.SceneLoader.ImportMesh("", "caminho/para/modelo/", "modelo.gltf", scene, function (meshes) {
+           // O modelo foi carregado, e os meshes estão disponíveis no array 'meshes'
+           // Faça algo com os meshes, como adicionar à cena ou aplicar transformações
+     //      }, function (progress) {
+		  // Função de progresso, chamada durante o carregamento do modelo
+		  console.log("Progresso: " + (progress.loaded / progress.total * 100).toFixed() + "%");
+	//	  }, function (scene, message, exception) {
+		  // Ocorreu um erro ao carregar o modelo
+		  console.log("Erro ao carregar modelo:", message, exception);
+       //   }
+     // );
+	  
+	  // Usar fisica 
 	  //var boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.ShapeType.SPHERE, { mass: 1, restitution: 0.9 }, scene);
      // var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.ShapeType.BOX, { mass: 0, restitution: 0.9 }, scene);
 
@@ -52,7 +66,6 @@
       textTexture.update();
 
       // Configurar movimentação com o controle
-	  
 	  const gunshot = new BABYLON.Sound("gunshot", "click1.wav", scene);
 	  
       var xr = await scene.createDefaultXRExperienceAsync({ });
@@ -74,6 +87,23 @@
         })
       });
 
+      // Obter posição das mãos/controles
+      var leftHand = vrHelper.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
+      var rightHand = vrHelper.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");      
+      scene.onBeforeRenderObservable.add(function () {
+        // Verificar a posição da mão esquerda
+        if (leftHand.handMesh) {
+          var leftHandPosition = leftHand.handMesh.absolutePosition;
+          console.log("Posição da mão esquerda:", leftHandPosition);
+        }
+        
+        // Verificar a posição da mão direita
+        if (rightHand.handMesh) {
+          var rightHandPosition = rightHand.handMesh.absolutePosition;
+          console.log("Posição da mão direita:", rightHandPosition);
+        }
+      });
+	  
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
