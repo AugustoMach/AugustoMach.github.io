@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Exemplo de Realidade Virtual com Babylon.js</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script>
+        // Inicialização da cena e do engine do Babylon.js
+        var canvas = document.createElement("canvas"); // Cria um elemento de canvas
+        document.body.appendChild(canvas); // Adiciona o canvas ao corpo do documento
+        var engine = new BABYLON.Engine(canvas, true); // Cria uma instância do engine do Babylon.js
+
+        // Função de criação da cena
+        var createScene = function () {
+            var scene = new BABYLON.Scene(engine); // Cria uma instância da cena
+
+            // Configuração de câmera VR
+            var vrHelper = scene.createDefaultVRExperience(); // Cria um helper de VR
+            vrHelper.enableInteractions(); // Habilita interações VR
+
+            // Adicione aqui a criação e posicionamento de objetos na cena
+
+            return scene;
+        };
+
+        // Criação da cena
+        var scene = createScene();
+
+        // Função de renderização
+        var renderLoop = function () {
+            scene.render(); // Renderiza a cena
+        };
+
+        // Renderização da cena
+        engine.runRenderLoop(renderLoop);
+
+        // Atualização do tamanho do canvas quando a janela é redimensionada
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
