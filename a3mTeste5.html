@@ -65,8 +65,8 @@
       textContext.fillText("Enzo 2023", 50, 100);
       textTexture.update();
 
-      // Configurar movimentação com o controle
-	  const gunshot = new BABYLON.Sound("gunshot", "click1.wav", scene);
+      // Carrega som do gatilho dos controles
+	  const gatshot = new BABYLON.Sound("gunshot", "click1.wav", scene);
 	  
       var xr = await scene.createDefaultXRExperienceAsync();
 	  // Verificar suporte ao WebXR
@@ -84,7 +84,7 @@
                     if (gatilho.pressed) {
                        box.scaling= new BABYLON.Vector3(1.1,1.1,1.1);
 					   box.position.z += 0.01;
-					   gunshot.play();
+					   gatshot.play();
                     }else{
                        box.scaling= new BABYLON.Vector3(1,1,1);
                     }
