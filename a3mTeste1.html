@@ -34,6 +34,14 @@
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 		
+		// Texto 3D
+		var fontData = await (await fetch("https://assets.babylonjs.com/fonts/Droid Sans_Regular.json")).json();
+        var myText = BABYLON.MeshBuilder.CreateText("myText", "ENZO 2023", fontData, {
+        size: 16,
+        resolution: 64, 
+        depth: 10
+        });
+		
         // Esfera
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.5, 2);
