@@ -24,20 +24,21 @@
 
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
-	 const gravityVector = new BABYLON.Vector3(0, -9.8, 0);
-     const physicsPlugin = new BABYLON.CannonJSPlugin();
-     scene.enablePhysics(gravityVector, physicsPlugin);
+	  const gravityVector = new BABYLON.Vector3(0, -9.8, 0);
+      const physicsPlugin = new BABYLON.CannonJSPlugin();
+      scene.enablePhysics(gravityVector, physicsPlugin);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
         // Som de fundo
         const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
 
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
+        grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
-	  ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.8, restitution: 0.5, disableBidirectionalTransformation: true }, scene);
-      ground.checkCollisions = true;    
         ground.material = grdMat;
+		
+		ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.8, restitution: 0.5, disableBidirectionalTransformation: true }, scene);
+        ground.checkCollisions = true; 
 		
 		// Texto 3D
 		//var fontData = await (await fetch("https://assets.babylonjs.com/fonts/Droid Sans_Regular.json")).json();
@@ -55,11 +56,11 @@
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.5, 4);
 		sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere,
-                BABYLON.PhysicsImpostor.SphereImpostor,
+                BABYLON.PhysicsImpostor.BoxImpostor,
                 { mass: 1, friction: 0.5, restitution: 0 }, scene);
 		
 		// Cilindro 
-		const canMaterial = new BABYLON.StandardMaterial("material");
+		const canMaterial = new BABYLON.StandardMaterial("canMaterial");
 	    canMaterial.diffuseTexture = new BABYLON.Texture("lataEnzo.jpg")
 	    const faceUV = [];
 	    faceUV[0] =	new BABYLON.Vector4(0, 0, 0, 0);
@@ -69,13 +70,13 @@
         faceColors[0] = new BABYLON.Color4(0.5, 0.5, 0.5, 1)
 	    const can = BABYLON.MeshBuilder.CreateCylinder("can", {height:0.5, faceUV: faceUV, faceColors: faceColors});
 	    can.material = canMaterial;
-        can.position = new BABYLON.Vector3(0, .25, 4);
+        can.position = new BABYLON.Vector3(0, 2.25, 1);
 		
         // Cubo giratório
 		const boxMat = new BABYLON.StandardMaterial("boxMat");
         boxMat.diffuseTexture = new BABYLON.Texture("caixa1.png")
         const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
-		//box.scaling = new BABYLON.Vector3(.2, .2, .2);
+		box.scaling = new BABYLON.Vector3(1.2, 1.2, 1);
 		box.position = new BABYLON.Vector3(0, 1, 3);
 		box.material = boxMat;
 		const animation = new BABYLON.Animation(
