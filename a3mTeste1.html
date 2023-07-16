@@ -26,7 +26,7 @@
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png");
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
         // Capsula
@@ -37,7 +37,7 @@
         sphere.position = new BABYLON.Vector3(0, 1.5, 4);
 		// Cilindro 
 		const canMat = new BABYLON.StandardMaterial("canMat");
-	    canMat.diffuseTexture = new BABYLON.Texture("texturas/lataEnzo.jpg");
+	    canMat.diffuseTexture = new BABYLON.Texture("texturas/lataEnzo.png");
 	    const faceUV = [];
 	    faceUV[0] =	new BABYLON.Vector4(0, 0, 0, 0);
         faceUV[1] =	new BABYLON.Vector4(1, 0, 0.25, 1); // x, z swapped to flip image
