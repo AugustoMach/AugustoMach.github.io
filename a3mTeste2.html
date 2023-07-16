@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mWebXR VR Demo</title>
+  <title>Teste sons</title>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
@@ -21,56 +21,41 @@
   <script>
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
-
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
         // Som de fundo
         const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
-
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
-		
-        // Esfera
-        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 1.5, 2);
 
-        // Cubo giratório
-		const boxMat = new BABYLON.StandardMaterial("boxMat");
-        boxMat.diffuseTexture = new BABYLON.Texture("caixa1.png")
-        const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
-		//box.scaling = new BABYLON.Vector3(.2, .2, .2);
-		box.position = new BABYLON.Vector3(0, 1, 2);
-		box.material = boxMat;
-		const animation = new BABYLON.Animation(
-          "rotationAnimation",
-          "rotation.y",
-          30,
-          BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-          BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
-        );
-
-        const keys = [];
-        keys.push({
-          frame: 0,
-          value: 0
-        });
-        keys.push({
-          frame: 100,
-          value: Math.PI * 2
-        });
-
-        animation.setKeys(keys);
-        box.animations.push(animation);
-        scene.beginAnimation(box, 0, 100, true);
-
+      // Carrega som do gatilho dos controles
+	  const gatshot = new BABYLON.Sound("gunshot", "click1.wav", scene);
+	  
+      var xr = await scene.createDefaultXRExperienceAsync();
+      xr.input.onControllerAddedObservable.add((controller) => {
+        controller.onMotionControllerInitObservable.add((motionController) => {
+            if (motionController.handness === 'right' || motionController.handness === 'left') {
+                const xr_ids = motionController.getComponentIds();
+                let gatilho = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
+                gatilho.onButtonStateChangedObservable.add(() => {
+                    if (gatilho.pressed) {
+                       box.scaling= new BABYLON.Vector3(1.1,1.1,1.1);
+					   box.position.z += 0.01;
+					   gatshot.play();
+                    }else{
+                       box.scaling= new BABYLON.Vector3(1,1,1);
+                    }
+                });
+            }
+        })
+      });
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-
         engine.onResizeObservable.add(() => {
           engine.resize();
         });
@@ -78,14 +63,12 @@
 
       return scene;
     }
-	
-    async function run() {
+   async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
         scene.render();
       });
     }
-
     run();
   </script>
 </body>
