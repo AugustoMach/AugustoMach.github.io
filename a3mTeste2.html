@@ -32,7 +32,7 @@
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 
-    /*    // Carrega som do gatilho dos controles
+        // Carrega som do gatilho dos controles
 	    const gatshot = new BABYLON.Sound("gunshot", "sons/click1.wav", scene);
 	   
         var xr = await scene.createDefaultXRExperienceAsync();
@@ -49,7 +49,7 @@
                 });
             }
           })
-        });*/
+        }); 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
