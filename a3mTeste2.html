@@ -25,7 +25,7 @@
       const scene = new BABYLON.Scene(engine);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
         // Som de fundo
-        const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
+        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png");
@@ -33,7 +33,7 @@
         ground.material = grdMat;
 
       // Carrega som do gatilho dos controles
-	  const gatshot = new BABYLON.Sound("gunshot", "click1.wav", scene);
+	  const gatshot = new BABYLON.Sound("gunshot", "sons/click1.wav", scene);
 	  
       var xr = await scene.createDefaultXRExperienceAsync();
       xr.input.onControllerAddedObservable.add((controller) => {
@@ -50,21 +50,16 @@
             }
         })
       });
-        // Configurações de luz e câmera
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-        engine.onResizeObservable.add(() => {
-          engine.resize();
-        });
+      // Configurações de luz e câmera
+      const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+      const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+      engine.onResizeObservable.add(() => { engine.resize(); });
       });
-
       return scene;
     }
    async function run() {
       const scene = await createScene();
-      engine.runRenderLoop(() => {
-        scene.render();
-      });
+      engine.runRenderLoop(() => { scene.render(); });
     }
     run();
   </script>
