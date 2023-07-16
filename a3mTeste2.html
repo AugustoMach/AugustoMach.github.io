@@ -24,32 +24,17 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
-        // Som de fundo
-        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
-
-        // Carrega som do gatilho dos controles
-	    const gatshot = new BABYLON.Sound("gunshot", "sons/click1.wav", scene);
+		
+        // Som de fundo
+        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+        // Som do gatilho dos controles
+	    const gatshot = new BABYLON.Sound("gunshot", "sons/metal1.wav", scene);
 	   
-      /*  var xr = await scene.createDefaultXRExperienceAsync();
-        xr.input.onControllerAddedObservable.add((controller) => {
-          controller.onMotionControllerInitObservable.add((motionController) => {
-            if (motionController.handness === 'right' || motionController.handness === 'left') {
-                const xr_ids = motionController.getComponentIds();
-                let gatilho = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
-                gatilho.onButtonStateChangedObservable.add(() => {
-                    if (gatilho.pressed) {
- 					   gatshot.play();
-                    }else{
-                    }
-                });
-            }
-          })
-        }); */
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
