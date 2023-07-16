@@ -32,12 +32,12 @@
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 
-      // Carrega som do gatilho dos controles
-	  const gatshot = new BABYLON.Sound("gunshot", "sons/click1.wav", scene);
-	  
-      var xr = await scene.createDefaultXRExperienceAsync();
-      xr.input.onControllerAddedObservable.add((controller) => {
-        controller.onMotionControllerInitObservable.add((motionController) => {
+    /*    // Carrega som do gatilho dos controles
+	    const gatshot = new BABYLON.Sound("gunshot", "sons/click1.wav", scene);
+	   
+        var xr = await scene.createDefaultXRExperienceAsync();
+        xr.input.onControllerAddedObservable.add((controller) => {
+          controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right' || motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
                 let gatilho = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
@@ -48,12 +48,12 @@
                     }
                 });
             }
-        })
-      });
-      // Configurações de luz e câmera
-      const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-      const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-      engine.onResizeObservable.add(() => { engine.resize(); });
+          })
+        });*/
+        // Configurações de luz e câmera
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+       engine.onResizeObservable.add(() => { engine.resize(); });
       });
       return scene;
     }
