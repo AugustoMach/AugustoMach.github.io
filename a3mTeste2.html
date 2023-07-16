@@ -28,7 +28,7 @@
         const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
+        grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 
@@ -43,11 +43,8 @@
                 let gatilho = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
                 gatilho.onButtonStateChangedObservable.add(() => {
                     if (gatilho.pressed) {
-                       box.scaling= new BABYLON.Vector3(1.1,1.1,1.1);
-					   box.position.z += 0.01;
-					   gatshot.play();
+ 					   gatshot.play();
                     }else{
-                       box.scaling= new BABYLON.Vector3(1,1,1);
                     }
                 });
             }
