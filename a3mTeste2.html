@@ -35,7 +35,7 @@
         // Carrega som do gatilho dos controles
 	    const gatshot = new BABYLON.Sound("gunshot", "sons/click1.wav", scene);
 	   
-        var xr = await scene.createDefaultXRExperienceAsync();
+      /*  var xr = await scene.createDefaultXRExperienceAsync();
         xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right' || motionController.handness === 'left') {
@@ -49,7 +49,7 @@
                 });
             }
           })
-        }); 
+        }); */
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
