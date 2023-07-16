@@ -25,9 +25,9 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
 	  
-	  const gravityVector = new BABYLON.Vector3(0, -9.8, 0);
-      const physicsPlugin = new BABYLON.CannonJSPlugin();
-      scene.enablePhysics(gravityVector, physicsPlugin);
+	  ////const gravityVector = new BABYLON.Vector3(0, -9.8, 0);
+      ////const physicsPlugin = new BABYLON.CannonJSPlugin();
+      ////scene.enablePhysics(gravityVector, physicsPlugin);
 	  
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
         // Som de fundo
@@ -39,8 +39,8 @@
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 		
-		ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.8, restitution: 0.5, disableBidirectionalTransformation: true }, scene);
-        ground.checkCollisions = true; 
+		////ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.8, restitution: 0.5, disableBidirectionalTransformation: true }, scene);
+        ////ground.checkCollisions = true; 
 		
 		// Texto 3D
 		//var fontData = await (await fetch("https://assets.babylonjs.com/fonts/Droid Sans_Regular.json")).json();
@@ -52,12 +52,12 @@
 		
         // Capsula
 		const capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {height: 2.0, radius: 0.2}, scene)
-        capsule.position = new BABYLON.Vector3(0, 0.5, 6);
+        capsule.position = new BABYLON.Vector3(0, 1.0, 6);
 		
         // Esfera
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.5, 4);
-		sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1 }, scene);
+		////sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1 }, scene);
 
 		
 		// Cilindro 
