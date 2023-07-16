@@ -33,10 +33,10 @@
             // const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
    
             // Criação de um "ground"
-            // const grdMat = new BABYLON.StandardMaterial("grdMat");
-            // grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
+            const grdMat = new BABYLON.StandardMaterial("grdMat");
+            grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
             const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
-            // ground.material = grdMat;
+            ground.material = grdMat;
 
             // Adicione aqui a criação e posicionamento de objetos na cena
 
