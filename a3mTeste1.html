@@ -31,16 +31,16 @@
 		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 200, maxHeight: 1});
 
 		//const ground  = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 500, maxHeight: 1});
-
 		//ground.material = grdMat;
-		// Texto 3D
+		
+		/* Texto 3D
 		var fontData = await (await fetch("https://assets.babylonjs.com/fonts/Droid Sans_Bold.json")).json();
         var myText = BABYLON.MeshBuilder.CreateText("myText", "WebXr ENZO2023", fontData, {
            size: 16,
            resolution: 64, 
            depth: 10	
         });
-
+*/
 		// Plano
 		const pnlMat = new BABYLON.StandardMaterial("pnlMat");
         pnlMat.diffuseTexture = new BABYLON.Texture("texturas/parede1.png");
