@@ -27,10 +27,12 @@
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-      //  const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
-        //ground.material = grdMat;
+        //const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
 		
-		const grd1 = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:5, height :5, subdivisions: 500, maxHeight: 1});
+		const grd1 = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 500, maxHeight: 1});
+		
+		ground.material = grdMat;
+
 
 		// Cubo 
 		const boxMat = new BABYLON.StandardMaterial("boxMat");
