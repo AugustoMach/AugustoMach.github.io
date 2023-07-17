@@ -29,6 +29,9 @@
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
+		
+		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:5, height :5, subdivisions: 500, maxHeight: 1});
+
 		// Cubo 
 		const boxMat = new BABYLON.StandardMaterial("boxMat");
         boxMat.diffuseTexture = new BABYLON.Texture("texturas/caixa1.png")
@@ -60,7 +63,9 @@
 		// Torus
         const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.25, diameter: 2});
 		torus.position = new BABYLON.Vector3(-2, 1.7, 1.5);
-
+        const tk = BABYLON.MeshBuilder.CreateTorusKnot("tk", {tube: 0.1, radialSegments: 128});
+		tk.position = new BABYLON.Vector3(-2, 0.7, 1.5);
+ 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
