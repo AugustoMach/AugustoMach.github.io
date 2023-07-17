@@ -25,55 +25,28 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
-        // Som de fundo
-        const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
-
+ 
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png")
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png")
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 		
         // Esfera
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.5, 2);
+/*
+    // initialize plugin
+    var hk = new BABYLON.HavokPlugin();
+    // enable physics in the scene with a gravity
+    scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
-        // Cubo giratório
-		const boxMat = new BABYLON.StandardMaterial("boxMat");
-        boxMat.diffuseTexture = new BABYLON.Texture("caixa1.png")
-        const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
-		//box.scaling = new BABYLON.Vector3(.2, .2, .2);
-		box.position = new BABYLON.Vector3(0, 1, 2);
-		box.material = boxMat;
-		const animation = new BABYLON.Animation(
-          "rotationAnimation",
-          "rotation.y",
-          30,
-          BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-          BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
-        );
+    // Create a sphere shape and the associated body. Size will be determined automatically.
+    var sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.75}, scene);
 
-        const keys = [];
-        keys.push({
-          frame: 0,
-          value: 0
-        });
-        keys.push({
-          frame: 100,
-          value: Math.PI * 2
-        });
-
-        animation.setKeys(keys);
-        box.animations.push(animation);
-        scene.beginAnimation(box, 0, 100, true);
-		
-		 // Configuração do raio de laser
-        const laserPointer = new BABYLON.WebXRDefaultExperience(scene).input.xrInput.controllers[0].pointer;
-        laserPointer.onMeshPicked.add((mesh) => {
-          if (mesh === box) {
-            box.position.y += 0.5;
-          }
-		});
+    // Create a static box shape.
+    var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+*/
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
