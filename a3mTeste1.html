@@ -45,12 +45,12 @@
 		const pnlMat = new BABYLON.StandardMaterial("pnlMat");
         pnlMat.diffuseTexture = new BABYLON.Texture("texturas/parede1.png");
 		const plane = BABYLON.MeshBuilder.CreatePlane("plane", {height:2, width: 1});
-		plane.position = new BABYLON.Vector3(2, 1.7, 1.5);
+		plane.position = new BABYLON.Vector3(2, 0.7, 1.5);
         plane.material = pnlMat;
 		// Disco
 		const disc = BABYLON.MeshBuilder.CreateDisc("disc", {});
-		disc.position = new BABYLON.Vector3(2, 1.7, -0.5);
-        disc.material = pnlMat;
+		disc.position = new BABYLON.Vector3(2, 3.7, 1.5);
+        //disc.material = pnlMat;
 		
 		// Cubo 
 		const boxMat = new BABYLON.StandardMaterial("boxMat");
