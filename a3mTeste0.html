@@ -29,6 +29,12 @@
         grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
+		
+		// Light
+        const spot = new BABYLON.PointLight("spot", new BABYLON.Vector3(0, 30, 10));
+        spot.diffuse = new BABYLON.Color3(1, 1, 1);
+        spot.specular = new BABYLON.Color3(0, 0, 0);
+		
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
