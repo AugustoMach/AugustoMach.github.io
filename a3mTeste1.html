@@ -95,7 +95,8 @@
 			]
 	    ];
 	    const ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon", {pathArray: myPaths, sideOrientation: BABYLON.Mesh.DOUBLESIDE});
-		ribbon.position = new BABYLON.Vector3(-2, 3.5, 5.5);
+		ribbon.position = new BABYLON.Vector3(-2, 3.5, 15.5);
+		box.scaling= new BABYLON.Vector3(0.5,0.5,0.5);
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
