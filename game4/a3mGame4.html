@@ -40,11 +40,11 @@
 		const tblMat = new BABYLON.StandardMaterial("tblMat");
         tblMat.diffuseTexture = new BABYLON.Texture("texturas/tabelaBask.png");
 		const plane = BABYLON.MeshBuilder.CreatePlane("plane", {height:1.2, width: 1.8});
-		plane.position = new BABYLON.Vector3(0, 3.6, 6);
+		plane.position = new BABYLON.Vector3(0, 3.4, 4.5);
         plane.material = tblMat;
 		// Aro
-        const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.05, diameter: 0.5});
-		torus.position = new BABYLON.Vector3(0, 3.0, 5.75);
+        const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.02, diameter: 0.45});
+		torus.position = new BABYLON.Vector3(0, 3.05, 4.2);
 
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
