@@ -41,7 +41,7 @@
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/drone.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 1, 0);
+        sphere.position = new BABYLON.Vector3(0, 3, 0);
 		sphere.material = bolaMat;
 
         // Configurações de luz e câmera
