@@ -32,17 +32,17 @@
 	    //const gol = new BABYLON.Sound("gol", "sons/run1.wav", scene);
 		
         // Chao
-        const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7a.png");
+        //const grdMat = new BABYLON.StandardMaterial("grdMat");
+        //grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7a.png");
 		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 200, maxHeight: 1});
-		ground.material = grdMat;
+		//ground.material = grdMat;
 
         // Console Drone
-		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
-        bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaF1.png")
+		//const bolaMat = new BABYLON.StandardMaterial("bolaMat");
+        //bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaF1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1, 0);
-		sphere.material = bolaMat;
+		//sphere.material = bolaMat;
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
