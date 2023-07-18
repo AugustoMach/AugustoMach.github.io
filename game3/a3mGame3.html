@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame1- Futebol Society</title>
+  <title>a3mGame3 - Drone</title>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
@@ -24,7 +24,7 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
-	     // Som de fundo
+	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Som do Motor Parado
 	    //const chute = new BABYLON.Sound("chute", "sons/stop1.wav", scene);
@@ -34,7 +34,7 @@
         // Chao
         //const grdMat = new BABYLON.StandardMaterial("grdMat");
         //grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7a.png");
-		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 200, maxHeight: 1});
+		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:200, height :200, subdivisions: 200, maxHeight: 10});
 		//ground.material = grdMat;
 
         // Console Drone
