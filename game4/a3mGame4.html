@@ -39,8 +39,8 @@
 		// Tabela
 		const tblMat = new BABYLON.StandardMaterial("tblMat");
         tblMat.diffuseTexture = new BABYLON.Texture("texturas/tabelaBask.png");
-		const plane = BABYLON.MeshBuilder.CreatePlane("plane", {height:2, width: 1});
-		plane.position = new BABYLON.Vector3(0, 2.8, 6);
+		const plane = BABYLON.MeshBuilder.CreatePlane("plane", {height:1.2, width: 1.8});
+		plane.position = new BABYLON.Vector3(0, 3.6, 6);
         plane.material = tblMat;
 		// Aro
         const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.05, diameter: 0.5});
