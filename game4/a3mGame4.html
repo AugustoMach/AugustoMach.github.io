@@ -31,11 +31,20 @@
 		// Som da torcida GOOL
 	    //const gol = new BABYLON.Sound("gol", "sons/gol1.wav", scene);
 		
-        // Chao
+        // Quadra
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/quadraBaskb.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 15, height: 12}, scene);
 		ground.material = grdMat;
+		// Tabela
+		const tblMat = new BABYLON.StandardMaterial("tblMat");
+        tblMat.diffuseTexture = new BABYLON.Texture("texturas/tabelaBask.png");
+		const plane = BABYLON.MeshBuilder.CreatePlane("plane", {height:2, width: 1});
+		plane.position = new BABYLON.Vector3(0, 2.8, 6);
+        plane.material = tblMat;
+		// Aro
+        const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.05, diameter: 0.5});
+		torus.position = new BABYLON.Vector3(0, 3.0, 5.75);
 
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
