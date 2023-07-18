@@ -52,14 +52,14 @@
         sphere.position = new BABYLON.Vector3(0, 0.1, 1);
 		sphere.material = bolaMat;
 	    // Time A
-	    const capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {height: 1.8, radius: 0.2}, scene)
-        capsule.position = new BABYLON.Vector3(0, 0.9, -21);
+	    const capsuleA1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA1", {height: 1.8, radius: 0.2}, scene)
+        capsuleA1.position = new BABYLON.Vector3(0, 0.9, -21);
 	   
         // Time B
-	    const capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {height: 1.8, radius: 0.2}, scene)
-        capsule.position = new BABYLON.Vector3(0, 0.9, 21);
-	    const capsule = new BABYLON.MeshBuilder.CreateCapsule("capsule", {height: 1.8, radius: 0.2}, scene)
-        capsule.position = new BABYLON.Vector3(0, 0.9, 2);
+	    const capsuleB1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleB1", {height: 1.8, radius: 0.2}, scene)
+        capsuleB1.position = new BABYLON.Vector3(0, 0.9, 21);
+	    const capsuleB2 = new BABYLON.MeshBuilder.CreateCapsule("capsuleB2", {height: 1.8, radius: 0.2}, scene)
+        capsuleB2.position = new BABYLON.Vector3(3, 0.9, 4);
 
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
