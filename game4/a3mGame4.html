@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>a3mGame4- Basquete - Tiro Livre</title>
+  <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
+  <style>	
+    html, body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+    async function createScene() {
+      const scene = new BABYLON.Scene(engine);
+      scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
+	     // Som de fundo
+        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+        // Som do chute
+	    //const chute = new BABYLON.Sound("chute", "sons/chute1.wav", scene);
+		// Som da torcida GOOL
+	    //const gol = new BABYLON.Sound("gol", "sons/gol1.wav", scene);
+		
+        // Chao
+        const grdMat = new BABYLON.StandardMaterial("grdMat");
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/campoBaskb.png");
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 16}, scene);
+		ground.material = grdMat;
+
+        // Bola
+		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
+        bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
+        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.3, segments: 32}, scene);
+        sphere.position = new BABYLON.Vector3(0, 1.0, 0.5);
+		sphere.material = bolaMat;
+
+        // Configurações de luz e câmera
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+        engine.onResizeObservable.add(() => { engine.resize(); });
+      });
+      return scene;
+    }
+    async function run() {
+      const scene = await createScene();
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    }
+    run();
+  </script>
+</body>
+</html>
