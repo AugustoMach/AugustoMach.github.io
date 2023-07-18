@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebXR VR Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+
+    async function createScene() {
+      const scene = new BABYLON.Scene(engine);
+      const xrHelper = await scene.createDefaultXRExperienceAsync({});
+      // Som de fundo
+      const music = new BABYLON.Sound("musica", "musica1.mp3", scene, null, { loop: true, autoplay: true });
+
+      // Criar chão
+      const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 5, height: 5 }, scene);
+
+      // Criar cubo
+      const box = BABYLON.MeshBuilder.CreateBox("box", { size: 0.2 }, scene);
+      box.position = new BABYLON.Vector3(0, 1, 1);
+	  
+	  // Carregar um modelo GLTF não binário
+     // const ator =  BABYLON.SceneLoader.ImportMesh("", "caminho/para/modelo/", "modelo.gltf", scene, function (meshes) {
+           // O modelo foi carregado, e os meshes estão disponíveis no array 'meshes'
+           // Faça algo com os meshes, como adicionar à cena ou aplicar transformações
+     //      }, function (progress) {
+		  // Função de progresso, chamada durante o carregamento do modelo
+		  console.log("Progresso: " + (progress.loaded / progress.total * 100).toFixed() + "%");
+	//	  }, function (scene, message, exception) {
+		  // Ocorreu um erro ao carregar o modelo
+		  console.log("Erro ao carregar modelo:", message, exception);
+       //   }
+     // );
+	  
+	  // Usar fisica 
+	  //var boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.ShapeType.SPHERE, { mass: 1, restitution: 0.9 }, scene);
+     // var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.ShapeType.BOX, { mass: 0, restitution: 0.9 }, scene);
+
+      // Adicionar texto
+      const textTexture = new BABYLON.DynamicTexture("textTexture", { width: 512, height: 100 }, scene);
+      const textMaterial = new BABYLON.StandardMaterial("textMaterial", scene);
+      textMaterial.diffuseTexture = textTexture;
+      const textPlane = BABYLON.MeshBuilder.CreatePlane("textPlane", { size: 2 }, scene);
+	  textPlane.position = new BABYLON.Vector3(0, 3, 5);
+      textPlane.material = textMaterial;
+      const textContext = textTexture.getContext();
+      textContext.fillStyle = "white";
+      textContext.font = "48px Arial";
+      textContext.fillText("Enzo 2023", 50, 100);
+      textTexture.update();
+
+      // Carrega som do gatilho dos controles
+	  const gatshot = new BABYLON.Sound("gunshot", "click1.wav", scene);
+	  
+      var xr = await scene.createDefaultXRExperienceAsync();
+	  // Verificar suporte ao WebXR
+     // if (!xr.baseExperience.featuresManager.supportsWebXR) {
+       // console.log("Este dispositivo não suporta WebXR.");
+       // return scene;
+    //  }
+	  
+      xr.input.onControllerAddedObservable.add((controller) => {
+        controller.onMotionControllerInitObservable.add((motionController) => {
+            if (motionController.handness === 'right' || motionController.handness === 'left') {
+                const xr_ids = motionController.getComponentIds();
+                let gatilho = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
+                gatilho.onButtonStateChangedObservable.add(() => {
+                    if (gatilho.pressed) {
+                       box.scaling= new BABYLON.Vector3(1.1,1.1,1.1);
+					   box.position.z += 0.01;
+					   gatshot.play();
+                    }else{
+                       box.scaling= new BABYLON.Vector3(1,1,1);
+                    }
+                });
+            }
+        })
+      });
+	  
+      // Obter posição das mãos/controles
+      //var leftHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
+      //var rightHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");      
+      //scene.onBeforeRenderObservable.add(function () {
+       // Verificar a posição da mão esquerda
+        //if (leftHand.handMesh) {
+         // var leftHandPosition = leftHand.handMesh.absolutePosition;
+         // console.log("Posição da mão esquerda:", leftHandPosition);
+       //}        
+       //  Verificar a posição da mão direita
+      //  if (rightHand.handMesh) {
+        //  var rightHandPosition = rightHand.handMesh.absolutePosition;
+        //  console.log("Posição da mão direita:", rightHandPosition);
+       // }
+     // });
+	  
+      // Configurações de luz e câmera
+      const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+      const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
+
+    // This creates and positions a device orientation camera 	
+    //var camera = new BABYLON.VRDeviceOrientationFreeCamera("DevOr_camera", new BABYLON.Vector3(0, 0, 0), scene);
+    // This targets the camera to scene origin
+    //camera.setTarget(new BABYLON.Vector3(0, 0, 10));
+    // This attaches the camera to the canvas
+    //camera.attachControl(canvas, true);
+	
+      engine.onResizeObservable.add(() => {
+        engine.resize();
+      });
+
+      return scene;
+    }
+
+    async function run() {
+      const scene = await createScene();
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    }
+
+    run();
+  </script>
+</body>
+</html>
+
