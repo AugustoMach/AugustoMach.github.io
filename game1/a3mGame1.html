@@ -41,20 +41,20 @@
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaF1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.25, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 0.1, 1);
+        sphere.position = new BABYLON.Vector3(0, 0.1, 0);
 		sphere.material = bolaMat;
 	    // Time A
-		var TAMat = new BABYLON.StandardMaterial("TAMat", scene);
-	    TAMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
+		const TAMat = new BABYLON.StandardMaterial("TAMat", scene);
+	    TAMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
 	    const capsuleA1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA1", {height: 1.8, radius: 0.2}, scene)
         capsuleA1.position = new BABYLON.Vector3(0, 0.9, -21);
 		capsuleA1.material = TAMat;
 		const capsuleA2 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA2", {height: 1.8, radius: 0.2}, scene)
-        capsuleA2.position = new BABYLON.Vector3(0, 0.9, -4);
+        capsuleA2.position = new BABYLON.Vector3(4, 0.9, 0);
 	    capsuleA2.material = TAMat;
         // Time B
-		var TBMat = new BABYLON.StandardMaterial("TBMat", scene);
-		TAMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
+		const TBMat = new BABYLON.StandardMaterial("TBMat", scene);
+		TBMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
 	    const capsuleB1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleB1", {height: 1.8, radius: 0.2}, scene)
         capsuleB1.position = new BABYLON.Vector3(0, 0.9, 21);
 		capsuleB1.material = TBMat;
