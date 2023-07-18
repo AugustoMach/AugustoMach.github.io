@@ -34,14 +34,14 @@
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/quadraBaskb.png");
-        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 16}, scene);
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 15, height: 15}, scene);
 		ground.material = grdMat;
 
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
-        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.3, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 1.0, 0.5);
+        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
+        sphere.position = new BABYLON.Vector3(0, 1.5, 0.5);
 		sphere.material = bolaMat;
 
         // Configurações de luz e câmera
