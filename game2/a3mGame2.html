@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame1- Futebol Society</title>
+  <title>a3mGame2- Futebol Society - Pemaltis</title>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
@@ -36,7 +36,15 @@
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7b.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 16}, scene);
 		ground.material = grdMat;
-
+		// Goleira
+	    const myPath = [
+		 	new BABYLON.Vector3(-2, 0, 0),
+			new BABYLON.Vector3(-2, 2.1, 0),
+			new BABYLON.Vector3(2, 2.1, 0),
+			new BABYLON.Vector3(2, 0, 0)
+	    ];
+	    const tube1 = BABYLON.MeshBuilder.CreateTube("tube1", {path: myPath, radius: 0.1, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+		tube1.position = new BABYLON.Vector3(0, 0, 7);
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaF1.png")
@@ -49,7 +57,6 @@
 	    const capsuleB1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleB1", {height: 1.8, radius: 0.2}, scene)
         capsuleB1.position = new BABYLON.Vector3(0, 0.9, 6);
 		capsuleB1.material = TBMat;
-
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
