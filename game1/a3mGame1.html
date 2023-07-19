@@ -36,6 +36,18 @@
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7a.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 46}, scene);
 		ground.material = grdMat;
+		// Goleira
+	    const myPath = [
+		 	new BABYLON.Vector3(-2, 0, 0),
+			new BABYLON.Vector3(-2, 2.1, 0),
+			new BABYLON.Vector3(2, 2.1, 0),
+			new BABYLON.Vector3(2, 0, 0)
+	    ];
+	    const tube1 = BABYLON.MeshBuilder.CreateTube("tube1", {path: myPath, radius: 0.1, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+		tube1.position = new BABYLON.Vector3(0, 0, 23);
+		const tube2 = BABYLON.MeshBuilder.CreateTube("tube1", {path: myPath, radius: 0.1, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+		tube2.position = new BABYLON.Vector3(0, 0, -23);
+
 
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
