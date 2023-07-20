@@ -27,18 +27,18 @@
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
  
         // Chao
-        //const grdMat = new BABYLON.StandardMaterial("grdMat");
-        //grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png")
-        //const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
-        //ground.material = grdMat;
+        const grdMat = new BABYLON.StandardMaterial("grdMat");
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png")
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
+        ground.material = grdMat;
 		
  		var box = BABYLON.Mesh.CreateBox("box", '1', scene);
-        box.position = new BABYLON.Vector3(0,0,0);
-       // BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 0, 15);  
+        box.position = new BABYLON.Vector3(0,0.5,0);
+        BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
 	
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.5, 2);
-      // var animation1 = new BABYLON.Animation("myAnimation", "position.x", 3, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+        var animation1 = new BABYLON.Animation("myAnimation", "position.x", 3, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
         // An array with all animation keys
         var keys = []; 
         keys.push({ frame: 0, value: 0 });
@@ -46,10 +46,10 @@
         keys.push({ frame: 20, value: 0 });
         keys.push({ frame: 30,value: -8  });
         keys.push({ frame: 40,value: 0  });
-     //   animation1.setKeys(keys);
-     //   sphere.animations = [];
-     //   sphere.animations.push(animation1);			
-     //   scene.beginAnimation(sphere, 0, 40, true); 
+        animation1.setKeys(keys);
+        sphere.animations = [];
+        sphere.animations.push(animation1);			
+        scene.beginAnimation(sphere, 0, 40, true); 
 
 /*
     // initialize plugin
