@@ -23,6 +23,8 @@
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
+	  scene.clearColor = new BABYLON.Color3.Black;
+
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
 	    // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
