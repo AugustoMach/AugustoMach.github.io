@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mWebXR VR Demo</title>
+  <title>Teste3  animações</title>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
@@ -32,10 +32,26 @@
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 		
-        // Esfera
-        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
+ 		var box = BABYLON.Mesh.CreateBox("box", '1', scene);
+        box.position = new BABYLON.Vector3(0,0,0);
+        BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 0, 15);  
+	
+        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.5, 2);
-/**/
+        var animation1 = new BABYLON.Animation("myAnimation", "position.x", 3, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+        // An array with all animation keys
+        var keys = []; 
+        keys.push({ frame: 0, value: 0 });
+        keys.push({ frame: 10, value: 5 });
+        keys.push({ frame: 20, value: 0 });
+        keys.push({ frame: 30,value: -8  });
+        keys.push({ frame: 40,value: 0  });
+        animation1.setKeys(keys);
+        sphere.animations = [];
+        sphere.animations.push(animation1);			
+        scene.beginAnimation(sphere, 0, 40, true); 
+
+/*
     // initialize plugin
     var hk = new BABYLON.HavokPlugin();
     // enable physics in the scene with a gravity
@@ -46,7 +62,7 @@
 
     // Create a static box shape.
     var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
-
+*/
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
