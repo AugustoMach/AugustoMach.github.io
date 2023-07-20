@@ -31,6 +31,7 @@
         grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
+		vrHelper.enableTeleportation({ floorMeshName: "ground" });
 		
 		// Light
         const spot = new BABYLON.PointLight("spot", new BABYLON.Vector3(0, 30, 10));
@@ -41,6 +42,7 @@
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
         engine.onResizeObservable.add(() => { engine.resize(); });
+		
       });
       return scene;
     }
