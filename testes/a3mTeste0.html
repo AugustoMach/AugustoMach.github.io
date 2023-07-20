@@ -34,7 +34,7 @@
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 		vrHelper.enableTeleportation({ floorMeshName: "ground" });
-		ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.GroundImpostor, { mass: 1, restitution: 0.7 }, scene); 
+		//ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.GroundImpostor, { mass: 1, restitution: 0.7 }, scene); 
 		
 		// Light
         const spot = new BABYLON.PointLight("spot", new BABYLON.Vector3(0, 30, 10));
