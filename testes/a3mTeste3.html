@@ -25,8 +25,7 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
       scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
- 
-        // Chao
+         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png")
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
@@ -38,6 +37,8 @@
 	
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.5, 2);
+		
+/*
         var animation1 = new BABYLON.Animation("myAnimation", "position.x", 3, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
         // An array with all animation keys
         var keys = []; 
@@ -49,7 +50,7 @@
         animation1.setKeys(keys);
         sphere.animations = [];
         sphere.animations.push(animation1);			
-        scene.beginAnimation(sphere, 0, 40, true); 
+        scene.beginAnimation(sphere, 0, 40, true); */
 
 /*
     // initialize plugin
@@ -72,6 +73,49 @@
           engine.resize();
         });
       });
+//=============================
+    var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
+    var anguloDirecao = 90; // Em graus
+    var anguloElevacao = 45; // Em graus
+    var velocidade = 12; // Unidades por segundo
+    var tempoDecorrido = 0;
+    var tempoAcumulado= 0;
+    var posicaoAtual = { x: 0, y: 0, z: 0 };
+    scene.registerBeforeRender(function () {
+    // Calcular o próximo passo
+    if (sphere.position.y > -.01){
+       tempoDecorrido = engine.getDeltaTime() / 1000;
+       posicaoAtual = calcularProximoPasso(anguloDirecao, anguloElevacao,  velocidade, tempoDecorrido);
+
+	}else{
+       tempoAcumulado = 0;
+       posicaoAtual = { x: 0, y: 0, z: 0 };
+    }
+    sphere.position.x = posicaoAtual.x;
+    sphere.position.y = posicaoAtual.y;
+    sphere.position.z = posicaoAtual.z;
+    function calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido) {
+      const g = 9.81; // Aceleração da gravidade em m/s^2
+      // Converter os ângulos de graus para radianos
+      anguloDirecao = (anguloDirecao * Math.PI) / 180;
+      anguloElevacao = (anguloElevacao * Math.PI) / 180;
+      // Calcular as componentes da velocidade em cada eixo
+      const Vx = velocidade * Math.cos(anguloElevacao) * Math.cos(anguloDirecao);
+      const Vy = velocidade * Math.sin(anguloElevacao);
+      const Vz = velocidade * Math.sin(anguloDirecao) * Math.cos(anguloElevacao);
+      var novaPosicao1 = { x: 0, y: 0, z: 0 };
+      tempoAcumulado += tempoDecorrido;
+      // Atualizar a posição atual usando as componentes de velocidade multiplicadas pelo tempo decorrido
+      novaPosicao1 = {
+        x:  Vx * tempoAcumulado,
+        y:  Vy * tempoAcumulado -  0.5 * g *  tempoAcumulado * tempoAcumulado,
+        z:  Vz * tempoAcumulado,
+      };
+      return novaPosicao1;
+    };
+  });
+//=========================
+
 
       return scene;
     }
@@ -80,6 +124,7 @@
       const scene = await createScene();
       engine.runRenderLoop(() => {
         scene.render();
+
       });
     }
 
