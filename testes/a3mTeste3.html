@@ -67,7 +67,7 @@
       //==============================================================
       var xr = await scene.createDefaultXRExperienceAsync({ });
      //controller input
-     xr.input.onControllerAddedObservable.add((controller) => {
+/*    xr.input.onControllerAddedObservable.add((controller) => {
        controller.onMotionControllerInitObservable.add((motionController) => {
            if (motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
@@ -80,14 +80,14 @@
 		    }
                 });
             });
-       });  
+       });  */
        //=================================================
        scene.registerBeforeRender(function () {
        if (ativarbola === true){
           tempoDecorrido = engine.getDeltaTime() / 1000;
           posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
 	  if (sphere.position.y < -.01) { 
-              ativarbola =  false;						
+            //  ativarbola =  false;						
               tempoAcumulado = 0;
               posicaoAtual = { x: 0, y: 01, z: 0 };                    
           };
