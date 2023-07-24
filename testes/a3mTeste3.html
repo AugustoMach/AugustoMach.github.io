@@ -63,31 +63,11 @@
       var tempoDecorrido = 0;
       var tempoAcumulado= 0;
       var posicaoAtual = { x: 0, y: 0, z: 0 };
-	  var ativarbola = true; 
-	  
-	  var xr =  scene.createDefaultXRExperienceAsync({});
-	  ativarbola = true;
-	  /*controller input
-      xr.input.onControllerAddedObservable.add((controller) => {
-       controller.onMotionControllerInitObservable.add((motionController) => {
-           if (motionController.handness === 'left' || motionController.handness === 'right') {
-                const xr_ids = motionController.getComponentIds();
-                let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
-                triggerComponent.onButtonStateChangedObservable.add(() => {
-                    if (triggerComponent.pressed) {
-                        ativarbola = true;
-						tempoAcumulado = 0;
-                        posicaoAtual = { x: 0, y: 0, z: 0 };                    
-                    }
-                });
-			}
-		});
-	  });  */
-
+      var ativarbola = true; 
 //==============================================================
    var xr = await scene.createDefaultXRExperienceAsync({ });
     //controller input
-    xr.input.onControllerAddedObservable.add((controller) => {
+ /*   xr.input.onControllerAddedObservable.add((controller) => {
        controller.onMotionControllerInitObservable.add((motionController) => {
            if (motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
@@ -99,8 +79,8 @@
 		    }
                 });
        });
-   });
-	    //=================================================
+   }); */
+       //=================================================
        scene.registerBeforeRender(function () {
        if (ativarbola === true){
           tempoDecorrido = engine.getDeltaTime() / 1000;
