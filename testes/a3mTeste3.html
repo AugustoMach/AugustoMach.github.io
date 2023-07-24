@@ -26,10 +26,9 @@
       const scene = new BABYLON.Scene(engine);
 	  scene.clearColor = new BABYLON.Color3(0, 0.9, 0.9);
 
-      scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
          // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png")
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
         ground.material = grdMat;
 		
@@ -37,7 +36,7 @@
         box.position = new BABYLON.Vector3(0,1,15);
         BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
 	
-        const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 1, segments: 32}, scene);
+        const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
         sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
 
         var animation1 = new BABYLON.Animation("myAnimation", "position.x", 3, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
@@ -57,38 +56,42 @@
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
 
-        engine.onResizeObservable.add(() => {
-          engine.resize();
-        });
-      });
       var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
       var anguloDirecao = 90; // Em graus
       var anguloElevacao = 45; // Em graus
-      var velocidade = 12; // Unidades por segundo
+      var velocidade = 30; // Unidades por segundo
       var tempoDecorrido = 0;
       var tempoAcumulado= 0;
       var posicaoAtual = { x: 0, y: 0, z: 0 };
-	  var ativarbola = false; 
-	  xr.input.onControllerAddedObservable.add((controller) => {
-        controller.onMotionControllerInitObservable.add((motionController) => {
-            if (motionController.handness === 'left' || motionController.handness === 'right') {
+	  var ativarbola = true; 
+	  
+	  var xr =  scene.createDefaultXRExperienceAsync({});
+	  ativarbola = true;
+	  /*controller input
+      xr.input.onControllerAddedObservable.add((controller) => {
+       controller.onMotionControllerInitObservable.add((motionController) => {
+           if (motionController.handness === 'left' || motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
                     if (triggerComponent.pressed) {
                         ativarbola = true;
 						tempoAcumulado = 0;
-                        posicaoAtual = { x: 0, y: 0, z: 0 };
+                        posicaoAtual = { x: 0, y: 0, z: 0 };                    
                     }
-				});
+                });
 			}
 		});
-	   });
+	  });  */
        scene.registerBeforeRender(function () {
        if (ativarbola === true){
           tempoDecorrido = engine.getDeltaTime() / 1000;
           posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
-		  if (sphere.position.y > -.01){ ativarbola = false };
+		  if (sphere.position.y < -.01){ 
+              ativarbola =  false;						
+              tempoAcumulado = 0;
+              posicaoAtual = { x: 0, y: 01, z: 0 };                    
+          };
 		  sphere.position.x = posicaoAtual.x;
           sphere.position.y = posicaoAtual.y;
           sphere.position.z = posicaoAtual.z;
@@ -112,7 +115,10 @@
          };
          return novaPosicao1;
         };
-      });
+		});
+         engine.onResizeObservable.add(() => {
+         engine.resize();
+        });
       return scene;
     }
 	
