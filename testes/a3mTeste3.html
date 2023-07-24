@@ -64,10 +64,10 @@
       var tempoAcumulado= 0;
       var posicaoAtual = { x: 0, y: 0, z: 0 };
       var ativarbola = true; 
-//==============================================================
-   var xr = await scene.createDefaultXRExperienceAsync({ });
-    //controller input
- /*   xr.input.onControllerAddedObservable.add((controller) => {
+      //==============================================================
+      var xr = await scene.createDefaultXRExperienceAsync({ });
+     //controller input
+     xr.input.onControllerAddedObservable.add((controller) => {
        controller.onMotionControllerInitObservable.add((motionController) => {
            if (motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
@@ -78,8 +78,8 @@
                         posicaoAtual = { x: 0, y: 0, z: 0 };  
 		    }
                 });
-       });
-   }); */
+            });
+       });  
        //=================================================
        scene.registerBeforeRender(function () {
        if (ativarbola === true){
