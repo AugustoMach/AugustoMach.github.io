@@ -81,13 +81,26 @@
                 });
             });
        });  */
+        // Adicionar um botão clicável à cena
+      var button = BABYLON.GUI.Button.CreateSimpleButton("botao", "Clique-me");
+      button.width = "150px";
+      button.height = "40px";
+      button.color = "white";
+      button.background = "blue";
+      button.top = "10px";
+      button.onPointerClickObservable.add(function () {
+        ativarbola = true; 
+			tempoAcumulado = 0;
+                        posicaoAtual = { x: 0, y: 0, z: 0 }; 
+      });
+      xr.gui3D.addControl(button);
        //=================================================
        scene.registerBeforeRender(function () {
        if (ativarbola === true){
           tempoDecorrido = engine.getDeltaTime() / 1000;
           posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
 	  if (sphere.position.y < -.01) { 
-            //  ativarbola =  false;						
+              ativarbola =  false;						
               tempoAcumulado = 0;
               posicaoAtual = { x: 0, y: 01, z: 0 };                    
           };
