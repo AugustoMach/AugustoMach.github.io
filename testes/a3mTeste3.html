@@ -33,7 +33,7 @@
         ground.material = grdMat;
 		
  		var box = BABYLON.Mesh.CreateBox("box", '2', scene);
-        box.position = new BABYLON.Vector3(-1,1,15);
+        box.position = new BABYLON.Vector3(-2,1,15);
         BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
 	
         const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
