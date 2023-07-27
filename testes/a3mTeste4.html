@@ -73,10 +73,9 @@ var createScene = async function () {
     var Box_Right_ThumbStick = BABYLON.MeshBuilder.CreateBox("Box_Right_ThumbStick",{size:0.5},scene);
     Box_Right_ThumbStick.position = new BABYLON.Vector3(1,0,1);
 
-    var xr = await scene.createDefaultXRExperienceAsync({
-    });
+    var xr = await scene.createDefaultXRExperienceAsync();
 
-//controller input
+   //controller input
    xr.input.onControllerAddedObservable.add((controller) => {
        controller.onMotionControllerInitObservable.add((motionController) => {
            if (motionController.handness === 'left') {

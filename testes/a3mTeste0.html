@@ -35,11 +35,15 @@
 		//vrHelper.enableTeleportation({ floorMeshName: "ground" });
 		//ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.GroundImpostor, { mass: 1, restitution: 0.7 }, scene); 
 		// Light
-        const spot = new BABYLON.PointLight("spot", new BABYLON.Vector3(0, 30, 10));
-        spot.diffuse = new BABYLON.Color3(1, 1, 1);
-        spot.specular = new BABYLON.Color3(0, 0, 0);
-        // Configurações de luz e câmera
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        const point = new BABYLON.PointLight("point", new BABYLON.Vector3(0, 30, 10));
+        point.diffuse = new BABYLON.Color3(1, 1, 1);
+        point.specular = new BABYLON.Color3(0, 0, 0);
+		
+	    const spot = new BABYLON.SpotLight("spot", BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, -1, 0), Math.PI, 1, scene);
+        spot.diffuse = BABYLON.Color3.Yellow();
+		
+         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+		 
 		// Create the main player camera
         var camera = createFreeCamera(scene);
 		//var camera = new BABYLON.FreeCamera("player camera", BABYLON.Vector3.Zero(), scene);
