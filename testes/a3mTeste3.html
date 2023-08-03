@@ -4,6 +4,7 @@
   <title>Teste3  anim1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
   <style>
     html, body {
       margin: 0;
@@ -24,6 +25,34 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
 	  scene.clearColor = new BABYLON.Color3(0, 0.9, 0.9);
+	  const adt = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+	  const panel = new BABYLON.GUI.StackPanel();
+      panel.width = "220px";
+      panel.top = "-50px";
+      panel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+      panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+      adt.addControl(panel);
+	  const header = new BABYLON.GUI.TextBlock();
+      header.text = "Night to Day";
+      header.height = "30px";
+      header.color = "white";
+      panel.addControl(header);
+	  const slider = new BABYLON.GUI.Slider();
+      slider.minimum = 0;
+      slider.maximum = 1;
+      slider.borderColor = "black";
+      slider.color = "#AAAAAA";
+      slider.background = "#white";
+      slider.value = 1;
+      slider.height = "20px";
+      slider.width = "200px";
+      panel.addControl(slider);
+	  slider.onValueChangedObservable.add((value) => {
+      if (light) {
+        light.intensity = value;
+      }
+      });
+	         
 
       // Chao
       const grdMat = new BABYLON.StandardMaterial("grdMat");
@@ -53,6 +82,7 @@
 
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+	  
 	  const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
 
      // const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
