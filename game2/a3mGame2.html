@@ -2,10 +2,9 @@
 <html>
 <head>
   <title>a3mGame2- Futebol Society - Pemaltis</title>
-  <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
-  <style>	
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
     html, body {
       margin: 0;
       overflow: hidden;
@@ -23,8 +22,7 @@
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
-      scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
-	     // Som de fundo
+ 	     // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Som do chute
 	    //const chute = new BABYLON.Sound("chute", "sons/chute1.wav", scene);
@@ -61,7 +59,8 @@
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
         engine.onResizeObservable.add(() => { engine.resize(); });
-      });
+     	var xr =  scene.createDefaultXRExperienceAsync();
+
       return scene;
     }
     async function run() {
