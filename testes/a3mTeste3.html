@@ -53,8 +53,10 @@
 
       // Configurações de luz e câmera
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-      const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-      camera.setTarget(BABYLON.Vector3.Zero());
+	  const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+
+     // const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+   //   camera.setTarget(BABYLON.Vector3.Zero());
 
       var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
       var anguloDirecao = 90; // Em graus
