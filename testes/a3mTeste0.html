@@ -25,10 +25,7 @@
     // This creates a basic Babylon Scene object (non-mesh)
     var scene = new BABYLON.Scene(engine);
 
-    var camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(90), BABYLON.Tools.ToRadians(65), 40, BABYLON.Vector3.Zero(), scene);
-
-    // This attaches the camera to the canvas
-    camera.attachControl(canvas, true);
+	const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
