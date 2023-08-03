@@ -24,12 +24,10 @@
       const scene = new BABYLON.Scene(engine);
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-        //const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 16}, scene);
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chaoM0.png");
 		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 200, maxHeight: 1});
+        ground.material = grdMat;
 
-		//const ground  = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 500, maxHeight: 1});
-		//ground.material = grdMat;
 		
 		/* Texto 3D
 		var fontData = await (await fetch("https://assets.babylonjs.com/fonts/Droid Sans_Bold.json")).json();
