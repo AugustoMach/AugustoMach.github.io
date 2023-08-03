@@ -22,7 +22,6 @@
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
-      scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("https://www.babylonjs-playground.com/textures/floor.png");
@@ -38,7 +37,9 @@
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
        engine.onResizeObservable.add(() => { engine.resize(); });
-      });
+        
+		var xr =  scene.createDefaultXRExperienceAsync({});
+
       return scene;
     }
    async function run() {
