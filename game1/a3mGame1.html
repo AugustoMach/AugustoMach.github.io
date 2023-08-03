@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>a3mGame1- Futebol Society</title>
-  <script src="https://cdn.jsdelivr.net/npm/babylonjs/babylon.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders/babylonjs.loaders.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@1.2.0"></script>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
   <style>	
     html, body {
       margin: 0;
@@ -23,7 +23,6 @@
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
-      scene.createDefaultXRExperienceAsync({}).then((xrHelper) => {
 	     // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Som do chute
@@ -80,7 +79,8 @@
         camera.setTarget(BABYLON.Vector3.Zero());
 		
         engine.onResizeObservable.add(() => { engine.resize(); });
-      });
+      	var xr =  scene.createDefaultXRExperienceAsync();
+
       return scene;
     }
     async function run() {
