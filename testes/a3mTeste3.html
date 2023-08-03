@@ -25,6 +25,12 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
 	  scene.clearColor = new BABYLON.Color3(0, 0.9, 0.9);
+	   // Configurações de luz e câmera
+      const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+	  const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+     // const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+   //   camera.setTarget(BABYLON.Vector3.Zero());
+	  
 	  const adt = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 	  const panel = new BABYLON.GUI.StackPanel();
       panel.width = "220px";
@@ -51,8 +57,7 @@
       if (light) {
         light.intensity = value;
       }
-      });
-	         
+      });      
 
       // Chao
       const grdMat = new BABYLON.StandardMaterial("grdMat");
@@ -80,13 +85,6 @@
       sphere1.animations.push(animation1);			
       scene.beginAnimation(sphere1, 0, 40, true);  
 
-      // Configurações de luz e câmera
-      const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-	  
-	  const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-
-     // const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-   //   camera.setTarget(BABYLON.Vector3.Zero());
 
       var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
       var anguloDirecao = 90; // Em graus
@@ -128,6 +126,11 @@
             sphere.position.y = posicaoAtual.y;
             sphere.position.z = posicaoAtual.z;
          }
+		 var cubo1 = { position: { x: 0, y: 0, z: 0 }, scaling: { x: 2, y: 2, z: 2 } };
+         var cubo2 = { position: { x: 1, y: 1, z: 1 }, scaling: { x: 2, y: 2, z: 2 } };
+         if (cubosColidiram(cubo1, cubo2)) {
+             console.log("Os cubos colidiram!");
+         }
 
          function calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido) {
             const g = 9.81; // Aceleração da gravidade em m/s^2
@@ -147,6 +150,19 @@
             };
             return novaPosicao1;
           };
+		  function cubosColidiram(cubo1, cubo2) {
+            // Verificar sobreposição no eixo X
+            if (Math.abs(cubo1.position.x - cubo2.position.x) < cubo1.scaling.x / 2 + cubo2.scaling.x / 2) {
+            // Verificar sobreposição no eixo Y
+            if (Math.abs(cubo1.position.y - cubo2.position.y) < cubo1.scaling.y / 2 + cubo2.scaling.y / 2) {
+              // Verificar sobreposição no eixo Z
+              if (Math.abs(cubo1.position.z - cubo2.position.z) < cubo1.scaling.z / 2 + cubo2.scaling.z / 2) {
+                 return true; // Houve colisão nos três eixos
+              }
+            }
+          }
+          return false; // Não houve colisão nos três eixos
+        }
 	  });
       engine.onResizeObservable.add(() => {
           engine.resize();

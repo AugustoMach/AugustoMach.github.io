@@ -36,16 +36,15 @@
     // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
 	
-	      const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
+	  const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
       sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
-	  
-   // BABYLON.SceneLoader.ImportMeshAsync("", Assets.meshes.pirateFort.rootUrl, Assets.meshes.pirateFort.filename)
-
+  // BABYLON.SceneLoader.ImportMeshAsync("", Assets.meshes.pirateFort.rootUrl, Assets.meshes.pirateFort.filename)
+  	  var xr =  scene.createDefaultXRExperienceAsync({});
 
       return scene;
     }
 
-   // await xrHelper.exitXRAsync();
+   // await xr.exitXRAsync();
    async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
