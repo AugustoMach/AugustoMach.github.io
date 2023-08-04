@@ -99,7 +99,7 @@
 			particleSystem.minEmitPower = 1;
 			particleSystem.maxEmitPower = 3;
 			particleSystem.updateSpeed = 0.005;
-			//particleSystem.start();
+			//particleSystem.stop();
 
       var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
       var anguloDirecao = 90; // Em graus
@@ -186,6 +186,8 @@
       engine.onResizeObservable.add(() => {
           engine.resize();
       });
+	  	    var xr =  scene.createDefaultXRExperienceAsync({ floorMeshes: [ground] });
+
       return scene;
     }
 	
