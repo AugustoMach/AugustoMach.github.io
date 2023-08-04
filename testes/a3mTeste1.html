@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1Formas Geometricas - Texturas</title>
+  <title>Formas Geometricas - Texturas</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -23,7 +23,7 @@
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
 	  
-	      /*Skybox
+	      //Skybox
       const skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:150}, scene);
 	  const skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
 	  skyboxMaterial.backFaceCulling = false;
@@ -31,22 +31,22 @@
 	  skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 	  skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
 	  skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-	  skybox.material = skyboxMaterial;*/
+	  skybox.material = skyboxMaterial;
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/chaoM0.png");
 		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 200, maxHeight: 1});
         ground.material = grdMat;
 		
-	/*	    const spriteManagerTrees = new BABYLON.SpriteManager("treesManager", "texturas/palm.png", 2000, {width: 512, height: 1024}, scene);
+		    const spriteManagerTrees = new BABYLON.SpriteManager("treesManager", "texturas/palmtree.png", 100, {width: 512, height: 1024}, scene);
     //We create trees at random positions
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 100; i++) {
         const tree = new BABYLON.Sprite("tree", spriteManagerTrees);
         tree.position.x = Math.random() * (-2);
         tree.position.z = Math.random() * 20 + 8;
         tree.position.y = 0.5;
     }
-*/
+
 
 		/* Texto 3D
 		var fontData = await (await fetch("https://assets.babylonjs.com/fonts/Droid Sans_Bold.json")).json();
