@@ -117,6 +117,7 @@
             tempoDecorrido = engine.getDeltaTime() / 1000;
             posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
 		    if (sphere.position.y < -.01){ 
+			  explodir(posicaoAtual);
               ativarbola =  true;						
               tempoAcumulado = 0;
               posicaoAtual = { x: 0, y: 01, z: 0 };                    
@@ -130,7 +131,26 @@
          if (cubosColidiram(cubo1, cubo2)) {
              console.log("Os cubos colidiram!");
          }
-
+         function explodir (posicaoAtual){
+			// Create a particle system
+			var particleSystem = new BABYLON.ParticleSystem("particles", 2000, scene);
+			particleSystem.particleTexture = new BABYLON.Texture("/textures/flare.png", scene);
+			particleSystem.emitter = BABYLON.Vector3.Zero(); // the starting location
+			particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+			particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+			particleSystem.colorDead = new BABYLON.Color4(0, 0, 0.2, 0.0);
+			particleSystem.minSize = 0.1;
+			particleSystem.maxSize = 0.5;
+			particleSystem.minLifeTime = 0.3;
+			particleSystem.maxLifeTime = 1.5;
+			particleSystem.emitRate = 1000;
+			particleSystem.createPointEmitter(new BABYLON.Vector3(-7, 8, 3), new BABYLON.Vector3(7, 8, -3));
+			particleSystem.minEmitPower = 1;
+			particleSystem.maxEmitPower = 3;
+			particleSystem.updateSpeed = 0.005;
+			particleSystem.start();
+			return true;
+		 }
          function calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido) {
             const g = 9.81; // Aceleração da gravidade em m/s^2
             // Converter os ângulos de graus para radianos
