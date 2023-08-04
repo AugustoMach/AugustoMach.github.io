@@ -38,7 +38,7 @@
 		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:20, height :20, subdivisions: 200, maxHeight: 1});
         ground.material = grdMat;
 		
-		    const spriteManagerTrees = new BABYLON.SpriteManager("treesManager", "texturas/palm.png", 2000, {width: 512, height: 1024}, scene);
+	/*	    const spriteManagerTrees = new BABYLON.SpriteManager("treesManager", "texturas/palm.png", 2000, {width: 512, height: 1024}, scene);
     //We create trees at random positions
     for (let i = 0; i < 500; i++) {
         const tree = new BABYLON.Sprite("tree", spriteManagerTrees);
@@ -46,7 +46,7 @@
         tree.position.z = Math.random() * 20 + 8;
         tree.position.y = 0.5;
     }
-
+*/
 
 		/* Texto 3D
 		var fontData = await (await fetch("https://assets.babylonjs.com/fonts/Droid Sans_Bold.json")).json();
