@@ -137,7 +137,7 @@
               tempoAcumulado = 0;
               posicaoAtual = { x: 0, y: 01, z: 0 };                    
             };
-			if(sphere.position.y > 1){
+			if(sphere.position.y > 2){
 			  particleSystem.stop();
 			}
 		    sphere.position.x = posicaoAtual.x;
@@ -151,6 +151,7 @@
          }
          function explodir (posicaoAtual){
 			// Create a particle system
+			particleSystem.emitter = new BABYLON.Vector3(0, 0, posicaoAtual.z); 
             particleSystem.start();
 			return true;
 		 }
