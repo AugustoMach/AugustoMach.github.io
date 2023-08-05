@@ -136,8 +136,10 @@
 	   });  */
       scene.registerBeforeRender(function () {
          if (ativarbola === true){
-            tempoDecorrido = engine.getDeltaTime() / 1000;
-            posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
+            tempoDecorrido = engine.getDeltaTime() / 1000
+			if (tempoDecorrido > 5){
+                posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido-5);
+			}
 		    if (sphere.position.y < -.01){ 
 			  explodir(posicaoAtual);
               ativarbola =  true;						
