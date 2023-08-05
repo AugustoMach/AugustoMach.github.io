@@ -137,6 +137,9 @@
               tempoAcumulado = 0;
               posicaoAtual = { x: 0, y: 01, z: 0 };                    
             };
+			if(sphere.position.y > 1){
+			  particleSystem.stop();
+			}
 		    sphere.position.x = posicaoAtual.x;
             sphere.position.y = posicaoAtual.y;
             sphere.position.z = posicaoAtual.z;
