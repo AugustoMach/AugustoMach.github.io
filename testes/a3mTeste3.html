@@ -30,8 +30,15 @@
 	  const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
      // const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
    //   camera.setTarget(BABYLON.Vector3.Zero());
+           // Som de fundo
+        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+        // Som do gatilho dos controles
+	    const gatshot = new BABYLON.Sound("gunshot", "sons/metal1.wav", scene);
+        // Som do explosao dos controles
+	    const explosao = new BABYLON.Sound("explosao", "sons/explosao1.wav", scene);
+
 	  
-	   const adt = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+	  const adt = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 	  const panel = new BABYLON.GUI.StackPanel();
       panel.width = "220px";
       panel.top = "-50px";
@@ -135,7 +142,8 @@
 			  explodir(posicaoAtual);
               ativarbola =  true;						
               tempoAcumulado = 0;
-              posicaoAtual = { x: 0, y: 01, z: 0 };                    
+              posicaoAtual = { x: 0, y: 01, z: 0 }; 
+              gatshot.play();			  
             };
 			if(sphere.position.y > 2){
 			  particleSystem.stop();
@@ -153,6 +161,7 @@
 			// Create a particle system
 			particleSystem.emitter = new BABYLON.Vector3(0, 0, posicaoAtual.z); 
             particleSystem.start();
+			explosao.play();
 			return true;
 		 }
          function calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido) {
