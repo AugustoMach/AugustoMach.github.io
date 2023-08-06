@@ -77,11 +77,11 @@
       BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
 
 
-	var stoneDiffURL = "https://i.imgur.com/VSbN3Fc.png";
-	var stoneNHURL = "https://i.imgur.com/zVGaZNi.png";
+	var stoneDiff = "texturas/stoneD.png";
+	var stoneNorm = "texturas/stoneN.png";
 
-    var stoneDiffuseTexture = new BABYLON.Texture(stoneDiffURL, scene);
-    var stoneNormalsHeightTexture = new BABYLON.Texture(stoneNHURL, scene);
+    var stoneDiffuseTexture = new BABYLON.Texture(stoneDiff, scene);
+    var stoneNormalsHeightTexture = new BABYLON.Texture(stoneNorm, scene);
 	var normalsHeightTexture = stoneNormalsHeightTexture;
 
     var material = new BABYLON.StandardMaterial("mtl01", scene);
@@ -96,7 +96,6 @@
 	material.bumpTexture = normalsHeightTexture;
 	material.useParallax = true;
 	material.useParallaxOcclusion = true;
-	
 	
       const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
       sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
