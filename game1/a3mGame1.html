@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame1- Futebol Society</title>
+  <title>a3mGame1 a- Futebol Society</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -79,16 +79,17 @@
         camera.setTarget(BABYLON.Vector3.Zero());
 		
         engine.onResizeObservable.add(() => { engine.resize(); });
-		var xr = await scene.createDefaultXRExperienceAsync({
-        //   xrInput: xrHelper.input,
-         //  floorMeshes: [ground] /* Array of meshes to be used as landing points */,
-        });    
-        // needs a reconfigure - re-enable the feature (will discard the old one and create a new one!)
-        //xrHelper.teleportation = featuresManager.enableFeature(WebXRFeatureName.TELEPORTATION, "stable" /* or latest */, {
-         //  xrInput: xrHelper.input,
-         //  floorMeshes: [ground],
-         //  renderingGroupId: 1,
-        //});
+	    var xr = await scene.createDefaultXRExperienceAsync({
+          floorMeshes: [ground] /* Array of meshes to be used as landing points */
+        });
+	  
+        // simulate a second floor
+        const secondGround = ground.clone();
+        secondGround.position.z = 10;
+        secondGround.position.y = -3;
+        secondGround.material = grdMat;
+        xr.teleportation.addFloorMesh(secondGround);
+        xr.pointerSelection.attach();
         return scene;
     }
     async function run() {
