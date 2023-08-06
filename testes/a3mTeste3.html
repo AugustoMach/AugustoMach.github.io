@@ -217,37 +217,37 @@
       });
 	  
     // simulate a second floor
-  ////  const secondGround = ground.clone();
-  //////  secondGround.position.z = 10;
-  ////  secondGround.position.y = -3;
-  ////  secondGround.material = grdMat;
+    const secondGround = ground.clone();
+    secondGround.position.z = 10;
+    secondGround.position.y = -3;
+    secondGround.material = grdMat;
 
     // add the 3nd ground to the floor meshes array
-  ////  defaultXRExperience.teleportation.addFloorMesh(secondGround);
+    xr.teleportation.addFloorMesh(secondGround);
 ////
    // defaultXRExperience.teleportation.attach();
-    ////defaultXRExperience.pointerSelection.attach();
+     xr.pointerSelection.attach();
    // const teleportation = defaultXRExperience.teleportation;
 
       xr.input.onControllerAddedObservable.add((controller) => {
          if (controller.inputSource.handedness === 'right') {
-            const handle = BABYLON.MeshBuilder.CreateCylinder('handle', {
+            const handle1 = BABYLON.MeshBuilder.CreateCylinder('handle1', {
                 height: 0.7, diameter: 0.02, tessellation: 8
             });
-            handle.rotate(BABYLON.Axis.X, Math.PI / 2);
-            handle.position.z += 0.2;
-            handle.parent = controller.grip || controller.pointer;
-            defaultXRExperience.input.onControllerRemovedObservable.add(() => {             
+            handle1.rotate(BABYLON.Axis.X, Math.PI / 2);
+            handle1.position.z += 0.2;
+            handle1.parent = controller.grip || controller.pointer;
+            xr.input.onControllerRemovedObservable.add(() => {             
             });
         }
 		if (controller.inputSource.handedness === 'left') {
-            const handle = BABYLON.MeshBuilder.CreateCylinder('handle', {
+            const handle2 = BABYLON.MeshBuilder.CreateCylinder('handle2', {
                 height: 1.7, diameter: 0.01, tessellation: 8
             });
-            handle.rotate(BABYLON.Axis.X, Math.PI / 2);
-            handle.position.z += 0.2;
-            handle.parent = controller.grip || controller.pointer;
-            defaultXRExperience.input.onControllerRemovedObservable.add(() => {             
+            handle2.rotate(BABYLON.Axis.X, Math.PI / 2);
+            handle2.position.z += 0.2;
+            handle2.parent = controller.grip || controller.pointer;
+            xr.input.onControllerRemovedObservable.add(() => {             
             });
         }
       });
