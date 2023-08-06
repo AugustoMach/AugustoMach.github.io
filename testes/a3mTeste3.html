@@ -75,6 +75,28 @@
       var box = BABYLON.Mesh.CreateBox("box", '1', scene);
       box.position = new BABYLON.Vector3(-2,.5,15);
       BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
+
+
+	var stoneDiffURL = "https://i.imgur.com/VSbN3Fc.png";
+	var stoneNHURL = "https://i.imgur.com/zVGaZNi.png";
+
+    var stoneDiffuseTexture = new BABYLON.Texture(stoneDiffURL, scene);
+    var stoneNormalsHeightTexture = new BABYLON.Texture(stoneNHURL, scene);
+	var normalsHeightTexture = stoneNormalsHeightTexture;
+
+    var material = new BABYLON.StandardMaterial("mtl01", scene);
+    material.diffuseTexture = stoneDiffuseTexture;
+    material.bumpTexture = stoneNormalsHeightTexture;
+    material.useParallax = true;
+    material.useParallaxOcclusion = true;
+    material.parallaxScaleBias = 0.1;
+    material.specularPower = 1000.0;
+	material.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+    box.material = material;
+	material.bumpTexture = normalsHeightTexture;
+	material.useParallax = true;
+	material.useParallaxOcclusion = true;
+	
 	
       const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
       sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
