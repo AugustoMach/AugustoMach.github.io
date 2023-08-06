@@ -140,7 +140,7 @@
             tempoDecorrido = engine.getDeltaTime() / 1000;
 			tempowait += tempoDecorrido;
 			if (tempowait > 2){
-				if (tempowait === 2) gatshot.play();
+				if (tempowait-tempoDecorrido < 2) gatshot.play();
                 posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
 			}
 		    if (sphere.position.y < -.01){ 
