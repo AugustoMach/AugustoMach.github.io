@@ -79,7 +79,17 @@
         camera.setTarget(BABYLON.Vector3.Zero());
 		
         engine.onResizeObservable.add(() => { engine.resize(); });
-      	var xr =  scene.createDefaultXRExperienceAsync();
+		var xrHelper = await scene.createDefaultXRExperienceAsync({
+  xrInput: xrHelper.input,
+  floorMeshes: [ground] /* Array of meshes to be used as landing points */,
+});
+// ...
+// needs a reconfigure - re-enable the feature (will discard the old one and create a new one!)
+xrHelper.teleportation = featuresManager.enableFeature(WebXRFeatureName.TELEPORTATION, "stable" /* or latest */, {
+  xrInput: xrHelper.input,
+  floorMeshes: [ground],
+  renderingGroupId: 1,
+});
 
       return scene;
     }
