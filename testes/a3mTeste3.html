@@ -140,6 +140,7 @@
             tempoDecorrido = engine.getDeltaTime() / 1000;
 			tempowait += tempoDecorrido;
 			if (tempowait > 2){
+				if (tempowait === 2) gatshot.play();
                 posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
 			}
 		    if (sphere.position.y < -.01){ 
@@ -148,7 +149,7 @@
               tempoAcumulado = 0;
 			  tempowait = 0;
               posicaoAtual = { x: 0, y: 0, z: 0 }; 
-              gatshot.play();			  
+			  
             };
 			if(sphere.position.y > 2){
 			  particleSystem.stop();
