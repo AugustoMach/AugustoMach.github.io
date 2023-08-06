@@ -139,9 +139,17 @@
 	  var tempowait = 0;
       var posicaoAtual = { x: 0, y: 0, z: 0 };
 	  var ativarbola = true; 
-	  
-  	  ativarbola = true;
+	  // Load hero character and play animation
+      BABYLON.SceneLoader.ImportMesh("", "https://assets.babylonjs.com/meshes/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+        var hero = newMeshes[0];
+        //Scale the model down        
+        hero.scaling.scaleInPlace(0.1);
+        //Get the Samba animation Group
+        const sambaAnim = scene.getAnimationGroupByName("Samba");
+        sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
 
+       });
+	
       scene.registerBeforeRender(function () {
          if (ativarbola === true){
             tempoDecorrido = engine.getDeltaTime() / 1000;
@@ -216,18 +224,13 @@
           floorMeshes: [ground] /* Array of meshes to be used as landing points */
       });
 	  
-    // simulate a second floor
-    const secondGround = ground.clone();
-    secondGround.position.z = 10;
-    secondGround.position.y = -3;
-    secondGround.material = grdMat;
-
-    // add the 3nd ground to the floor meshes array
-    xr.teleportation.addFloorMesh(secondGround);
-////
-   // defaultXRExperience.teleportation.attach();
-     xr.pointerSelection.attach();
-   // const teleportation = defaultXRExperience.teleportation;
+      // simulate a second floor
+      const secondGround = ground.clone();
+      secondGround.position.z = 10;
+      secondGround.position.y = -3;
+      secondGround.material = grdMat;
+      xr.teleportation.addFloorMesh(secondGround);
+      xr.pointerSelection.attach();
 
       xr.input.onControllerAddedObservable.add((controller) => {
          if (controller.inputSource.handedness === 'right') {
