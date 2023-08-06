@@ -98,7 +98,7 @@
 	material.useParallax = true;
 	material.useParallaxOcclusion = true;
 	
-      const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
+      const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:.5,segments:32}, scene);
       sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
 
       var animation1 = new BABYLON.Animation("myAnimation", "position.x", 3, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
@@ -144,10 +144,10 @@
         var hero = newMeshes[0];
         //Scale the model down        
         hero.scaling.scaleInPlace(0.1);
+		hero.position.z = 5;
         //Get the Samba animation Group
         const sambaAnim = scene.getAnimationGroupByName("Samba");
         sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
-
        });
 	
       scene.registerBeforeRender(function () {
