@@ -141,22 +141,7 @@
 	  var ativarbola = true; 
 	  
   	  ativarbola = true;
-	  /*controller input
-      xr.input.onControllerAddedObservable.add((controller) => {
-       controller.onMotionControllerInitObservable.add((motionController) => {
-           if (motionController.handness === 'left' || motionController.handness === 'right') {
-                const xr_ids = motionController.getComponentIds();
-                let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
-                triggerComponent.onButtonStateChangedObservable.add(() => {
-                    if (triggerComponent.pressed) {
-                        ativarbola = true;
-						tempoAcumulado = 0;
-                        posicaoAtual = { x: 0, y: 0, z: 0 };                    
-                    }
-                });
-			}
-		});
-	   });  */
+
       scene.registerBeforeRender(function () {
          if (ativarbola === true){
             tempoDecorrido = engine.getDeltaTime() / 1000;
@@ -227,10 +212,10 @@
       engine.onResizeObservable.add(() => {
           engine.resize();
       });
-	  var defaultXRExperience = await scene.createDefaultXRExperienceAsync({
-      //  xrInput: defaultXRExperience.input,
+	  var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] /* Array of meshes to be used as landing points */
       });
+	  
     // simulate a second floor
   ////  const secondGround = ground.clone();
   //////  secondGround.position.z = 10;
@@ -244,7 +229,7 @@
     ////defaultXRExperience.pointerSelection.attach();
    // const teleportation = defaultXRExperience.teleportation;
 
-      defaultXRExperience.input.onControllerAddedObservable.add((controller) => {
+      xr.input.onControllerAddedObservable.add((controller) => {
          if (controller.inputSource.handedness === 'right') {
             const handle = BABYLON.MeshBuilder.CreateCylinder('handle', {
                 height: 0.7, diameter: 0.02, tessellation: 8
@@ -255,7 +240,34 @@
             defaultXRExperience.input.onControllerRemovedObservable.add(() => {             
             });
         }
+		if (controller.inputSource.handedness === 'left') {
+            const handle = BABYLON.MeshBuilder.CreateCylinder('handle', {
+                height: 1.7, diameter: 0.01, tessellation: 8
+            });
+            handle.rotate(BABYLON.Axis.X, Math.PI / 2);
+            handle.position.z += 0.2;
+            handle.parent = controller.grip || controller.pointer;
+            defaultXRExperience.input.onControllerRemovedObservable.add(() => {             
+            });
+        }
       });
+	  
+	  	  /*controller input
+      xr.input.onControllerAddedObservable.add((controller) => {
+       controller.onMotionControllerInitObservable.add((motionController) => {
+           if (motionController.handness === 'left' || motionController.handness === 'right') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+                    if (triggerComponent.pressed) {
+                        ativarbola = true;
+						tempoAcumulado = 0;
+                        posicaoAtual = { x: 0, y: 0, z: 0 };                    
+                    }
+                });
+			}
+		});
+	   });  */
       return scene;
     }
 	
