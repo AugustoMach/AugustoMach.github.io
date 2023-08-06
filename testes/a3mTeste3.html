@@ -69,7 +69,7 @@
       // Chao
       const grdMat = new BABYLON.StandardMaterial("grdMat");
       grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-      const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 50}, scene);
+      const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 500}, scene);
       ground.material = grdMat;
 		
       var box = BABYLON.Mesh.CreateBox("box", '1', scene);
