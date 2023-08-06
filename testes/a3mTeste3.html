@@ -69,13 +69,14 @@
       // Chao
       const grdMat = new BABYLON.StandardMaterial("grdMat");
       grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-      const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 16, height: 500}, scene);
+      const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 20, height: 500}, scene);
       ground.material = grdMat;
+      ground.material.diffuseTexture.uScale = 2;
+      ground.material.diffuseTexture.vScale = 50;
 		
       var box = BABYLON.Mesh.CreateBox("box", '1', scene);
       box.position = new BABYLON.Vector3(-2,.5,15);
       BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
-
 
 	var stoneDiff = "texturas/stoneD.png";
 	var stoneNorm = "texturas/stoneN.png";
