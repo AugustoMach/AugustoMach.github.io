@@ -227,10 +227,10 @@
       engine.onResizeObservable.add(() => {
           engine.resize();
       });
-	var defaultXRExperience = await scene.createDefaultXRExperienceAsync({
+	  var defaultXRExperience = await scene.createDefaultXRExperienceAsync({
       //  xrInput: defaultXRExperience.input,
-        floorMeshes: [ground] /* Array of meshes to be used as landing points */
-    });
+          floorMeshes: [ground] /* Array of meshes to be used as landing points */
+      });
     // simulate a second floor
   ////  const secondGround = ground.clone();
   //////  secondGround.position.z = 10;
@@ -244,20 +244,18 @@
     ////defaultXRExperience.pointerSelection.attach();
    // const teleportation = defaultXRExperience.teleportation;
 
-    defaultXRExperience.input.onControllerAddedObservable.add((controller) => {
+      defaultXRExperience.input.onControllerAddedObservable.add((controller) => {
          if (controller.inputSource.handedness === 'right') {
             const handle = BABYLON.MeshBuilder.CreateCylinder('handle', {
-                height: 0.4, diameter: 0.02, tessellation: 8
+                height: 0.7, diameter: 0.02, tessellation: 8
             });
             handle.rotate(BABYLON.Axis.X, Math.PI / 2);
             handle.position.z += 0.2;
             handle.parent = controller.grip || controller.pointer;
-          
-            defaultXRExperienc.input.onControllerRemovedObservable.add(() => {
-             
+            defaultXRExperience.input.onControllerRemovedObservable.add(() => {             
             });
         }
-    });
+      });
       return scene;
     }
 	
