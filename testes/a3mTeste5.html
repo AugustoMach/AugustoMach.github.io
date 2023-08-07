@@ -29,23 +29,39 @@
       camera.attachControl(canvas, true);
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
  
-      // Criar um plano
-      var plano = BABYLON.MeshBuilder.CreatePlane("plano", { width: 2, height: 2 }, scene);
-      plano.position.y = 1; // Posição do plano em relação ao eixo Y
-      plano.position.z = 3; // Posição do plano em relação ao eixo Z
-      plano.material = new BABYLON.StandardMaterial("matPlano", scene);
-      plano.material.diffuseColor = new BABYLON.Color3(0, 0, 1); // Cor do plano
-
-      // Adicionar evento de clique ao plano
-      plano.actionManager = new BABYLON.ActionManager(scene);
-      plano.actionManager.registerAction(
-         new BABYLON.ExecuteCodeAction(
-           BABYLON.ActionManager.OnPickTrigger,
-           function () {
-             console.log("Plano Clicado!"); // Substitua esta linha com a função que deseja executar
-           }
-        )
-      );
+      // Chao
+	  var stoneDiff = "texturas/chao1.png";
+	  var stoneNorm = "texturas/chao1N.png";
+      var stoneDiffuseTexture = new BABYLON.Texture(stoneDiff, scene);
+      var stoneNormalsHeightTexture = new BABYLON.Texture(stoneNorm, scene);
+	  var normalsHeightTexture = stoneNormalsHeightTexture;
+      var grdMat = new BABYLON.StandardMaterial("grdMat", scene);
+      grdMat.diffuseTexture = stoneDiffuseTexture;
+      grdMat.bumpTexture = stoneNormalsHeightTexture;
+      grdMat.useParallax = true;
+      grdMat.useParallaxOcclusion = true;
+      grdMat.parallaxScaleBias = 0.01;
+      grdMat.specularPower = 1000.0;
+	  grdMat.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+	  grdMat.bumpTexture = normalsHeightTexture;
+	  grdMat.useParallax = true;
+	  grdMat.useParallaxOcclusion = true;
+	  
+      const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 20, height: 500}, scene);
+      ground.material = grdMat;
+      ground.material.diffuseTexture.uScale = 2;
+      ground.material.diffuseTexture.vScale = 50;
+	  	  
+	  // Load hero character and play animation
+      BABYLON.SceneLoader.ImportMesh("", "https://assets.babylonjs.com/meshes/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+        var hero = newMeshes[0];
+        //Scale the model down        
+        hero.scaling.scaleInPlace(0.1);
+		hero.position.z = 5;
+        //Get the Samba animation Group
+        const sambaAnim = scene.getAnimationGroupByName("Samba");
+        sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
+       });
 	  var xr =  scene.createDefaultXRExperienceAsync();
 
       return scene;

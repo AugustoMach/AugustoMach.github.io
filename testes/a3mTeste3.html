@@ -73,30 +73,29 @@
       ground.material = grdMat;
       ground.material.diffuseTexture.uScale = 2;
       ground.material.diffuseTexture.vScale = 50;
+	  
+	  var stoneDiff = "texturas/stoneD.png";
+	  var stoneNorm = "texturas/stoneN.png";
+      var stoneDiffuseTexture = new BABYLON.Texture(stoneDiff, scene);
+      var stoneNormalsHeightTexture = new BABYLON.Texture(stoneNorm, scene);
+	  var normalsHeightTexture = stoneNormalsHeightTexture;
+      var material = new BABYLON.StandardMaterial("mtl01", scene);
+      material.diffuseTexture = stoneDiffuseTexture;
+      material.bumpTexture = stoneNormalsHeightTexture;
+      material.useParallax = true;
+      material.useParallaxOcclusion = true;
+      material.parallaxScaleBias = 0.1;
+      material.specularPower = 1000.0;
+	  material.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+	  material.bumpTexture = normalsHeightTexture;
+	  material.useParallax = true;
+	  material.useParallaxOcclusion = true;
 		
       var box = BABYLON.Mesh.CreateBox("box", '1', scene);
       box.position = new BABYLON.Vector3(-2,.5,15);
       BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
+      box.material = material;
 
-	var stoneDiff = "texturas/stoneD.png";
-	var stoneNorm = "texturas/stoneN.png";
-
-    var stoneDiffuseTexture = new BABYLON.Texture(stoneDiff, scene);
-    var stoneNormalsHeightTexture = new BABYLON.Texture(stoneNorm, scene);
-	var normalsHeightTexture = stoneNormalsHeightTexture;
-
-    var material = new BABYLON.StandardMaterial("mtl01", scene);
-    material.diffuseTexture = stoneDiffuseTexture;
-    material.bumpTexture = stoneNormalsHeightTexture;
-    material.useParallax = true;
-    material.useParallaxOcclusion = true;
-    material.parallaxScaleBias = 0.1;
-    material.specularPower = 1000.0;
-	material.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-    box.material = material;
-	material.bumpTexture = normalsHeightTexture;
-	material.useParallax = true;
-	material.useParallaxOcclusion = true;
 	
       const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:.5,segments:32}, scene);
       sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
