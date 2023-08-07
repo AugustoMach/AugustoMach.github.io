@@ -54,18 +54,20 @@
       ground.material.diffuseTexture.vScale = 50;
 	  
 	  // Our built-in 'sphere' shape.
-      var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
-      sphere.position.y = 4;
-	  // initialize plugin
-      //const havokInstance = await HavokPhysics();
-	  // initialize plugin
-//// var hk = new BABYLON.HavokPlugin();
-      // enable physics in the scene with a gravity
-    ////    scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
-      // Create a sphere shape and the associated body. Size will be determined automatically.
-  ////    var sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution:0.75}, scene);
-      // Create a static box shape.
-////var groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+      var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1, segments: 32}, scene);
+      sphere.position.y = 10;
+      // initialize plugin
+        const havokInstance = await HavokPhysics();
+        // pass the engine to the plugin
+        const hk = new BABYLON.HavokPlugin(true, havokInstance);
+        // enable physics in the scene with a gravity
+        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+
+        // Create a sphere shape and the associated body. Size will be determined automatically.
+        const sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
+
+        // Create a static box shape.
+        const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
   
 	  // Load hero character and play animation
       BABYLON.SceneLoader.ImportMesh("", "https://assets.babylonjs.com/meshes/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
