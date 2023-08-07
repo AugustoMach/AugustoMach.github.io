@@ -77,7 +77,7 @@
 
         // Create a static box shape.
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
-
+	  var xr =  scene.createDefaultXRExperienceAsync();
         return scene;
       };
 
