@@ -21,15 +21,15 @@
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
-      const scene = new BABYLON.Scene(engine);
- 	     // Som de fundo
+        const scene = new BABYLON.Scene(engine);
+ 	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		
         // Terra
 		const terraMat = new BABYLON.StandardMaterial("terra");
         terraMat.diffuseTexture = new BABYLON.Texture("texturas/terra.jpg")
-        const terra = BABYLON.MeshBuilder.CreateSphere("terra", {diameter: 1.0, segments: 32}, scene);
-        terra.position = new BABYLON.Vector3(0.5, 1.0, 0.5);
+        const terra = BABYLON.MeshBuilder.CreateSphere("terra", {diameter: 2.0, segments: 32}, scene);
+        terra.position = new BABYLON.Vector3(0, 1.0, 0);
 		terra.material = terraMat;
 
         // Configurações de luz e câmera
@@ -38,7 +38,7 @@
         engine.onResizeObservable.add(() => { engine.resize(); });
      	var xr =  scene.createDefaultXRExperienceAsync();
 
-      return scene;
+        return scene;
     }
     async function run() {
       const scene = await createScene();
