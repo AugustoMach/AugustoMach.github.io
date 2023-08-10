@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame4- Basquete - Tiro Livre x</title>
+  <title>a3mGame5-Boliche</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -32,26 +32,11 @@
 		
         // Quadra
         const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("texturas/quadraBaskb.png");
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/quadraBoliche.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 15, height: 12}, scene);
 		ground.material = grdMat;
-		// Tabela
-		const tblMat = new BABYLON.StandardMaterial("tblMat");
-        tblMat.diffuseTexture = new BABYLON.Texture("texturas/tabelaBask.png");
-		const plane = BABYLON.MeshBuilder.CreatePlane("plane", {height:1.2, width: 1.8});
-		plane.position = new BABYLON.Vector3(0, 3.5, 4.5);
-        plane.material = tblMat;
-		// Suporte
-	    const myPath = [
-		 	new BABYLON.Vector3(0, 0, 3),
-			new BABYLON.Vector3(0, 3, 3),
-			new BABYLON.Vector3(0, 3.5, 0)
-	    ];
-	    const suport = BABYLON.MeshBuilder.CreateTube("suport", {path: myPath, radius: 0.15, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-		suport.position = new BABYLON.Vector3(0, 0, 4.6);
-		// Aro
-        const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.02, diameter: 0.45});
-		torus.position = new BABYLON.Vector3(0, 3.05, 4.2);
+		// Pinos
+
 
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
