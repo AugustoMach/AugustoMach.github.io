@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>a3mGame0-Dado</title>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+   <style>	
+    html, body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+    }
+ </style>
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+    async function createScene() {
+        const scene = new BABYLON.Scene(engine);
+ 	    // Som de fundo
+        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+		// Chao
+        const grdMat = new BABYLON.StandardMaterial("grdMat");
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 20, height: 500}, scene);
+        ground.material = grdMat;
+        ground.material.diffuseTexture.uScale = 2;
+        ground.material.diffuseTexture.vScale = 50;
+		
+        // Dado	 
+	    var stoneDiff = "texturas/dadoD.png";
+	    var stoneNorm = "texturas/dadoN.png";
+        var stoneDiffuseTexture = new BABYLON.Texture(stoneDiff, scene);
+        var stoneNormalsHeightTexture = new BABYLON.Texture(stoneNorm, scene);
+	    var normalsHeightTexture = stoneNormalsHeightTexture;
+        var material = new BABYLON.StandardMaterial("mtl01", scene);
+        material.diffuseTexture = stoneDiffuseTexture;
+        material.bumpTexture = stoneNormalsHeightTexture;
+        material.useParallax = true;
+        material.useParallaxOcclusion = true;
+        material.parallaxScaleBias = 0.1;
+        material.specularPower = 1000.0;
+	    material.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+	    material.bumpTexture = normalsHeightTexture;
+	    material.useParallax = true;
+	    material.useParallaxOcclusion = true;
+        var box = BABYLON.Mesh.CreateBox("box", '1', scene);
+        box.position = new BABYLON.Vector3(0,15,5);
+        BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
+        box.material = material;
+		
+		// initialize plugin
+        const havokInstance = await HavokPhysics();
+        // pass the engine to the plugin
+        const hk = new BABYLON.HavokPlugin(true, havokInstance);
+        // enable physics in the scene with a gravity
+        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+        // Create a sphere shape and the associated body. Size will be determined automatically.
+        const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
+        // Create a static box shape.
+        const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+
+        // Configurações de luz e câmera
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
+        engine.onResizeObservable.add(() => { engine.resize(); });
+     	var xr =  scene.createDefaultXRExperienceAsync();
+
+        return scene;
+    }
+    async function run() {
+      const scene = await createScene();
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    }
+    run();
+  </script>
+</body>
+</html>
