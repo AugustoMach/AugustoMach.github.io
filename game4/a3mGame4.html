@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame4- Basquete - Tiro Livre x</title>
+  <title>a3mGame4-Basquete</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
    <style>	
     html, body {
       margin: 0;
@@ -30,11 +30,18 @@
 		// Som da torcida GOOL
 	    //const gol = new BABYLON.Sound("gol", "sons/gol1.wav", scene);
 		
+		// initialize plugin
+        const havokInstance = await HavokPhysics();
+        const hk = new BABYLON.HavokPlugin(true, havokInstance);
+        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+
         // Quadra
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/quadraBaskb.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 15, height: 12}, scene);
 		ground.material = grdMat;
+		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+
 		// Tabela
 		const tblMat = new BABYLON.StandardMaterial("tblMat");
         tblMat.diffuseTexture = new BABYLON.Texture("texturas/tabelaBask.png");
@@ -59,6 +66,7 @@
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0.5, 1.0, 0.5);
 		sphere.material = bolaMat;
+		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75  }, scene);
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
