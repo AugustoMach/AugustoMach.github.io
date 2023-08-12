@@ -5,7 +5,7 @@
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
-   <style>	
+  <style>	
     html, body {
       margin: 0;
       overflow: hidden;
@@ -25,13 +25,20 @@
         const scene = new BABYLON.Scene(engine);
  	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+
+		// Inicializa Physics
+        const havokInstance = await HavokPhysics();
+        const hk = new BABYLON.HavokPlugin(true, havokInstance);
+        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+	
 		// Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 20, height: 500}, scene);
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 50, height: 50}, scene);
         ground.material = grdMat;
-        ground.material.diffuseTexture.uScale = 2;
-        ground.material.diffuseTexture.vScale = 50;
+        ground.material.diffuseTexture.uScale = 5;
+        ground.material.diffuseTexture.vScale = 5;
+        const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 		
         // Dado	 
 	    var stoneDiff = "texturas/dadoD.png";
@@ -54,17 +61,7 @@
         box.position = new BABYLON.Vector3(0,15,5);
         BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
         box.material = material;
-		
-		// initialize plugin
-        const havokInstance = await HavokPhysics();
-        // pass the engine to the plugin
-        const hk = new BABYLON.HavokPlugin(true, havokInstance);
-        // enable physics in the scene with a gravity
-        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
-        // Create a sphere shape and the associated body. Size will be determined automatically.
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
-        // Create a static box shape.
-        const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
