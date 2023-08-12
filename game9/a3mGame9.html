@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame7-?????</title>
+  <title>a3mGame9-?????</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-   <style>	
+  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+  <style>	
     html, body {
       margin: 0;
       overflow: hidden;
@@ -22,15 +23,21 @@
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
         const scene = new BABYLON.Scene(engine);
- 	    // Som de fundo
+ 	    
+		// Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		
-        // Terra
-		const terraMat = new BABYLON.StandardMaterial("terra");
-        terraMat.diffuseTexture = new BABYLON.Texture("texturas/terra.jpg")
-        const terra = BABYLON.MeshBuilder.CreateSphere("terra", {diameter: 2.0, segments: 32}, scene);
-        terra.position = new BABYLON.Vector3(0, 1.0, 0);
-		terra.material = terraMat;
+		// inicializa Physics
+        const havokInstance = await HavokPhysics();
+        const hk = new BABYLON.HavokPlugin(true, havokInstance);
+        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+
+        // Chao
+        const grdMat = new BABYLON.StandardMaterial("grdMat");
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 46}, scene);
+		ground.material = grdMat;
+        const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
