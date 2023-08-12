@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame1 a- Futebol Society</title>
+  <title>a3mGame1-Futebol</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
   <style>	
     html, body {
       margin: 0;
@@ -22,19 +22,27 @@
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
-      const scene = new BABYLON.Scene(engine);
-	     // Som de fundo
+        const scene = new BABYLON.Scene(engine);
+	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Som do chute
 	    //const chute = new BABYLON.Sound("chute", "sons/chute1.wav", scene);
 		// Som da torcida GOOL
 	    //const gol = new BABYLON.Sound("gol", "sons/gol1.wav", scene);
 		
+		// initialize plugin
+        const havokInstance = await HavokPhysics();
+        const hk = new BABYLON.HavokPlugin(true, havokInstance);
+        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+
         // Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7a.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 46}, scene);
 		ground.material = grdMat;
+		// Agrega fisica ao Chao
+        const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+
 		// Goleira
 	    const myPath = [
 		 	new BABYLON.Vector3(-2, 0, 0),
@@ -46,12 +54,16 @@
 		tube1.position = new BABYLON.Vector3(0, 0, 22);
 		const tube2 = BABYLON.MeshBuilder.CreateTube("tube1", {path: myPath, radius: 0.1, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
 		tube2.position = new BABYLON.Vector3(0, 0, -22);
-        // Bola
+        
+		// Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaF1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.25, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, 0.1, 0);
 		sphere.material = bolaMat;
+		// Agrega fisica a bola
+        const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
+
 	    // Time A
 		const TAMat = new BABYLON.StandardMaterial("TAMat", scene);
 	    TAMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
@@ -82,8 +94,8 @@
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] /* Array of meshes to be used as landing points */
         });
-	  
-        // simulate a second floor
+		
+        //simulate a second floor
         const secondGround = ground.clone();
         secondGround.position.z = 10;
         secondGround.position.y = -3;
