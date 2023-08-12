@@ -4,7 +4,8 @@
   <title>a3mGame6-Planetas</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-   <style>	
+  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+  <style>	
     html, body {
       margin: 0;
       overflow: hidden;
@@ -25,12 +26,18 @@
  	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		
+		// initialize plugin
+        const havokInstance = await HavokPhysics();
+        const hk = new BABYLON.HavokPlugin(true, havokInstance);
+        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+
         // Terra
 		const terraMat = new BABYLON.StandardMaterial("terra");
         terraMat.diffuseTexture = new BABYLON.Texture("texturas/terra.jpg")
         const terra = BABYLON.MeshBuilder.CreateSphere("terra", {diameter: 2.0, segments: 32}, scene);
         terra.position = new BABYLON.Vector3(0, 1.0, 0);
 		terra.material = terraMat;
+        BABYLON.Animation.CreateAndStartAnimation('rotTerra', terra, 'rotation.y', 30, 120, 5, 0);  
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
