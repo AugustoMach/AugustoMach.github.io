@@ -22,8 +22,8 @@
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
-      const scene = new BABYLON.Scene(engine);
-	     // Som de fundo
+        const scene = new BABYLON.Scene(engine);
+	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Som do chute
 	    //const chute = new BABYLON.Sound("chute", "sons/chute1.wav", scene);
@@ -38,17 +38,17 @@
         // Quadra
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/quadraBask.png");
-        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 15, height: 24}, scene);
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 14, height: 27}, scene);
 		ground.material = grdMat;
-		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0 }, scene);
 
 		// Tabela
 		const tblMat = new BABYLON.StandardMaterial("tblMat");
         tblMat.diffuseTexture = new BABYLON.Texture("texturas/tabelaBask.png");
 		const plane = BABYLON.MeshBuilder.CreateBox("plane", {height:1.2, width: 1.8, depth: 0.05});
-		plane.position = new BABYLON.Vector3(0, 3.5, 4.5);
+		plane.position = new BABYLON.Vector3(0, 3.5, 12.5);
         plane.material = tblMat;
-		const planeAggregate = new BABYLON.PhysicsAggregate(plane, BABYLON.PhysicsShapeType.BOX, { mass: 0, restitution: 0.7 }, scene);
+		const planeAggregate = new BABYLON.PhysicsAggregate(plane, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0, restitution: 0.7 }, scene);
 
 		// Suporte
 	    const myPath = [
@@ -57,20 +57,24 @@
 			new BABYLON.Vector3(0, 3.5, 0)
 	    ];
 	    const suport = BABYLON.MeshBuilder.CreateTube("suport", {path: myPath, radius: 0.15, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-		suport.position = new BABYLON.Vector3(0, 0, 4.6);
+		suport.position = new BABYLON.Vector3(0, 0, 12.6);
 		// Aro
         const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.02, diameter: 0.45});
-		torus.position = new BABYLON.Vector3(0, 3.05, 4.2);
+		torus.position = new BABYLON.Vector3(0, 3.05, 12.2);
 		//const torusAggregate = new BABYLON.PhysicsAggregate(torus, BABYLON.PhysicsShapeType.TORUS, { mass: 0, restitution: 0.7 }, scene);
 
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0.5, 1.0, 0.5);
+        sphere.position = new BABYLON.Vector3(0.5, 3.0, 0.5);
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75  }, scene);
-
+        
+		//body.applyForce(
+        //  new BABYLON.Vector3(0, 10, 10), // direction and magnitude of the applied force
+        //  new BABYLON.Vector3(0, 0, 0)    // point in WORLD space where the force will be applied    
+       // );
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
