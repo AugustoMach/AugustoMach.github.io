@@ -41,28 +41,24 @@
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 		
         // Dado	 
-	    var stoneDiff = "texturas/dadoD.png";
-	    var stoneNorm = "texturas/dadoN.png";
-        var stoneDiffuseTexture = new BABYLON.Texture(stoneDiff, scene);
-        var stoneNormalsHeightTexture = new BABYLON.Texture(stoneNorm, scene);
-	    var normalsHeightTexture = stoneNormalsHeightTexture;
-        var material = new BABYLON.StandardMaterial("mtl01", scene);
-        material.diffuseTexture = stoneDiffuseTexture;
-        material.bumpTexture = stoneNormalsHeightTexture;
-        material.useParallax = true;
-        material.useParallaxOcclusion = true;
-        material.parallaxScaleBias = 0.1;
-        material.specularPower = 1000.0;
-	    material.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-	    material.bumpTexture = normalsHeightTexture;
-	    material.useParallax = true;
-	    material.useParallaxOcclusion = true;
-        var box = BABYLON.Mesh.CreateBox("box", '1', scene);
-        box.position = new BABYLON.Vector3(0,15,5);
-        BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
-        box.material = material;
+        const mat = new BABYLON.StandardMaterial("mat");
+        const texture = new BABYLON.Texture("texturas/dado.jpg");
+        mat.diffuseTexture = texture;
+        var columns = 6;
+        var rows = 1;
+        const faceUV = new Array(6);
+        for (let i = 0; i < 6; i++) {
+            faceUV[i] = new BABYLON.Vector4(i / columns, 0, (i + 1) / columns, 1 / rows);
+        }
+        const options = {
+           faceUV: faceUV,
+           wrap: true
+        };
+        const box = BABYLON.MeshBuilder.CreateBox("box", options);
+        box.material = mat;
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
-
+        box.position = new BABYLON.Vector3(0, 5, 0);
+		
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
