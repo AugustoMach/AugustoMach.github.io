@@ -56,8 +56,9 @@
         };
         const box = BABYLON.MeshBuilder.CreateBox("box", options);
         box.material = mat;
+	box.position = new BABYLON.Vector3(0, 15, 0);
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
-        box.position = new BABYLON.Vector3(0, 15, 0);
+
 		
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
