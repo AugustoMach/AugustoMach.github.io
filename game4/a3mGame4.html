@@ -49,7 +49,6 @@
 		plane.position = new BABYLON.Vector3(0, 3.5, 12.5);
         plane.material = tblMat;
 		const planeAggregate = new BABYLON.PhysicsAggregate(plane, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0, restitution: 0.7 }, scene);
-
 		// Suporte
 	    const myPath = [
 		 	new BABYLON.Vector3(0, 0, 3),
@@ -62,6 +61,26 @@
         const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.02, diameter: 0.45});
 		torus.position = new BABYLON.Vector3(0, 3.05, 12.2);
 		//const torusAggregate = new BABYLON.PhysicsAggregate(torus, BABYLON.PhysicsShapeType.TORUS, { mass: 0, restitution: 0.7 }, scene);
+
+		// Tabela
+		const tblMat1 = new BABYLON.StandardMaterial("tblMat1");
+        tblMat1.diffuseTexture = new BABYLON.Texture("texturas/tabelaBask.png");
+		const plane1 = BABYLON.MeshBuilder.CreateBox("plane1", {height:1.2, width: 1.8, depth: 0.05});
+		plane1.position = new BABYLON.Vector3(0, 3.5, -12.5);
+        plane1.material = tblMat1;
+		const plane1Aggregate = new BABYLON.PhysicsAggregate(plane1, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0, restitution: 0.7 }, scene);
+		// Suporte
+	    const myPath1 = [
+		 	new BABYLON.Vector3(0, 0, -3),
+			new BABYLON.Vector3(0, 3, -3),
+			new BABYLON.Vector3(0, 3.5, 0)
+	    ];
+	    const suport1 = BABYLON.MeshBuilder.CreateTube("suport1", {path: myPath1, radius: 0.15, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+		suport1.position = new BABYLON.Vector3(0, 0, -12.6);
+		// Aro
+        const torus1 = BABYLON.MeshBuilder.CreateTorus("torus1", {thickness: 0.02, diameter: 0.45});
+		torus1.position = new BABYLON.Vector3(0, 3.05, -12.2);
+		//const torus1Aggregate = new BABYLON.PhysicsAggregate(torus1, BABYLON.PhysicsShapeType.TORUS, { mass: 0, restitution: 0.7 }, scene);
 
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
@@ -78,6 +97,7 @@
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+		
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] /* Array of meshes to be used as landing points */
