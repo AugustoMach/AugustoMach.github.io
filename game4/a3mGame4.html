@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame4-Basquete</title>
+  <title>a3mGame4-Basquete1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -87,16 +87,16 @@
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 3.0, 0);
+        sphere.position = new BABYLON.Vector3(0, 2, 0);
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75  }, scene);
         var anguloDirecao = 90; // Em graus
         var anguloElevacao = 45; // Em graus
-        var velocidade = 30; // Unidades por segundo
+        var velocidade = 10; // Unidades por segundo
         var tempoDecorrido = 0;
         var tempoAcumulado= 0;
 	    var tempowait = 0;
-        var posicaoAtual = { x: 0, y: 0, z: 0 };
+        var posicaoAtual = { x: 0, y: 2, z: 0 };
 	    var ativarbola = true; 
  
 		//sphere.applyForce(
@@ -137,7 +137,7 @@
 				//if (tempowait-tempoDecorrido < 2) gatshot.play();
                 posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
 			}
-		    if (sphere.position.y < -.01){ 
+		    if (sphere.position.y < -.5){ 
               ativarbola =  true;						
               tempoAcumulado = 0;
 			  tempowait = 0;
