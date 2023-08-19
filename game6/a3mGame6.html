@@ -37,12 +37,13 @@
         const terra = BABYLON.MeshBuilder.CreateSphere("terra", {diameter: 2.0, segments: 32}, scene);
         terra.position = new BABYLON.Vector3(0, 1.0, 0);
 		terra.material = terraMat;
-        var earthAxis = new BABYLON.Vector3(Math.sin(23 * Math.PI/180), Math.cos(23 * Math.PI/180), 0);
+       
+/*	   var earthAxis = new BABYLON.Vector3(Math.sin(23 * Math.PI/180), Math.cos(23 * Math.PI/180), 0);
         var angle = 0.01;
         scene.registerBeforeRender(function() {
             terra.rotate(earthAxis, angle, BABYLON.Space.WORLD);
-        })
-        //BABYLON.Animation.CreateAndStartAnimation('rotTerra', terra, 'rotation.y', 20, 360, 0, 3.1416*2);  
+        })*/
+        BABYLON.Animation.CreateAndStartAnimation('rotTerra', terra, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
