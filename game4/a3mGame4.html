@@ -100,13 +100,13 @@
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
 		
 		// Shadows
-	    var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
-	    shadowGenerator.getShadowMap().renderList.push(sphere);
-	    shadowGenerator.useBlurExponentialShadowMap = true;
-        shadowGenerator.useKernelBlur = true;
-        shadowGenerator.blurKernel = 64;
+	  //  var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
+	  //  shadowGenerator.getShadowMap().renderList.push(sphere);
+	  //  shadowGenerator.useBlurExponentialShadowMap = true;
+       // shadowGenerator.useKernelBlur = true;
+        //shadowGenerator.blurKernel = 64;
 
-	    ground.receiveShadows = true;
+	   // ground.receiveShadows = true;
 	
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
