@@ -87,16 +87,16 @@
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 12, 0);
+        sphere.position = new BABYLON.Vector3(0, 2, 0);
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75  }, scene);
         var anguloDirecao = 90; // Em graus
         var anguloElevacao = 45; // Em graus
-        var velocidade = 12; // Unidades por segundo
+        var velocidade = 13; // Unidades por segundo
         var tempoDecorrido = 0;
         var tempoAcumulado= 0;
 	    var tempowait = 0;
-        var posicaoAtual = { x: 0, y: 12, z: 0 };
+        var posicaoAtual = { x: 0, y: 2, z: 0 };
 	    var ativarbola = true; 
  
 		//sphere.applyForce(
@@ -135,7 +135,7 @@
 		  	tempowait += tempoDecorrido;
 			if (tempowait > 2){
 				//if (tempowait-tempoDecorrido < 2) gatshot.play();
-                posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
+                posicaoAtual = calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido);
 			}
 		    if (sphere.position.y < 1 || sphere.position.z > 13){ 
               ativarbola =  true;						
