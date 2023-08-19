@@ -68,8 +68,9 @@
 		const plane1 = BABYLON.MeshBuilder.CreateBox("plane1", {height:1.2, width: 1.8, depth: 0.05});
 		plane1.position = new BABYLON.Vector3(0, 3.5, -12.5);
         plane1.material = tblMat1;
+		plane1.rotation = new BABYLON.Vector3(0, Math.PI, 0);
 		const plane1Aggregate = new BABYLON.PhysicsAggregate(plane1, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0, restitution: 0.7 }, scene);
-		// Suporte
+		// Suporte 
 	    const myPath1 = [
 		 	new BABYLON.Vector3(0, 0, -3),
 			new BABYLON.Vector3(0, 3, -3),
@@ -86,10 +87,18 @@
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0.5, 3.0, 0.5);
+        sphere.position = new BABYLON.Vector3(0, 3.0, 0);
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75  }, scene);
-        
+        var anguloDirecao = 90; // Em graus
+        var anguloElevacao = 45; // Em graus
+        var velocidade = 30; // Unidades por segundo
+        var tempoDecorrido = 0;
+        var tempoAcumulado= 0;
+	    var tempowait = 0;
+        var posicaoAtual = { x: 0, y: 0, z: 0 };
+	    var ativarbola = true; 
+ 
 		//sphere.applyForce(
         //  new BABYLON.Vector3(0, 10, 10), // direction and magnitude of the applied force
         //  new BABYLON.Vector3(0, 0, 0)    // point in WORLD space where the force will be applied    
@@ -119,6 +128,47 @@
         secondGround.material = grdMat;
         xr.teleportation.addFloorMesh(secondGround);
         xr.pointerSelection.attach();
+
+        scene.registerBeforeRender(function () {
+        if (ativarbola === true){
+            tempoDecorrido = engine.getDeltaTime() / 1000;
+		  	tempowait += tempoDecorrido;
+			if (tempowait > 2){
+				//if (tempowait-tempoDecorrido < 2) gatshot.play();
+                posicaoAtual = calcularProximoPasso(anguloDirecao,anguloElevacao, velocidade,tempoDecorrido);
+			}
+		    if (sphere.position.y < -.01){ 
+              ativarbola =  true;						
+              tempoAcumulado = 0;
+			  tempowait = 0;
+              posicaoAtual = { x: 0, y: 2, z: 0 }; 
+            };
+		    sphere.position.x = posicaoAtual.x;
+            sphere.position.y = posicaoAtual.y;
+            sphere.position.z = posicaoAtual.z;
+         }
+
+         function calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido) {
+            const g = 9.81; // Aceleração da gravidade em m/s^2
+            // Converter os ângulos de graus para radianos
+            anguloDirecao = (anguloDirecao * Math.PI) / 180;
+            anguloElevacao = (anguloElevacao * Math.PI) / 180;
+            // Calcular as componentes da velocidade em cada eixo
+            const Vx = velocidade * Math.cos(anguloElevacao) * Math.cos(anguloDirecao);
+            const Vy = velocidade * Math.sin(anguloElevacao);
+            const Vz = velocidade * Math.sin(anguloDirecao) * Math.cos(anguloElevacao);
+            var novaPosicao1 = { x: 0, y: 0, z: 0 };
+            tempoAcumulado += tempoDecorrido;
+            novaPosicao1 = {
+              x: Vx * tempoAcumulado,
+              y: Vy * tempoAcumulado -  0.5 * g *  tempoAcumulado * tempoAcumulado,
+              z: Vz * tempoAcumulado,
+            };
+            return novaPosicao1;
+          };
+          return false; // Não houve colisão nos três eixos
+        }
+	  });
 
         return scene;
     }
