@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame4-Basquete1</title>
+  <title>a3mGame4-Basquete</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -137,7 +137,7 @@
 				//if (tempowait-tempoDecorrido < 2) gatshot.play();
                 posicaoAtual = calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido);
 			}
-		    if (sphere.position.y < 1 || sphere.position.z > 13){ 
+		    if (sphere.position.y < 1){ 
               ativarbola =  true;						
               tempoAcumulado = 0;
 			  tempowait = 0;
