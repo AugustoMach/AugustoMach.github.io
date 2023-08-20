@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame4-Basquete1</title>
+  <title>a3mGame4-Basquete</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -104,9 +104,13 @@
         //  new BABYLON.Vector3(0, 0, 0)    // point in WORLD space where the force will be applied    
         // );
 	   
-        // Configurações de luz e câmera
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        // Configurações da luz  
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
+        light.intensity = 0.7;
+		// Configurações da câmera
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+		camera.setTarget(BABYLON.Vector3.Zero());
+        camera.attachControl(canvas, true);
 		
 		// Shadows
 	  //  var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
@@ -121,12 +125,7 @@
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] /* Array of meshes to be used as landing points */
         });		
-        //simulate a second floor
-        const secondGround = ground.clone();
-        secondGround.position.z = 10;
-        secondGround.position.y = -3;
-        secondGround.material = grdMat;
-        xr.teleportation.addFloorMesh(secondGround);
+        xr.teleportation.addFloorMesh(ground);
         xr.pointerSelection.attach();
 
         scene.registerBeforeRender(function () {
