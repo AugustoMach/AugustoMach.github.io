@@ -60,14 +60,13 @@
 		box.rotation = new BABYLON.Vector3(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
 
-        scene.onPointerObservable.add((pointerInfo) => {
-            switch (pointerInfo.type) {
-               case BABYLON.PointerEventTypes.POINTERTAP: 
-			      box.position = new BABYLON.Vector3(0, Math.random()*30+20, 0);
-		          box.rotation = new BABYLON.Vector3(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
-                 //const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
-			} 
-		});
+		box.actionManager = new BABYLON.ActionManager(scene);
+        box.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
+                function (evt) {
+                    const sourceBox = evt.meshUnderPointer;
+                    sourceBox.position.y += 1;
+         }));
 		
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
