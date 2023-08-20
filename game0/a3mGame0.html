@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame0-Dado1</title>
+  <title>a3mGame0-Dado</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -78,7 +78,6 @@
         camera.attachControl(canvas, true);
 
         engine.onResizeObservable.add(() => { engine.resize(); });
-     	var xr =  scene.createDefaultXRExperienceAsync();
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground]  
         });		
