@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame3-Drone</title>
+  <title>a3mGame3-PulaPula</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -36,25 +36,36 @@
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 		
         // Chao
-        //const grdMat = new BABYLON.StandardMaterial("grdMat");
-        //grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7a.png");
-		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chaoM1.png", {width:2000, height :2000, subdivisions: 200, maxHeight: 50});
-		//ground.material = grdMat;
+        const grdMat = new BABYLON.StandardMaterial("grdMat");
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 50, height: 50}, scene);
+        ground.material = grdMat;
+        ground.material.diffuseTexture.uScale = 5;
+        ground.material.diffuseTexture.vScale = 5;
+        const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
-        // Console Drone
-		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
-        bolaMat.diffuseTexture = new BABYLON.Texture("texturas/drone.png")
-        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 3, 0);
-		sphere.material = bolaMat;
+        // PulaPula
+        const ppMat = new BABYLON.StandardMaterial("ppMat");
+        ppMat.diffuseTexture = new BABYLON.Texture("texturas/pulapula.png");
+        const pp = BABYLON.MeshBuilder.CreateGround("pp", {width: 4, height: 4}, scene);
+        pp.material = ppMat;
+        const ppAggregate = new BABYLON.PhysicsAggregate(pp, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
-        // Configurações de luz e câmera
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+        // Configurações da luz  
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
+        light.intensity = 0.7;
+		// Configurações da câmera
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
+		camera.setTarget(BABYLON.Vector3.Zero());
+        camera.attachControl(canvas, true);
+
         engine.onResizeObservable.add(() => { engine.resize(); });
-        var xr =  scene.createDefaultXRExperienceAsync();
-
-      return scene;
+	    var xr = await scene.createDefaultXRExperienceAsync({
+          floorMeshes: [ground]  
+        });		
+        xr.teleportation.addFloorMesh(ground);
+        xr.pointerSelection.attach();
+        return scene;
     }
     async function run() {
       const scene = await createScene();
