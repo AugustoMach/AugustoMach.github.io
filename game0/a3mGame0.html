@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame0-Dado</title>
+  <title>a3mGame0-Dado2</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -56,16 +56,16 @@
         };
         const box = BABYLON.MeshBuilder.CreateBox("box", options);
         box.material = mat;
-        //box.position = new BABYLON.Vector3(0, Math.random()*30+20, 0);
-	box.rotation = new BABYLON.Vector3(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
-       // const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
+        box.position = new BABYLON.Vector3(0, Math.random()*30+20, 0);
+		box.rotation = new BABYLON.Vector3(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+        const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
 
 		box.actionManager = new BABYLON.ActionManager(scene);
         box.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
-                function (evt) {
+           new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
+                 function (evt) {
                     const sourceBox = evt.meshUnderPointer;
-                    sourceBox.position.y += 0.10;
+                    sourceBox.scale.y = .1;
          }));
 		
         // Configurações da luz  
