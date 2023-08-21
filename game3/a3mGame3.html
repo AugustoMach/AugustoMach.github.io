@@ -22,7 +22,7 @@
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
-      const scene = new BABYLON.Scene(engine);
+        const scene = new BABYLON.Scene(engine);
 	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Som do Motor Parado
@@ -47,10 +47,19 @@
         // PulaPula
         const ppMat = new BABYLON.StandardMaterial("ppMat");
         ppMat.diffuseTexture = new BABYLON.Texture("texturas/pulapula.png");
-        const pp = BABYLON.MeshBuilder.CreateGround("pp", {width: 4, height: 4}, scene);
+ 		var pp = BABYLON.Mesh.CreateBox("pp", '4', scene);
         pp.material = ppMat;
+		pp.position = new BABYLON.Vector3(0, -3, 0);
         const ppAggregate = new BABYLON.PhysicsAggregate(pp, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
+	    // Personagem
+		const pMat = new BABYLON.StandardMaterial("pMat", scene);
+	    pMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
+	    const capsuleP1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleP1", {height: 1.8, radius: 0.2}, scene)
+        capsuleP1.position = new BABYLON.Vector3(0, 2, 0);
+		capsuleP1.material = pMat;
+        const pAggregate = new BABYLON.PhysicsAggregate(capsuleP1, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.7 }, scene);
+		
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
