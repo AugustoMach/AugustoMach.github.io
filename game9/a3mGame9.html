@@ -39,11 +39,20 @@
 		ground.material = grdMat;
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
-        // Configurações de luz e câmera
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
+        // Configurações da luz  
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
+        light.intensity = 0.7;
+		// Configurações da câmera
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
+		camera.setTarget(BABYLON.Vector3.Zero());
+        camera.attachControl(canvas, true);
+
         engine.onResizeObservable.add(() => { engine.resize(); });
-     	var xr =  scene.createDefaultXRExperienceAsync();
+	    var xr = await scene.createDefaultXRExperienceAsync({
+          floorMeshes: [ground]  
+        });		
+        xr.teleportation.addFloorMesh(ground);
+        xr.pointerSelection.attach();
 
         return scene;
     }
