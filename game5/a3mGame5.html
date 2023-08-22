@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame5-Boliche1</title>
+  <title>a3mGame5-Boliche</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -38,7 +38,7 @@
         // Quadra
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/pistaBoliche.png");
-        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width:1.2, height:18}, scene);
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width:1.6, height:18}, scene);
 		ground.material = grdMat;
 		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
 
