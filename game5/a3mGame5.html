@@ -51,18 +51,18 @@
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass: 1, restitution: 0.75}, scene);
         
 		// Pino 50alt x 20meio x 7base 1m5kg  
-		//const pMat = new BABYLON.StandardMaterial("pMat", scene);
-	   // pMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
-	   // const pino1 = new BABYLON.MeshBuilder.CreateCylinder("pino1", {height:0.5, diameter:0.07}, scene)
-      //  pino1.position = new BABYLON.Vector3(0, 0.25, 8);
-		//pino1.material = pMat;
-		//const p1Aggregate = new BABYLON.PhysicsAggregate(p1, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pMat = new BABYLON.StandardMaterial("pMat", scene);
+	    pMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
+	    const pino1 = BABYLON.MeshBuilder.CreateCylinder("pino1", {height:0.5, diameter:0.1}, scene)
+        pino1.position = new BABYLON.Vector3(0, 0.25, 8);
+		pino1.material = pMat;
+		const p1Aggregate = new BABYLON.PhysicsAggregate(p1, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
     	
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
 		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.5, -8), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 
