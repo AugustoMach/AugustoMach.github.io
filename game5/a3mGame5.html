@@ -50,9 +50,9 @@
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:1, restitution:0.75}, scene);
         
-		sphere.applyForce(
+		sphere.applyImpulse(
            new BABYLON.Vector3(0, 0, 10), // direction and magnitude of the applied force
-           new BABYLON.Vector3(0, 0, 0)    // point in WORLD space where the force will be applied    
+           sphere.position                // point in WORLD space where the force will be applied    
         );
 		
 		
