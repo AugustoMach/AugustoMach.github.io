@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame5-Boliche</title>
+  <title>a3mGame5-Boliche1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -54,10 +54,38 @@
 		const pMat = new BABYLON.StandardMaterial("pMat", scene);
 	    pMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
 	    const pino1 = BABYLON.MeshBuilder.CreateCylinder("pino1", {height:0.5, diameter:0.1}, scene)
-        pino1.position = new BABYLON.Vector3(0, 0.25, 8);
+        pino1.position = new BABYLON.Vector3(0, 0.25, 6.5);
 		pino1.material = pMat;
 		const p1Aggregate = new BABYLON.PhysicsAggregate(pino1, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
     	
+		const pino2 = pino1.clone();
+        pino2.position = new BABYLON.Vector3(-.2, 0.25, 7);
+		const p2Aggregate = new BABYLON.PhysicsAggregate(pino2, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pino3 = pino1.clone();
+        pino3.position = new BABYLON.Vector3(.2, 0.25, 7);
+		const p3Aggregate = new BABYLON.PhysicsAggregate(pino3, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pino4 = pino1.clone();
+        pino4.position = new BABYLON.Vector3(-0.4, 0.25, 7.5);
+		const p4Aggregate = new BABYLON.PhysicsAggregate(pino4, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pino5 = pino1.clone();
+        pino5.position = new BABYLON.Vector3(0, 0.25, 7.5);
+		const p5Aggregate = new BABYLON.PhysicsAggregate(pino5, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pino6 = pino1.clone();
+        pino6.position = new BABYLON.Vector3(0.4, 0.25, 7.5);
+		const p6Aggregate = new BABYLON.PhysicsAggregate(pino6, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pino7 = pino1.clone();
+        pino7.position = new BABYLON.Vector3(-.6, 0.25, 8);
+		const p7Aggregate = new BABYLON.PhysicsAggregate(pino7, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pino8 = pino1.clone();
+        pino8.position = new BABYLON.Vector3(-.2, 0.25, 8);
+		const p8Aggregate = new BABYLON.PhysicsAggregate(pino8, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pino9 = pino1.clone();
+        pino9.position = new BABYLON.Vector3(.2, 0.25, 8);
+		const p9Aggregate = new BABYLON.PhysicsAggregate(pino9, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+		const pinoA = pino1.clone();
+        pinoA.position = new BABYLON.Vector3(.6, 0.25, 8);
+		const pAAggregate = new BABYLON.PhysicsAggregate(pinoA, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
+
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
