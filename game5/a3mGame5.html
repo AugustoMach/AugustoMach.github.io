@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame5-Boliche</title>
+  <title>a3mGame5-BolicheN</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -52,10 +52,10 @@
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:1, restitution:0.75}, scene);
         
-		sphere.applyImpulse(
-           new BABYLON.Vector3(0, 0, 10), // direction and magnitude of the applied force
-           sphere.position                // point in WORLD space where the force will be applied    
-        );
+		//sphere.applyImpulse(
+          // new BABYLON.Vector3(0, 0, 10), // direction and magnitude of the applied force
+          // sphere.position                // point in WORLD space where the force will be applied    
+        //);
 		
 		
 		// Pino 50alt x 20meio x 7base 1m5kg  
