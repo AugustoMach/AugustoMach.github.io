@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame5-Boliche2</title>
+  <title>a3mGame5-Boliche</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -46,7 +46,7 @@
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:0.25, segments:32}, scene);
-        sphere.position = new BABYLON.Vector3(0.5, 1.0, -8.1);
+        sphere.position = new BABYLON.Vector3(0, 1.0, -8.1);
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:1, restitution:0.75}, scene);
         
@@ -54,7 +54,7 @@
 		const pMat = new BABYLON.StandardMaterial("pMat", scene);
 	    pMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
 	    const pino1 = BABYLON.MeshBuilder.CreateCylinder("pino1", {height:0.5, diameter:0.1}, scene)
-        pino1.position = new BABYLON.Vector3(0, 0.25, -8);
+        pino1.position = new BABYLON.Vector3(0, 0.25, 8);
 		pino1.material = pMat;
 		const p1Aggregate = new BABYLON.PhysicsAggregate(pino1, BABYLON.PhysicsShapeType.BOX, { mass: 1 }, scene);
     	
