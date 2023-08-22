@@ -41,7 +41,7 @@
        // const ground = BABYLON.MeshBuilder.CreateGround("ground", {width:1.6, height:18}, scene);
 		var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 1.6, height: .1, depth:18 }, scene);
 		ground.material = grdMat;
-        ground.rotation.x = .01;
+        ground.rotation.x = .02;
 		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
 
         // Bola 2a7 kg 25cm
@@ -50,7 +50,7 @@
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:0.25, segments:32}, scene);
         sphere.position = new BABYLON.Vector3(0, 1.0, -8.1);
 		sphere.material = bolaMat;
-		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:1, restitution:0.75}, scene);
+		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:10, restitution:0.1}, scene);
         
 		//sphere.applyImpulse(
           // new BABYLON.Vector3(0, 0, 10), // direction and magnitude of the applied force
