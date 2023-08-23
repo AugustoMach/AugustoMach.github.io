@@ -42,13 +42,14 @@
         const aMat = new BABYLON.StandardMaterial("aMat");
         aMat.diffuseTexture = new BABYLON.Texture("texturas/alvo1.png");
 		const alvo = BABYLON.MeshBuilder.CreateDisc("alvo", {});
-		alvo.position = new BABYLON.Vector3(0, 1, 4);
+		alvo.position = new BABYLON.Vector3(0, 2, 4);
   		alvo.material = aMat;
         //const aAggregate = new BABYLON.PhysicsAggregate(alvo, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
       
 		// Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
+
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
            floorMeshes: [ground]  
