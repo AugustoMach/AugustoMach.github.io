@@ -36,7 +36,7 @@
 	const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
     sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
 
-  	var xr =  scene.createDefaultXRExperienceAsync({});
+  	var xr = await scene.createDefaultXRExperienceAsync({});
  
 	xr.input.onControllerAddedObservable.add((controller) => {
       controller.onMotionControllerInitObservable.add((motionController) => {
