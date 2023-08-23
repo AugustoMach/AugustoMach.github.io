@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teste Controles</title>
+  <title>Controles XR</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -18,26 +18,26 @@
 <body>
   <canvas id="renderCanvas"></canvas>
   <script>
-  const canvas = document.getElementById("renderCanvas");
-  const engine = new BABYLON.Engine(canvas, true);
-  async function createScene() {
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+    async function createScene() {
+
+    // This creates a basic Babylon Scene object (non-mesh)
     var scene = new BABYLON.Scene(engine);
-	
-	const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
-    sphere1.position = new BABYLON.Vector3(0, 1, 2);
 
-    // Esfera
-    const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
-    sphere.position = new BABYLON.Vector3(0, 1.5, 4);
+	const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
 
-    // Configurações de luz e câmera
-    const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+
+    // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
-    const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-    engine.onResizeObservable.add(() => { engine.resize(); });
+	
+	  const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
+      sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
 
-	var xr =  scene.createDefaultXRExperienceAsync({ });
-	  /*
+  	  var xr =  scene.createDefaultXRExperienceAsync({});
+/*
 	xr.input.onControllerAddedObservable.add((controller) => {
       controller.onMotionControllerInitObservable.add((motionController) => {
         if (motionController.handness === 'left') {
@@ -64,7 +64,26 @@
         }
       })
 	});
-*/
+	
+	*/
+
+      return scene;
+    }
+
+   // await xr.exitXRAsync();
+   async function run() {
+      const scene = await createScene();
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    }
+    run();
+  </script>
+</body>
+</html>
+	  
+
+
     return scene;
   }
    // await xr.exitXRAsync();
