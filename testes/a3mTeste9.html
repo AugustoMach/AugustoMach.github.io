@@ -29,13 +29,23 @@
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-
-    // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
 	
-	const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
-    sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
+	// Chao
+    const grdMat = new BABYLON.StandardMaterial("grdMat");
+    grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
+    const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 16}, scene);
+	ground.material = grdMat;
+	
+	const sphere = BABYLON.MeshBuilder.CreateSphere("sphere",{diameter:1,segments:32}, scene);
+    sphere.position = new BABYLON.Vector3(0, 1.5, 2);
 
+	var xr = await scene.createDefaultXRExperienceAsync({
+       floorMeshes: [ground]  
+    });		
+    xr.teleportation.addFloorMesh(ground);
+    xr.pointerSelection.attach();
+	  
   	var xr = await scene.createDefaultXRExperienceAsync({});
  
 	xr.input.onControllerAddedObservable.add((controller) => {
