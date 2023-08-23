@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Controles XR</title>
+  <title>Controles XR1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -33,11 +33,11 @@
     // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
 	
-	  const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
-      sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
+	const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
+    sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
 
-  	  var xr =  scene.createDefaultXRExperienceAsync({});
-/*
+  	var xr =  scene.createDefaultXRExperienceAsync({});
+ 
 	xr.input.onControllerAddedObservable.add((controller) => {
       controller.onMotionControllerInitObservable.add((motionController) => {
         if (motionController.handness === 'left') {
@@ -64,20 +64,17 @@
         }
       })
 	});
-	
-	*/
+    return scene;
+  }
 
-      return scene;
-    }
-
-   // await xr.exitXRAsync();
-   async function run() {
-      const scene = await createScene();
-      engine.runRenderLoop(() => {
-        scene.render();
-      });
-    }
-    run();
+  // await xr.exitXRAsync();
+  async function run() {
+    const scene = await createScene();
+    engine.runRenderLoop(() => {
+      scene.render();
+    });
+  }
+  run();
   </script>
 </body>
 </html>
