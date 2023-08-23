@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teste Ob2</title>
+  <title>Teste Controles</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -22,14 +22,21 @@
   const engine = new BABYLON.Engine(canvas, true);
   async function createScene() {
     var scene = new BABYLON.Scene(engine);
-	const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-    light.intensity = 0.7;
 	
-	const sphere = BABYLON.MeshBuilder.CreateSphere("sphere",{diameter:1,segments:32}, scene);
-    sphere.position = new BABYLON.Vector3(0, 0, 2);
-  	
-	var xr =  scene.createDefaultXRExperienceAsync({});
+	const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:1,segments:32}, scene);
+    sphere1.position = new BABYLON.Vector3(0, 1, 2);
+
+    // Esfera
+    const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.2, segments: 32}, scene);
+    sphere.position = new BABYLON.Vector3(0, 1.5, 4);
+
+    // Configurações de luz e câmera
+    const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    light.intensity = 0.7;
+    const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+    engine.onResizeObservable.add(() => { engine.resize(); });
+
+	var xr =  scene.createDefaultXRExperienceAsync({ });
 	  
 	xr.input.onControllerAddedObservable.add((controller) => {
       controller.onMotionControllerInitObservable.add((motionController) => {
@@ -39,7 +46,7 @@
           trigger0.onButtonStateChangedObservable.add(() => {
               if (trigger0.pressed) { sphere.position.y += .2; }
           });
-		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
+		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-squeeze
           trigger1.onButtonStateChangedObservable.add(() => {
               if (trigger1.pressed) { sphere.position.y -= .2; }
           });
@@ -50,7 +57,7 @@
           trigger0.onButtonStateChangedObservable.add(() => {
               if (trigger0.pressed) { sphere.position.y += .2; }
           });
-		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
+		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-squeeze
           trigger1.onButtonStateChangedObservable.add(() => {
               if (trigger1.pressed) { sphere.position.y -= .2; }
           });
@@ -60,15 +67,14 @@
 
     return scene;
   }
-
    // await xr.exitXRAsync();
-   async function run() {
-      const scene = await createScene();
-      engine.runRenderLoop(() => {
-        scene.render();
-      });
-    }
-    run();
+  async function run() {
+    const scene = await createScene();
+    engine.runRenderLoop(() => {
+      scene.render();
+    });
+  }
+  run();
   </script>
 </body>
 </html>
