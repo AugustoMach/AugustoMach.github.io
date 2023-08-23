@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teste Ob2</title>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+  <script>
+  const canvas = document.getElementById("renderCanvas");
+  const engine = new BABYLON.Engine(canvas, true);
+  async function createScene() {
+    var scene = new BABYLON.Scene(engine);
+	const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
+    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    light.intensity = 0.7;
+	
+	const sphere = BABYLON.MeshBuilder.CreateSphere("sphere",{diameter:1,segments:32}, scene);
+    sphere.position = new BABYLON.Vector3(0, 0, 2);
+  	
+	var xr =  scene.createDefaultXRExperienceAsync({});
+	  
+	xr.input.onControllerAddedObservable.add((controller) => {
+      controller.onMotionControllerInitObservable.add((motionController) => {
+        if (motionController.handness === 'left') {
+          const xr_ids = motionController.getComponentIds();		 
+		  let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+          trigger0.onButtonStateChangedObservable.add(() => {
+              if (trigger0.pressed) { sphere.position.y += .2; }
+          });
+		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
+          trigger1.onButtonStateChangedObservable.add(() => {
+              if (trigger1.pressed) { sphere.position.y -= .2; }
+          });
+        }
+		if (motionController.handness === 'right') {
+          const xr_ids = motionController.getComponentIds();		 
+		  let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+          trigger0.onButtonStateChangedObservable.add(() => {
+              if (trigger0.pressed) { sphere.position.y += .2; }
+          });
+		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
+          trigger1.onButtonStateChangedObservable.add(() => {
+              if (trigger1.pressed) { sphere.position.y -= .2; }
+          });
+        }
+      })
+	});
+
+    return scene;
+  }
+
+   // await xr.exitXRAsync();
+   async function run() {
+      const scene = await createScene();
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    }
+    run();
+  </script>
+</body>
+</html>
