@@ -42,7 +42,7 @@
 		
         // Dado	 
         const mat = new BABYLON.StandardMaterial("mat");
-        const texture = new BABYLON.Texture("texturas/dado.jpg");
+        const texture = new BABYLON.Texture("texturas/dado1.jpg");
         mat.diffuseTexture = texture;
         var columns = 6;
         var rows = 1;
@@ -66,7 +66,7 @@
                  function (evt) {
                     const sourceBox = evt.meshUnderPointer;
                     sourceBox.scale.y = .1;
-         }));
+        }));
 		
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
