@@ -35,7 +35,7 @@
 		const venMat = new BABYLON.StandardMaterial("ven");
         venMat.diffuseTexture = new BABYLON.Texture("texturas/venus.jpg")
         const ven = BABYLON.MeshBuilder.CreateSphere("ven", {diameter: 1.6, segments: 32}, scene);
-        ven.position = new BABYLON.Vector3(-2, 1.0, -2);
+        ven.position = new BABYLON.Vector3(-4, 1.0, -2);
 		ven.material = venMat;
 		BABYLON.Animation.CreateAndStartAnimation('venTerra', ven, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
@@ -51,7 +51,7 @@
 		const marMat = new BABYLON.StandardMaterial("mar");
         marMat.diffuseTexture = new BABYLON.Texture("texturas/marte.jpg")
         const mar = BABYLON.MeshBuilder.CreateSphere("mar", {diameter: 2.0, segments: 32}, scene);
-        mar.position = new BABYLON.Vector3(2, 1.0, 5);
+        mar.position = new BABYLON.Vector3(10, 1.0, 5);
 		mar.material = marMat;
 		BABYLON.Animation.CreateAndStartAnimation('marTerra', mar, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
@@ -59,7 +59,7 @@
 		const jupMat = new BABYLON.StandardMaterial("jup");
         jupMat.diffuseTexture = new BABYLON.Texture("texturas/jupiter.jpg")
         const jup = BABYLON.MeshBuilder.CreateSphere("jup", {diameter: 4.0, segments: 32}, scene);
-        jup.position = new BABYLON.Vector3(0, 2.0, 15);
+        jup.position = new BABYLON.Vector3(20, 2.0, 15);
 		jup.material = jupMat;
 		BABYLON.Animation.CreateAndStartAnimation('jupTerra', jup, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
@@ -67,13 +67,13 @@
 		const satMat = new BABYLON.StandardMaterial("sat");
         satMat.diffuseTexture = new BABYLON.Texture("texturas/saturno.jpg")
         const sat = BABYLON.MeshBuilder.CreateSphere("sat", {diameter: 3.0, segments: 32}, scene);
-        sat.position = new BABYLON.Vector3(3, 2.0, 20);
+        sat.position = new BABYLON.Vector3(-20, 2.0, 20);
 		sat.material = satMat;
        	BABYLON.Animation.CreateAndStartAnimation('satTerra', sat, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -10), scene);
         engine.onResizeObservable.add(() => { engine.resize(); });
      	var xr =  scene.createDefaultXRExperienceAsync();
 
