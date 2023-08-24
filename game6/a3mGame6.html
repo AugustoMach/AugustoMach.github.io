@@ -31,6 +31,13 @@
         const hk = new BABYLON.HavokPlugin(true, havokInstance);
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
+		// Sol
+		const solMat = new BABYLON.StandardMaterial("sol");
+        solMat.diffuseTexture = new BABYLON.Texture("texturas/sol.png")
+        const sol = BABYLON.MeshBuilder.CreateSphere("mer", {diameter: 10, segments: 32}, scene);
+        sol.position = new BABYLON.Vector3(4, 1.0, -15);
+		sol.material = solMat;
+
 		// Mercurio
 		const merMat = new BABYLON.StandardMaterial("mer");
         merMat.diffuseTexture = new BABYLON.Texture("texturas/mercurio.jpg")
@@ -95,9 +102,14 @@
 		ura.material = uraMat;
        	BABYLON.Animation.CreateAndStartAnimation('uraTerra', ura, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
-        // Configurações de luz e câmera
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 16, -10), scene);
+        // Configurações da luz  
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
+        light.intensity = 0.7;
+		// Configurações da câmera
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 15, -20), scene);
+		camera.setTarget(BABYLON.Vector3.Zero());
+        camera.attachControl(canvas, true);
+
         engine.onResizeObservable.add(() => { engine.resize(); });
      	var xr =  scene.createDefaultXRExperienceAsync();
 
