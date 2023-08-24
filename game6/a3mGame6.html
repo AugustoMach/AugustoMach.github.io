@@ -31,6 +31,14 @@
         const hk = new BABYLON.HavokPlugin(true, havokInstance);
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
+		// Mercurio
+		const venMat = new BABYLON.StandardMaterial("mer");
+        merMat.diffuseTexture = new BABYLON.Texture("texturas/mercurio.jpg")
+        const mer = BABYLON.MeshBuilder.CreateSphere("mer", {diameter: 1, segments: 32}, scene);
+        mer.position = new BABYLON.Vector3(4, 1.0, -4);
+		mer.material = merMat;
+		BABYLON.Animation.CreateAndStartAnimation('merTerra', mer, 'rotation.y', 20, 360, 0, 3.1416*2);  
+
 		// Venus
 		const venMat = new BABYLON.StandardMaterial("ven");
         venMat.diffuseTexture = new BABYLON.Texture("texturas/venus.jpg")
@@ -58,7 +66,7 @@
 		// Jupiter
 		const jupMat = new BABYLON.StandardMaterial("jup");
         jupMat.diffuseTexture = new BABYLON.Texture("texturas/jupiter.jpg")
-        const jup = BABYLON.MeshBuilder.CreateSphere("jup", {diameter: 4.0, segments: 32}, scene);
+        const jup = BABYLON.MeshBuilder.CreateSphere("jup", {diameter: 5.0, segments: 32}, scene);
         jup.position = new BABYLON.Vector3(20, 2.0, 15);
 		jup.material = jupMat;
 		BABYLON.Animation.CreateAndStartAnimation('jupTerra', jup, 'rotation.y', 20, 360, 0, 3.1416*2);  
@@ -66,10 +74,26 @@
 		// Saturno
 		const satMat = new BABYLON.StandardMaterial("sat");
         satMat.diffuseTexture = new BABYLON.Texture("texturas/saturno.jpg")
-        const sat = BABYLON.MeshBuilder.CreateSphere("sat", {diameter: 3.0, segments: 32}, scene);
+        const sat = BABYLON.MeshBuilder.CreateSphere("sat", {diameter: 4.0, segments: 32}, scene);
         sat.position = new BABYLON.Vector3(-20, 2.0, 20);
 		sat.material = satMat;
        	BABYLON.Animation.CreateAndStartAnimation('satTerra', sat, 'rotation.y', 20, 360, 0, 3.1416*2);  
+
+		// Netuno
+		const netMat = new BABYLON.StandardMaterial("net");
+        netMat.diffuseTexture = new BABYLON.Texture("texturas/netuno.jpg")
+        const net = BABYLON.MeshBuilder.CreateSphere("net", {diameter: 3.0, segments: 32}, scene);
+        net.position = new BABYLON.Vector3(-25, 2.0, 30);
+		net.material = satMat;
+       	BABYLON.Animation.CreateAndStartAnimation('netTerra', net, 'rotation.y', 20, 360, 0, 3.1416*2);  
+
+		// Urano
+		const uraMat = new BABYLON.StandardMaterial("ura");
+        uraMat.diffuseTexture = new BABYLON.Texture("texturas/urano.jpg")
+        const ura = BABYLON.MeshBuilder.CreateSphere("ura", {diameter: 3.0, segments: 32}, scene);
+        ura.position = new BABYLON.Vector3(30, 2.0, 40);
+		ura.material = uraMat;
+       	BABYLON.Animation.CreateAndStartAnimation('uraTerra', ura, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
