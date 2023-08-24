@@ -32,7 +32,7 @@
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
 		// Mercurio
-		const venMat = new BABYLON.StandardMaterial("mer");
+		const merMat = new BABYLON.StandardMaterial("mer");
         merMat.diffuseTexture = new BABYLON.Texture("texturas/mercurio.jpg")
         const mer = BABYLON.MeshBuilder.CreateSphere("mer", {diameter: 1, segments: 32}, scene);
         mer.position = new BABYLON.Vector3(4, 1.0, -4);
@@ -84,7 +84,7 @@
         netMat.diffuseTexture = new BABYLON.Texture("texturas/netuno.jpg")
         const net = BABYLON.MeshBuilder.CreateSphere("net", {diameter: 3.0, segments: 32}, scene);
         net.position = new BABYLON.Vector3(-25, 2.0, 30);
-		net.material = satMat;
+		net.material = netMat;
        	BABYLON.Animation.CreateAndStartAnimation('netTerra', net, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
 		// Urano
@@ -97,7 +97,7 @@
 
         // Configurações de luz e câmera
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -10), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 16, -10), scene);
         engine.onResizeObservable.add(() => { engine.resize(); });
      	var xr =  scene.createDefaultXRExperienceAsync();
 
