@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame9-Avião1</title>
+  <title>a3mGame9-Avião</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -35,7 +35,7 @@
 		// Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1F.png");
-	const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chao1B.png", {width:1000, height :1000, subdivisions: 200, maxHeight: 50});
+		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chao1B.png", {width:1000, height:1000, subdivisions:200, maxHeight:80});
         ground.material = grdMat;
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
