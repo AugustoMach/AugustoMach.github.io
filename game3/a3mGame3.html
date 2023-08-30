@@ -47,7 +47,7 @@
         // PulaPula
         const ppMat = new BABYLON.StandardMaterial("ppMat");
         ppMat.diffuseTexture = new BABYLON.Texture("texturas/pulapula.jpg");
- 		var pp = BABYLON.Mesh.CreateBox("pp", {width: 4, height: 1, depth: 4}, scene);
+ 		var pp = BABYLON.MeshBuilder.CreateBox("pp", {width: 4, height: 1, depth: 4}, scene);
         pp.material = ppMat;
 		pp.position = new BABYLON.Vector3(-2, 0, -2);
         const ppAggregate = new BABYLON.PhysicsAggregate(pp, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
