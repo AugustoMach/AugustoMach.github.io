@@ -46,10 +46,10 @@
 
         // PulaPula
         const ppMat = new BABYLON.StandardMaterial("ppMat");
-        ppMat.diffuseTexture = new BABYLON.Texture("texturas/pulapula.png");
+        ppMat.diffuseTexture = new BABYLON.Texture("texturas/pulapula.jpg");
  		var pp = BABYLON.Mesh.CreateBox("pp", '4', scene);
         pp.material = ppMat;
-		pp.position = new BABYLON.Vector3(0, -3, 0);
+		pp.position = new BABYLON.Vector3(-2, -2, 0);
         const ppAggregate = new BABYLON.PhysicsAggregate(pp, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
 	    // Personagem
