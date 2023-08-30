@@ -49,7 +49,7 @@
         ppMat.diffuseTexture = new BABYLON.Texture("texturas/pulapula.jpg");
  		var pp = BABYLON.Mesh.CreateBox("pp", '4', scene);
         pp.material = ppMat;
-		pp.position = new BABYLON.Vector3(-2, -2, 0);
+		pp.position = new BABYLON.Vector3(-2, -2, -3);
         const ppAggregate = new BABYLON.PhysicsAggregate(pp, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
 	    // Personagem
