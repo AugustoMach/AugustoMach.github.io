@@ -42,16 +42,16 @@
         ground.material = grdMat;
         ground.material.diffuseTexture.uScale = 5;
         ground.material.diffuseTexture.vScale = 5;
-        //const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+        const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
-        // PulaPula
+        /* PulaPula
         const ppMat = new BABYLON.StandardMaterial("ppMat");
         ppMat.diffuseTexture = new BABYLON.Texture("texturas/pulapula.jpg");
  		var pp = BABYLON.MeshBuilder.CreateBox("pp", {width: 4.0, height: 0.2, depth: 4.0}, scene);
         pp.material = ppMat;
 		pp.position = new BABYLON.Vector3(-2, 1, -2);
         const ppAggregate = new BABYLON.PhysicsAggregate(pp, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
-
+*/
 	    // Personagem
 		const pMat = new BABYLON.StandardMaterial("pMat", scene);
 	    pMat.emissiveColor = new BABYLON.Color3(1, 0, ,0);
