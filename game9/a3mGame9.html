@@ -41,7 +41,7 @@
 	    
 	  // Bola
       const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 0.5, segments: 32}, scene);
-      sphere1.position = new BABYLON.Vector3(500, 10, 0);
+      sphere1.position = new BABYLON.Vector3(20, 10, 0);
       const bolaAggregate = new BABYLON.PhysicsAggregate(sphere1, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
 
       // Configurações da luz  
