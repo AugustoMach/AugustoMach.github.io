@@ -37,7 +37,7 @@
       grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1F.png");
       const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chao1B.png", {width:1000, height:1000, subdivisions:200, maxHeight:80});
       ground.material = grdMat;
-      const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+      const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.MESH, { mass: 0 }, scene);
 	    
 	  // Bola
       const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 5, segments: 32}, scene);
