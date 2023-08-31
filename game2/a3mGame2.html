@@ -38,7 +38,7 @@
       // Chao
       const grdMat = new BABYLON.StandardMaterial("grdMat");
       grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-      const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 16}, scene);
+      const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 50, height: 50}, scene);
 	  ground.material = grdMat;
       const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
@@ -53,16 +53,20 @@
 	  // Alvos
 	  const TAMat = new BABYLON.StandardMaterial("TAMat", scene);
 	  TAMat.emissiveColor = new BABYLON.Color3(1, 0, 1);
-	  const capsuleA1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA1", {height: 1.8, radius: 0.2}, scene)
+	  const capsuleA1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA1", {height: 1.8, radius: 0.5}, scene)
       capsuleA1.position = new BABYLON.Vector3(-1, 0.9, 10);
 	  capsuleA1.material = TAMat;
-	  const capsuleA2 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA2", {height: 1.8, radius: 0.2}, scene)
+      BABYLON.Animation.CreateAndStartAnimation('boxposition1', capsuleA1, 'position.x', 20, 80, -10, 10);  
+
+	  const capsuleA2 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA2", {height: 1.8, radius: 0.5}, scene)
       capsuleA2.position = new BABYLON.Vector3(1, 0.9, 10);
 	  capsuleA2.material = TAMat;
+	  BABYLON.Animation.CreateAndStartAnimation('boxposition2', capsuleA2, 'position.x', 20, 150, 15, -15);  
 
       // Configurações da luz  
       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
       light.intensity = 0.7;
+	  
 	  // Configurações da câmera
       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
 	  camera.setTarget(BABYLON.Vector3.Zero());
