@@ -38,12 +38,19 @@
 		const ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("gdhm", "texturas/chao1B.png", {width:1000, height:1000, subdivisions:200, maxHeight:80});
         ground.material = grdMat;
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+	  // Bola
+	  const bolaMat = new BABYLON.StandardMaterial("bolaMat");
+      bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaF1.png")
+      const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 0.5, segments: 32}, scene);
+      sphere1.position = new BABYLON.Vector3(500, 10, 0);
+	  sphere1.material = bolaMat;
+      const bolaAggregate = new BABYLON.PhysicsAggregate(sphere1, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
 
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
 		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 30, -220), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 
