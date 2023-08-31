@@ -44,8 +44,8 @@
         // Rampa
 		var ground1 = BABYLON.MeshBuilder.CreateBox("ground1", {width: 1.6, height: .1, depth:2 }, scene);
 		ground1.material = grdMat;
-        ground1.rotation.x = .2;
-		ground1.position = new BABYLON.Vector3(0, 0.2, -10);
+		ground1.rotation.x = .4;
+		ground1.position = new BABYLON.Vector3(0, 0.4, -9.8);
 		const ground1Aggregate = new BABYLON.PhysicsAggregate(ground1, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
 
         // Bola 2a7 kg 25cm
