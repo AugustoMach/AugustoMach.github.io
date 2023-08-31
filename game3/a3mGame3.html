@@ -49,14 +49,14 @@
         ppMat.diffuseTexture = new BABYLON.Texture("texturas/pulapula.jpg");
  		var pp = BABYLON.MeshBuilder.CreateBox("pp", {width: 4, height: 0.2, depth: 4}, scene);
         pp.material = ppMat;
-		pp.position = new BABYLON.Vector3(0, 1, 0);
+		pp.position = new BABYLON.Vector3(0, 0, 1);
         const ppAggregate = new BABYLON.PhysicsAggregate(pp, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
  
 	    // Personagem
 		const pMat = new BABYLON.StandardMaterial("pMat", scene);
 	    pMat.emissiveColor = new BABYLON.Color3(0, 1, 0);
 	    const capsuleP1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleP1", {height: 1.8, radius: 0.2}, scene)
-        capsuleP1.position = new BABYLON.Vector3(0, 5, 0);
+        capsuleP1.position = new BABYLON.Vector3(0, 10, 0);
 		capsuleP1.material = pMat;
         const pAggregate = new BABYLON.PhysicsAggregate(capsuleP1, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.8 }, scene);
 		
