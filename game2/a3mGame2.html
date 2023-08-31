@@ -78,6 +78,23 @@
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 		
+		  			var particleSystem = new BABYLON.ParticleSystem("particles", 500, scene);
+			particleSystem.particleTexture = new BABYLON.Texture("/texturas/flare.png", scene);
+			particleSystem.emitter = new BABYLON.Vector3(0, 0, 10); // the starting location
+			particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+			particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+			particleSystem.colorDead = new BABYLON.Color4(0, 0, 0.2, 0.0);
+			particleSystem.minSize = 0.1;
+			particleSystem.maxSize = 0.5;
+			particleSystem.minLifeTime = 0.3;
+			particleSystem.maxLifeTime = 1.5;
+			particleSystem.emitRate = 1000;
+			particleSystem.createPointEmitter(new BABYLON.Vector3(-7, 8, 3), new BABYLON.Vector3(7, 8, -3));
+			particleSystem.minEmitPower = 1;
+			particleSystem.maxEmitPower = 3;
+			particleSystem.updateSpeed = 0.005;
+			//particleSystem.stop();
+		
 		scene.registerBeforeRender(function () {
          if (ativarbola === true){
             tempoDecorrido = engine.getDeltaTime() / 1000;
