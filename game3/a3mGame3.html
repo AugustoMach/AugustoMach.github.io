@@ -67,7 +67,9 @@
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
-
+        scene.registerBeforeRender(function () {
+           camera.position = capsuleP1.position;
+        });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground]  
