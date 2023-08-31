@@ -52,7 +52,7 @@
 
 		// Alvos
 		const TAMat = new BABYLON.StandardMaterial("TAMat", scene);
-	    TAMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
+	    TAMat.emissiveColor = new BABYLON.Color3(1, 0, 1);
 	    const capsuleA1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA1", {height: 1.8, radius: 0.2}, scene)
         capsuleA1.position = new BABYLON.Vector3(-1, 0.9, 10);
 		capsuleA1.material = TAMat;
