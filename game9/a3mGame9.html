@@ -40,8 +40,8 @@
       const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 	    
 	  // Bola
-      const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 0.5, segments: 32}, scene);
-      sphere1.position = new BABYLON.Vector3(0, 10, 0);
+      const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 5, segments: 32}, scene);
+      sphere1.position = new BABYLON.Vector3(0, 100, 0);
       const bolaAggregate = new BABYLON.PhysicsAggregate(sphere1, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
 
       // Configurações da luz  
