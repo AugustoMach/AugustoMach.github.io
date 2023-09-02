@@ -21,6 +21,11 @@
   <script>
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
+	function atiraDado(){
+	  box.position = new BABYLON.Vector3(0, Math.random()*30+20, 0);
+	  box.rotation = new BABYLON.Vector3(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+      return true;
+	}
     async function createScene() {
         const scene = new BABYLON.Scene(engine);
  	    // Som de fundo
@@ -56,8 +61,7 @@
         };
         const box = BABYLON.MeshBuilder.CreateBox("box", options);
         box.material = mat;
-        box.position = new BABYLON.Vector3(0, Math.random()*30+20, 0);
-		box.rotation = new BABYLON.Vector3(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+		atiraDado;
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
 
 		box.actionManager = new BABYLON.ActionManager(scene);
