@@ -48,7 +48,7 @@
 		const plane = BABYLON.MeshBuilder.CreateBox("plane", {height:1.2, width: 1.8, depth: 0.05});
 		plane.position = new BABYLON.Vector3(0, 3.5, 12.5);
         plane.material = tblMat;
-		const planeAggregate = new BABYLON.PhysicsAggregate(plane, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0, restitution: 0.7 }, scene);
+		const planeAggregate = new BABYLON.PhysicsAggregate(plane, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0}, scene);
 		// Suporte
 	    const myPath = [
 		 	new BABYLON.Vector3(0, 0, 3),
@@ -60,7 +60,7 @@
 		// Aro
         const torus = BABYLON.MeshBuilder.CreateTorus("torus", {thickness: 0.02, diameter: 0.45});
 		torus.position = new BABYLON.Vector3(0, 3.05, 12.2);
-		//const torusAggregate = new BABYLON.PhysicsAggregate(torus, BABYLON.PhysicsShapeType.TORUS, { mass: 0, restitution: 0.7 }, scene);
+		//const torusAggregate = new BABYLON.PhysicsAggregate(torus, BABYLON.PhysicsShapeType.TORUS, { friction: 0.2, mass: 0 }, scene);
 
 		// Tabela
 		const tblMat1 = new BABYLON.StandardMaterial("tblMat1");
@@ -69,7 +69,7 @@
 		plane1.position = new BABYLON.Vector3(0, 3.5, -12.5);
         plane1.material = tblMat1;
 		plane1.rotation = new BABYLON.Vector3(0, Math.PI, 0);
-		const plane1Aggregate = new BABYLON.PhysicsAggregate(plane1, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0, restitution: 0.7 }, scene);
+		const plane1Aggregate = new BABYLON.PhysicsAggregate(plane1, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0 }, scene);
 		// Suporte 
 	    const myPath1 = [
 		 	new BABYLON.Vector3(0, 0, -3),
@@ -81,7 +81,7 @@
 		// Aro
         const torus1 = BABYLON.MeshBuilder.CreateTorus("torus1", {thickness: 0.02, diameter: 0.45});
 		torus1.position = new BABYLON.Vector3(0, 3.05, -12.2);
-		//const torus1Aggregate = new BABYLON.PhysicsAggregate(torus1, BABYLON.PhysicsShapeType.TORUS, { mass: 0, restitution: 0.7 }, scene);
+		//const torus1Aggregate = new BABYLON.PhysicsAggregate(torus1, BABYLON.PhysicsShapeType.TORUS, { friction: 0.2, mass: 0 }, scene);
 
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
@@ -89,9 +89,9 @@
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, .2, 0);
 		sphere.material = bolaMat;
-		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75  }, scene);
+		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.5  }, scene);
  
- 		bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 5, 8), sphere.getAbsolutePosition());     	
+ 		bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 8, 12), sphere.getAbsolutePosition());     	
 	   
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
