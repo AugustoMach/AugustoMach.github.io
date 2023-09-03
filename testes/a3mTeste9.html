@@ -34,7 +34,7 @@
 	// Chao
     const grdMat = new BABYLON.StandardMaterial("grdMat");
     grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-    const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 16}, scene);
+    const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 30, height: 30}, scene);
 	ground.material = grdMat;
 	
 	const sphere = BABYLON.MeshBuilder.CreateSphere("sphere",{diameter:1,segments:32}, scene);
@@ -46,7 +46,15 @@
     xr.teleportation.addFloorMesh(ground);
     xr.pointerSelection.attach();
 	  
-  	var xr = await scene.createDefaultXRExperienceAsync({});
+  	const xrCamera = new WebXRCamera("camVr", scene, xr);
+ 
+    xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
+      xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
+        xr.baseExperience.camera.position.x = sphere.position.x
+        xr.baseExperience.camera.position.y = sphere.position.y
+        xr.baseExperience.camera.position.z = sphere.position.z
+      })
+    })
  
 	xr.input.onControllerAddedObservable.add((controller) => {
       controller.onMotionControllerInitObservable.add((motionController) => {
@@ -78,13 +86,13 @@
   }
 
   // await xr.exitXRAsync();
-  async function run() {
-    const scene = await createScene();
-    engine.runRenderLoop(() => {
-      scene.render();
-    });
-  }
-  run();
+    async function run() {
+      const scene = await createScene();
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    }
+    run();
   </script>
 </body>
 </html>
