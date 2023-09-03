@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Controles XR</title>
+  <title>Controles XR1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -46,7 +46,7 @@
     xr.teleportation.addFloorMesh(ground);
     xr.pointerSelection.attach();
 	  
-  	const xrCamera = new WebXRCamera("camVr", scene, xr);
+  //	const xrCamera = new WebXRCamera("camVr", scene, xr);
  
     xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
       xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
@@ -54,9 +54,9 @@
         xr.baseExperience.camera.position.y = sphere.position.y;
         xr.baseExperience.camera.position.z = sphere.position.z;
       })
-    });
+    })
  
-/*	xr.input.onControllerAddedObservable.add((controller) => {
+	xr.input.onControllerAddedObservable.add((controller) => {
       controller.onMotionControllerInitObservable.add((motionController) => {
         if (motionController.handness === 'left') {
           const xr_ids = motionController.getComponentIds();		 
@@ -81,7 +81,8 @@
           });
         }
       });
-	});*/
+	});
+	
     return scene;
     }
 
