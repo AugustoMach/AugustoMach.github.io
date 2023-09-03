@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teste3 mesh</title>
+  <title>Teste3 Pirata</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -154,8 +154,18 @@
       BABYLON.SceneLoader.ImportMesh("", "glb/pirata/", "pirateFort.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
         var hero1 = newMeshes[0];
         //Scale the model down        
-        hero1.scaling.scaleInPlace(0.1);
-		hero1.position.z = 15;
+        hero1.scaling.scaleInPlace(0.8);
+		hero1.position.z = 150;
+        //Get the Samba animation Group
+        //const sambaAnim = scene.getAnimationGroupByName("Samba");
+        //sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
+       });
+	   		  // Load hero character and play animation
+      BABYLON.SceneLoader.ImportMesh("", "glb/pirata/", "cannon.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+        var hero2 = newMeshes[0];
+        //Scale the model down        
+        hero2.scaling.scaleInPlace(0.8);
+		hero2.position.z = 0;
         //Get the Samba animation Group
         //const sambaAnim = scene.getAnimationGroupByName("Samba");
         //sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
