@@ -86,7 +86,7 @@
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:10, restitution:0.5}, scene);
 
-	    bolaAggregate.body.applyImpulse(new BABYLON.Vector3(-.35, 20, 30), sphere.getAbsolutePosition());     	
+	    bolaAggregate.body.applyImpulse(new BABYLON.Vector3(-.35, 20, 50), sphere.getAbsolutePosition());     	
 
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
