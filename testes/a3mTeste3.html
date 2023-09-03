@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teste3 Pirata</title>
+  <title>Teste3 Piratas</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -155,7 +155,7 @@
         var hero1 = newMeshes[0];
         //Scale the model down        
         hero1.scaling.scaleInPlace(0.8);
-		hero1.position = new BABYLON.Vector3(17, 1, 20);
+		hero1.position = new BABYLON.Vector3(17.5, .6, 20);
         //Get the Samba animation Group
         //const sambaAnim = scene.getAnimationGroupByName("Samba");
         //sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
@@ -185,13 +185,12 @@
               tempoAcumulado = 0;
 			  tempowait = 0;
               posicaoAtual = { x: 0, y: 0, z: 0 }; 
-			  
             };
 			if(sphere.position.y > 2){
 			  particleSystem.stop();
 			}
 		    sphere.position.x = posicaoAtual.x;
-            sphere.position.y = posicaoAtual.y;
+            sphere.position.y = posicaoAtual.y+.5;
             sphere.position.z = posicaoAtual.z;
          }
 		 var cubo1 = { position: { x: 0, y: 0, z: 0 }, scaling: { x: 2, y: 2, z: 2 } };
