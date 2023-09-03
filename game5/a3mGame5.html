@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame5-BolicheV</title>
+  <title>a3mGame5-Boliche</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -96,8 +96,7 @@
 		camera.setTarget(new BABYLON.Vector3(0, 0.5, 8));
         camera.attachControl(canvas, true);
 	    scene.registerBeforeRender(function () {
-			if (sphere.position.y < 0){sphere.position = new BABYLON.Vector3(0.3, 1, -8.7); 
-
+			if (sphere.position.y < 0){sphere.position = new BABYLON.Vector3(0.3, 1, -8.7);} 
  	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
