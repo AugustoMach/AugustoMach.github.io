@@ -57,13 +57,13 @@
     killBox.visibility = 0;
 
     //Load the tower assets
-    const pirateFortImport = await BABYLON.SceneLoader.ImportMeshAsync("", "https://models.babylonjs.com/pirateFort/", "pirateFort.glb", scene);
+    const pirateFortImport = await BABYLON.SceneLoader.ImportMeshAsync("", "glb/forte/", "pirateFort.glb", scene);
     pirateFortImport.meshes[0].name = "pirateFort"
     scene.getMeshByName("sea").material.needDepthPrePass = true;
     scene.getLightByName("Sun").intensity = 12;
 
     //Load the cannon model and create clones
-    const cannonImportResult = await BABYLON.SceneLoader.ImportMeshAsync("", "https://models.babylonjs.com/pirateFort/", "cannon.glb", scene);
+    const cannonImportResult = await BABYLON.SceneLoader.ImportMeshAsync("", "glb/forte/", "cannon.glb", scene);
     //remove the top level root node
     var cannon = cannonImportResult.meshes[0].getChildren()[0];
     cannon.setParent(null);
