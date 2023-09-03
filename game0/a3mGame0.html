@@ -72,7 +72,9 @@
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
-
+	    scene.registerBeforeRender(function () {
+			if (box.position.y < 0){box.position = new BABYLON.Vector3(0, .5, 0);} 
+ 	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground]  
@@ -86,11 +88,7 @@
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
                 if (trigger0.pressed && box.position.y < 1) { 
-				    if (box.position.y < 0){
-					   box.position = new BABYLON.Vector3(0, 5, 0); 
-					}else{
-				       boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 3, .01), box.getAbsolutePosition()); 
-				    }
+				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 3, .01), box.getAbsolutePosition()); 
 				}
               });
             }
