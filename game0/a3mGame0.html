@@ -21,11 +21,7 @@
   <script>
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
-	function atiraDado(){
-	  box.position = new BABYLON.Vector3(0, Math.random()*30+20, 0);
-	  box.rotation = new BABYLON.Vector3(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
-      return true;
-	}
+
     async function createScene() {
         const scene = new BABYLON.Scene(engine);
  	    // Som de fundo
@@ -61,9 +57,9 @@
         };
         const box = BABYLON.MeshBuilder.CreateBox("box", options);
         box.material = mat;
-		box.position = new BABYLON.Vector3(0, .5, 0);
+		box.position = new BABYLON.Vector3(0, 5, 0);
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
-		boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 10, 0), box.getAbsolutePosition());     	
+//		boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 10, 0), box.getAbsolutePosition());     	
 	
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
@@ -73,7 +69,7 @@
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 	    scene.registerBeforeRender(function () {
-			if (box.position.y < 0){box.position = new BABYLON.Vector3(0, .5, 0);} 
+			if (box.position.y < 0){box.position = new BABYLON.Vector3(0, 5, 0);} 
  	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
@@ -88,7 +84,7 @@
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
                 if (trigger0.pressed && box.position.y < 1) { 
-				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 3, .01), box.getAbsolutePosition()); 
+				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 1, .01), box.getAbsolutePosition()); 
 				}
               });
             }
