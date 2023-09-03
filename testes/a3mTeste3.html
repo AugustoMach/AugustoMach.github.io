@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teste3 Pirata</title>
+  <title>Teste3 Pirata1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -130,7 +130,7 @@
 			particleSystem.updateSpeed = 0.005;
 			//particleSystem.stop();
 
-      var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
+      var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: .2, segments: 16}, scene);
       var anguloDirecao = 90; // Em graus
       var anguloElevacao = 45; // Em graus
       var velocidade = 30; // Unidades por segundo
@@ -155,7 +155,7 @@
         var hero1 = newMeshes[0];
         //Scale the model down        
         hero1.scaling.scaleInPlace(0.8);
-	hero1.position = new BABYLON.Vector3(15, 2.5, 20);
+		hero1.position = new BABYLON.Vector3(15, 2.5, 20);
         //Get the Samba animation Group
         //const sambaAnim = scene.getAnimationGroupByName("Samba");
         //sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
