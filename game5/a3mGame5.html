@@ -108,7 +108,13 @@
               const xr_ids = motionController.getComponentIds();		 
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
-                if (trigger0.pressed) { bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, .08, 1.2), sphere.getAbsolutePosition()); }
+                if (trigger0.pressed) { 
+					if (sphere.position.y < 0){
+					   sphere.position = new BABYLON.Vector3(0.3, 1, -8.7); 
+					}else{
+                       bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, .08, 1.2), sphere.getAbsolutePosition()); 
+					}
+				}
               });
             }
           })
