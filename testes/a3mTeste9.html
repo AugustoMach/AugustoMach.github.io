@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Controles XR1</title>
+  <title>Controles XR</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -50,9 +50,9 @@
  
     xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
       xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
-        xr.baseExperience.camera.position.x = sphere.position.x
-        xr.baseExperience.camera.position.y = sphere.position.y
-        xr.baseExperience.camera.position.z = sphere.position.z
+        xr.baseExperience.camera.position.x = sphere.position.x;
+        xr.baseExperience.camera.position.y = sphere.position.y;
+        xr.baseExperience.camera.position.z = sphere.position.z;
       })
     });
  
