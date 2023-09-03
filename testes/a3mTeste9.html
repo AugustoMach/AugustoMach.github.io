@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Controles XR</title>
+  <title>Controles XR1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -54,7 +54,7 @@
         xr.baseExperience.camera.position.y = sphere.position.y
         xr.baseExperience.camera.position.z = sphere.position.z
       })
-    })
+    });
  
 	xr.input.onControllerAddedObservable.add((controller) => {
       controller.onMotionControllerInitObservable.add((motionController) => {
@@ -80,12 +80,13 @@
               if (trigger1.pressed) { sphere.position.y -= .2; }
           });
         }
-      })
+      });
 	});
     return scene;
-  }
+    }
 
-  // await xr.exitXRAsync();
+    // await xr.exitXRAsync();
+   
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
