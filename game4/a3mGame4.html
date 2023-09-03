@@ -90,26 +90,15 @@
         sphere.position = new BABYLON.Vector3(0, 2, 0);
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75  }, scene);
-        var anguloDirecao = 90; // Em graus
-        var anguloElevacao = 45; // Em graus
-        var velocidade = 13; // Unidades por segundo
-        var tempoDecorrido = 0;
-        var tempoAcumulado= 0;
-	    var tempowait = 0;
-        var posicaoAtual = { x: 0, y: 4, z: 0 };
-	    var ativarbola = true; 
  
-		//sphere.applyForce(
-        //  new BABYLON.Vector3(0, 10, 10), // direction and magnitude of the applied force
-        //  new BABYLON.Vector3(0, 0, 0)    // point in WORLD space where the force will be applied    
-        // );
+ 		bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 10, 8), sphere.getAbsolutePosition());     	
 	   
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
 		// Configurações da câmera
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -2), scene);
-		camera.setTarget(new BABYLON.Vector3(0, 1.6, 0));
+		camera.setTarget(new BABYLON.Vector3(0, 2, 0));
         camera.attachControl(canvas, true);
 		
 		// Shadows
@@ -129,43 +118,7 @@
         xr.pointerSelection.attach();
 
         scene.registerBeforeRender(function () {
-        if (ativarbola === true){
-            tempoDecorrido = engine.getDeltaTime() / 1000;
-		  	tempowait += tempoDecorrido;
-			if (tempowait > 2){
-				//if (tempowait-tempoDecorrido < 2) gatshot.play();
-                posicaoAtual = calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido);
-			}
-		    if (posicaoAtual.y < 0){ 
-              ativarbola =  true;						
-              tempoAcumulado = 0;
-			  tempowait = 0;
-              posicaoAtual = { x: 0, y: 2, z: 0 }; 
-            };
-		    sphere.position.x = posicaoAtual.x;
-            sphere.position.y = posicaoAtual.y;
-            sphere.position.z = posicaoAtual.z;
-         }
-
-         function calcularProximoPasso(anguloDirecao, anguloElevacao, velocidade, tempoDecorrido) {
-            const g = 9.81; // Aceleração da gravidade em m/s^2
-            // Converter os ângulos de graus para radianos
-            anguloDirecao = (anguloDirecao * Math.PI) / 180;
-            anguloElevacao = (anguloElevacao * Math.PI) / 180;
-            // Calcular as componentes da velocidade em cada eixo
-            const Vx = velocidade * Math.cos(anguloElevacao) * Math.cos(anguloDirecao);
-            const Vy = velocidade * Math.sin(anguloElevacao);
-            const Vz = velocidade * Math.sin(anguloDirecao) * Math.cos(anguloElevacao);
-            var novaPosicao1 = { x: 0, y: 0, z: 0 };
-            tempoAcumulado += tempoDecorrido;
-            novaPosicao1 = {
-              x: Vx * tempoAcumulado,
-              y: Vy * tempoAcumulado -  0.5 * g *  tempoAcumulado * tempoAcumulado,
-              z: Vz * tempoAcumulado,
-            };
-            return novaPosicao1;
-          };
-	  });
+	    });
 
         return scene;
     }
