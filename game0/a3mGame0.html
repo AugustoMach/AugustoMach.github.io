@@ -63,17 +63,8 @@
         box.material = mat;
 		box.position = new BABYLON.Vector3(0, .5, 0);
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
-		boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 10, 5), box.getAbsolutePosition());     	
-		
-
-//		box.actionManager = new BABYLON.ActionManager(scene);
-//        box.actionManager.registerAction(
-//		new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
- //                function (evt) {
-//                    const sourceBox = evt.meshUnderPointer;
- //                   sourceBox.scale.y = .1;
- //       }));
-		
+		boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 10, 0), box.getAbsolutePosition());     	
+	
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
@@ -94,7 +85,7 @@
               const xr_ids = motionController.getComponentIds();		 
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
-                if (trigger0.pressed) { boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 10, 5), box.getAbsolutePosition()); }
+                if (trigger0.pressed) { boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, .3, .01), box.getAbsolutePosition()); }
               });
             }
           })
