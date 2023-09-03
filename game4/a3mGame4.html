@@ -69,7 +69,7 @@
 		plane1.position = new BABYLON.Vector3(0, 3.5, -12.5);
         plane1.material = tblMat1;
 		plane1.rotation = new BABYLON.Vector3(0, Math.PI, 0);
-		const plane1Aggregate = new BABYLON.PhysicsAggregate(plane1, BABYLON.PhysicsShapeType.BOX, { friction: 0.2, mass: 0 }, scene);
+		const plane1Aggregate = new BABYLON.PhysicsAggregate(plane1, BABYLON.PhysicsShapeType.BOX, { friction: 0.4, mass: 0 }, scene);
 		// Suporte 
 	    const myPath1 = [
 		 	new BABYLON.Vector3(0, 0, -3),
@@ -89,7 +89,7 @@
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
         sphere.position = new BABYLON.Vector3(0, .2, 0);
 		sphere.material = bolaMat;
-		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.3 }, scene);
+		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.2 }, scene);
  
  		bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 8, 12), sphere.getAbsolutePosition());     	
 	   
@@ -122,7 +122,9 @@
               const xr_ids = motionController.getComponentIds();		 
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
-                if (trigger0.pressed) { bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, .08, .12), sphere.getAbsolutePosition()); }
+                if (trigger0.pressed && box.position.y < 1) { 
+				    bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 9, 11), sphere.getAbsolutePosition()); 
+				}				
               });
             }
           })
