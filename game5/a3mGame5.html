@@ -41,12 +41,6 @@
 		var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 1.6, height: .1, depth:18 }, scene);
 		ground.material = grdMat;
 		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
-        // Rampa
-		var ground1 = BABYLON.MeshBuilder.CreateBox("ground1", {width: 1.6, height: .1, depth:2 }, scene);
-		ground1.material = grdMat;
-		ground1.rotation.x = .4;
-		ground1.position = new BABYLON.Vector3(0, 0.4, -9.8);
-		const ground1Aggregate = new BABYLON.PhysicsAggregate(ground1, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
     
 		// Pino 50alt x 20meio x 7base 1m5kg  
 		const pMat = new BABYLON.StandardMaterial("pMat", scene);
@@ -88,7 +82,7 @@
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:0.25, segments:32}, scene);
-        sphere.position = new BABYLON.Vector3(0.1, 1, -9.9);
+        sphere.position = new BABYLON.Vector3(0.3, 1, -8.7);
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:10, restitution:0.5}, scene);
 
