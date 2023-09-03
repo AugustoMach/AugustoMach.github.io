@@ -86,7 +86,11 @@
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
                 if (trigger0.pressed && box.position.y < 1) { 
-				    boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 3, .01), box.getAbsolutePosition()); 
+				    if (box.position.y < 0){
+					   box.position = new BABYLON.Vector3(0, 5, 0); 
+					}else{
+				       boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 3, .01), box.getAbsolutePosition()); 
+				    }
 				}
               });
             }
