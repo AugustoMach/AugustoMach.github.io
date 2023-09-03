@@ -114,7 +114,17 @@
         });
         xr.teleportation.addFloorMesh(ground);
         xr.pointerSelection.attach();
-
+		xr.input.onControllerAddedObservable.add((controller) => {
+          controller.onMotionControllerInitObservable.add((motionController) => {
+ 		    if (motionController.handness === 'right') {
+              const xr_ids = motionController.getComponentIds();		 
+              let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+              trigger0.onButtonStateChangedObservable.add(() => {
+                if (trigger0.pressed) { bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, .12), sphere.getAbsolutePosition()); }
+              });
+            }
+          })
+ 	    });
         return scene;
     }
     async function run() {
