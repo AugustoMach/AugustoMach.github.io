@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame5-Boliche</title>
+  <title>a3mGame5-BolicheV</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -84,7 +84,7 @@
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:0.25, segments:32}, scene);
         sphere.position = new BABYLON.Vector3(0.3, 1, -8.7);
 		sphere.material = bolaMat;
-		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:10, restitution:0.5}, scene);
+		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, {mass:1, restitution:0.25}, scene);
 
 	    bolaAggregate.body.applyImpulse(new BABYLON.Vector3(-.35, 20, 50), sphere.getAbsolutePosition());     	
 
@@ -95,7 +95,10 @@
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.5, -10), scene);
 		camera.setTarget(new BABYLON.Vector3(0, 0.5, 8));
         camera.attachControl(canvas, true);
+	    scene.registerBeforeRender(function () {
+			if (sphere.position.y < 0){sphere.position = new BABYLON.Vector3(0.3, 1, -8.7); 
 
+ 	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground]  
@@ -109,11 +112,7 @@
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
                 if (trigger0.pressed) { 
-					if (sphere.position.y < 0){
-					   sphere.position = new BABYLON.Vector3(0.3, 1, -8.7); 
-					}else{
-                       bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, .08, 1.2), sphere.getAbsolutePosition()); 
-					}
+                   bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, 2), sphere.getAbsolutePosition()); 
 				}
               });
             }
