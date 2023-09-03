@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teste3 tele</title>
+  <title>Teste3 mesh</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -97,7 +97,6 @@
       box.position = new BABYLON.Vector3(-2,.5,15);
       BABYLON.Animation.CreateAndStartAnimation('boxposition', box, 'position.z', 30, 120, 15, 0);  
       box.material = material;
-
 	
       const sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1",{diameter:.5,segments:32}, scene);
       sphere1.position = new BABYLON.Vector3(0, 1.5, 2);
@@ -149,6 +148,17 @@
         //Get the Samba animation Group
         const sambaAnim = scene.getAnimationGroupByName("Samba");
         sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
+       });
+	
+		  // Load hero character and play animation
+      BABYLON.SceneLoader.ImportMesh("", "glb/pirata/", "pirateFort.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+        var hero1 = newMeshes[0];
+        //Scale the model down        
+        hero1.scaling.scaleInPlace(0.1);
+		hero1.position.z = 15;
+        //Get the Samba animation Group
+        //const sambaAnim = scene.getAnimationGroupByName("Samba");
+        //sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
        });
 	
       scene.registerBeforeRender(function () {
