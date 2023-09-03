@@ -72,7 +72,20 @@
 	  camera.setTarget(BABYLON.Vector3.Zero());
       camera.attachControl(canvas, true);
 	
+	  /*The function that runs to determine the behavior of the reticle.*/
+      function castRay(){
+        var ray = scene.activeCamera.getForwardRay(); //to use with createDefaultVRExperience()
+        var hit = scene.pickWithRay(ray);
+        if (hit.pickedMesh){
+            //reticle.material.emissiveColor = BABYLON.Color3.Green();
+            hit.pickedMesh.scaling.y += 0.1;
+        }
+        else{
+            //reticle.material.emissiveColor = BABYLON.Color3.Red();
+        }
+      }
 	  scene.registerBeforeRender(function () {
+	     castRay();
  	  });
       engine.onResizeObservable.add(() => { engine.resize(); });
 	  var xr = await scene.createDefaultXRExperienceAsync({
