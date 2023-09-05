@@ -8,7 +8,6 @@
     <!-- Babylon.js -->
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
-    <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
 
     <style>
       html,
@@ -46,7 +45,7 @@
          groundMaterial.diffuseTexture.vScale = 6;
          groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
          ground.material = groundMaterial;
-      };
+      }
 	  
 	  const createScene = async function () {
         const scene = new BABYLON.Scene(engine);
@@ -64,7 +63,7 @@
         createGround();
 		// GUI
 		//var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-        var plane = BABYLON.Mesh.CreatePlane("plane", 1);
+        var plane = BABYLON.MeshBuilder.CreatePlane("plane", 1);
         plane.position = new BABYLON.Vector3(1.4, 1.5, 0.4)
         var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
         var panel = new BABYLON.GUI.StackPanel();
@@ -140,7 +139,7 @@
         picker.height = "350px";
         picker.width = "350px";
         picker.onValueChangedObservable.add(function(value) {
-          sphere.material.diffuseColor.copyFrom(value);
+         // sphere.material.diffuseColor.copyFrom(value);
         });
         panel.addControl(picker);
 		
