@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teste Ob2</title>
+  <title>Teste VR</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -66,6 +66,7 @@
     const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
 
     engine.onResizeObservable.add(() => { engine.resize(); });
+	
 	var xr = await scene.createDefaultXRExperienceAsync({
         floorMeshes: [ground]  
     });		
@@ -74,9 +75,9 @@
 
 	xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
       xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
-        xr.baseExperience.camera.position.x = capsuleP1.position.x;
-        xr.baseExperience.camera.position.y = capsuleP1.position.y;
-        xr.baseExperience.camera.position.z = capsuleP1.position.z;
+        xr.baseExperience.camera.position.x +=0;
+       // xr.baseExperience.camera.position.y = capsuleP1.position.y;
+       // xr.baseExperience.camera.position.z = capsuleP1.position.z;
       })
     })	
 	
