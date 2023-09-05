@@ -71,6 +71,14 @@
     });		
     xr.teleportation.addFloorMesh(ground);
     xr.pointerSelection.attach();
+
+	xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
+      xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
+        xr.baseExperience.camera.position.x = capsuleP1.position.x;
+        xr.baseExperience.camera.position.y = capsuleP1.position.y;
+        xr.baseExperience.camera.position.z = capsuleP1.position.z;
+      })
+    })	
 	
     //controller input
     xr.input.onControllerAddedObservable.add((controller) => {
