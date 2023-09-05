@@ -37,13 +37,13 @@
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
         // Chao
-		var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 50, height: .01, depth:50 }, scene);
+		var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 50, height: .1, depth:50 }, scene);
 		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
 
         // Quadra
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/pistaBoliche.png");
-		var ground1 = BABYLON.MeshBuilder.CreateBox("ground1", {width: 1.6, height: .1, depth:18 }, scene);
+		var ground1 = BABYLON.MeshBuilder.CreateBox("ground1", {width: 1.6, height: .2, depth:18 }, scene);
 		ground1.material = grdMat;
 		const groundAggregate = new BABYLON.PhysicsAggregate(ground1, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
  
