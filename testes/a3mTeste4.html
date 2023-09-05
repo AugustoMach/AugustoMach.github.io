@@ -41,7 +41,7 @@
       sphere.position = new BABYLON.Vector3(0, 5, 0);
       const sphereAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.75 }, scene);
 	  // BOX
-      const box = BABYLON.MeshBuilder.CreateSphere("box", {width: 1, height: 1, depth:1}, scene);
+      const box = BABYLON.MeshBuilder.CreateBox("box", {width: 1, height: 1, depth:1}, scene);
       box.position = new BABYLON.Vector3(-2, 5, 0);
       const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
 
