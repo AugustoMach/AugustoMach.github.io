@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <title>Entrada-Dados GUI</title>
+    <title>EntradaDados GUI</title>
 
     <!-- Babylon.js -->
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
@@ -62,12 +62,12 @@
 		
         createGround();
 		// GUI
-		//var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-        var plane = BABYLON.MeshBuilder.CreatePlane("plane", 1);
-        plane.position = new BABYLON.Vector3(1.4, 1.5, 0.4)
-        var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
-        var panel = new BABYLON.GUI.StackPanel();
-        advancedTexture.addControl(panel);
+		var plane = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+       // var plane = BABYLON.MeshBuilder.CreatePlane("plane", {height:2, width: 2});
+      //  plane.position = new BABYLON.Vector3(1.4, 1.5, 0.4)
+      //  var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
+      //  var panel = new BABYLON.GUI.StackPanel();
+      //  advancedTexture.addControl(panel);
 
         var header = new BABYLON.GUI.TextBlock();
         header.text = "Color GUI";
