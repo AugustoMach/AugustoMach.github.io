@@ -55,7 +55,7 @@
         camera.attachControl(canvas, true);
 		
 	    scene.registerBeforeRender(function () {
-			if (box.position.y < 1) {box.position = new BABYLON.Vector3(0, 1, 0);} 
+			if (box.position.y < 1) {box.position.y = 3;} 
  	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
