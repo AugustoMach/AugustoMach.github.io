@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame6-Planetas</title>
+  <title>Planetas</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -30,6 +30,20 @@
         const havokInstance = await HavokPhysics();
         const hk = new BABYLON.HavokPlugin(true, havokInstance);
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
+
+     /*   t0=1391016;d0=0;r0=10;t0=0;
+        t1=4880;d1=57.9;r1=10;t1=0.24;
+        t2=12104;d2=108.2;r2=5832;t2=0.67;
+        t3=12756;d3=149.6;r3=24;t3=1;
+        t4=6794;d4=227.9;r4=24;t4=1.88;
+        t5=143000;d5=778.3;r5=10;t5=11.86;
+        t6=120000;d6=1430;r6=10;t6=29.5;
+        t7=51000;d7=2870;r7=17;t7=84;
+        t8=49500;d8=4500;r8=16;t8=164;*/
+
+		// Nave
+        const nav = BABYLON.MeshBuilder.CreateSphere("nav", {diameter: 1, segments: 32}, scene);
+        nav.position = new BABYLON.Vector3(4, 10, -25);
 
 		// Sol
 		const solMat = new BABYLON.StandardMaterial("sol");
@@ -111,8 +125,43 @@
         camera.attachControl(canvas, true);
 
         engine.onResizeObservable.add(() => { engine.resize(); });
-     	var xr =  scene.createDefaultXRExperienceAsync();
 
+	var xr = await scene.createDefaultXRExperienceAsync();		
+
+    xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
+      xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
+        xr.baseExperience.camera.position.x = nave.position.x;
+        xr.baseExperience.camera.position.y = nave.position.y;
+        xr.baseExperience.camera.position.z = nave.position.z;
+      })
+    })
+ 
+	xr.input.onControllerAddedObservable.add((controller) => {
+      controller.onMotionControllerInitObservable.add((motionController) => {
+        if (motionController.handness === 'left') {
+          const xr_ids = motionController.getComponentIds();		 
+		  let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+          trigger0.onButtonStateChangedObservable.add(() => {
+              if (trigger0.pressed) { nav.position.y += .2; }
+          });
+		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-squeeze
+          trigger1.onButtonStateChangedObservable.add(() => {
+              if (trigger1.pressed) { nav.position.y -= .2; }
+          });
+        }
+		if (motionController.handness === 'right') {
+          const xr_ids = motionController.getComponentIds();		 
+		  let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+          trigger0.onButtonStateChangedObservable.add(() => {
+              if (trigger0.pressed) { nav.position.y += 1; }
+          });
+		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-squeeze
+          trigger1.onButtonStateChangedObservable.add(() => {
+              if (trigger1.pressed) { nav.position.y -= 1; }
+          });
+        }
+      });
+	});
         return scene;
     }
     async function run() {
