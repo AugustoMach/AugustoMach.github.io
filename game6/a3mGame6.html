@@ -4,7 +4,6 @@
   <title>Planetas</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
   <style>	
     html, body {
       margin: 0;
@@ -26,11 +25,6 @@
  	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		
-		// initialize plugin
-        const havokInstance = await HavokPhysics();
-        const hk = new BABYLON.HavokPlugin(true, havokInstance);
-        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
-
      /*   t0=1391016;d0=0;r0=10;t0=0;
         t1=4880;d1=57.9;r1=10;t1=0.24;
         t2=12104;d2=108.2;r2=5832;t2=0.67;
