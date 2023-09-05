@@ -126,7 +126,7 @@
     async function run() {
       const scene = await createScene();
 	  engine.runRenderLoop(function () {
-        if(gameOver) { scene.dispose(); }
+        if(gameOver) { scene.dispose(); gameOver = false; scene = await createScene(); }
         else  { scene.render(); }
       });
     }
