@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WebXR Fisica</title>
+  <title>Fisica</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -55,7 +55,7 @@
         camera.attachControl(canvas, true);
 		
 	    scene.registerBeforeRender(function () {
-			if (box.position.y < 1) {box.position = new BABYLON.Vector3(0, 5, 0);} 
+			if (box.position.y < 1) {box.position = new BABYLON.Vector3(0, 1, 0);} 
  	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
