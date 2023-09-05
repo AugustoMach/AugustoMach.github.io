@@ -36,13 +36,18 @@
         const hk = new BABYLON.HavokPlugin(true, havokInstance);
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
+        // Chao
+		var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 50, height: .01, depth:50 }, scene);
+		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
+
         // Quadra
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/pistaBoliche.png");
-		var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 1.6, height: .1, depth:18 }, scene);
-		ground.material = grdMat;
-		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
-    
+		var ground1 = BABYLON.MeshBuilder.CreateBox("ground1", {width: 1.6, height: .1, depth:18 }, scene);
+		ground1.material = grdMat;
+		const groundAggregate = new BABYLON.PhysicsAggregate(ground1, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
+ 
+   
 		// Pino 50alt x 20meio x 7base 1m5kg  
 		const pMat = new BABYLON.StandardMaterial("pMat", scene);
 	    pMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
@@ -103,9 +108,9 @@
  	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
-          floorMeshes: [ground]  
+          floorMeshes: [ground1]  
         });		
-        xr.teleportation.addFloorMesh(ground);
+        xr.teleportation.addFloorMesh(ground1);
         xr.pointerSelection.attach();
 		xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
