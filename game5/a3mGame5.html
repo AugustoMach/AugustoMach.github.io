@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame5-Boliche</title>
+  <title>a3mGame5-Bolichex</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -37,8 +37,8 @@
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
 
         // Chao
-		var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 50, height: .1, depth:50 }, scene);
-		const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
+	//	var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 50, height: .1, depth:50 }, scene);
+	//	const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, {mass:0}, scene);
 
         // Quadra
         const grdMat = new BABYLON.StandardMaterial("grdMat");
