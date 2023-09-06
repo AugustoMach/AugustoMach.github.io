@@ -89,7 +89,7 @@
               trigger0.onButtonStateChangedObservable.add(() => {
                 if (trigger0.pressed && box.position.y < 1) { 
 				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 1, .01), box.getAbsolutePosition()); 
-				   box1Aggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 1,2, .01), box1.getAbsolutePosition()); 
+				   box1Aggregate.body.applyImpulse(new BABYLON.Vector3(0, 1.2, 0), box1.getAbsolutePosition()); 
 				}
               });
             }
