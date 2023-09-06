@@ -57,9 +57,13 @@
         };
         const box = BABYLON.MeshBuilder.CreateBox("box", options);
         box.material = mat;
-		box.position = new BABYLON.Vector3(0, 5, 0);
+		box.position = new BABYLON.Vector3(-2, 5, 0);
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
 //		boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 10, 0), box.getAbsolutePosition());     	
+        const box1 = BABYLON.MeshBuilder.CreateBox("box1", options);
+        box1.material = mat;
+		box1.position = new BABYLON.Vector3(2, 5, 0);
+        const box1Aggregate = new BABYLON.PhysicsAggregate(box1, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.8 }, scene);
 	
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
@@ -85,6 +89,7 @@
               trigger0.onButtonStateChangedObservable.add(() => {
                 if (trigger0.pressed && box.position.y < 1) { 
 				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 1, .01), box.getAbsolutePosition()); 
+				   box1Aggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 1,2, .01), box1.getAbsolutePosition()); 
 				}
               });
             }
