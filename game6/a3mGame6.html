@@ -24,7 +24,9 @@
         const scene = new BABYLON.Scene(engine);
  	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
-		
+		var t[10] = {5,12,13,7,143,120,51,49};
+		var d[10] = {58,108,150,228,778,1430,2870,4500};
+		var a[10] = {"mercurio","venus","terra","marte","jupiter","saturno","netuno","urano"};
      /*   t0=1391016;d0=0;r0=10;t0=0;
         t1=4880;d1=57.9;r1=10;t1=0.24;
         t2=12104;d2=108.2;r2=5832;t2=0.67;
@@ -42,14 +44,23 @@
 		// Sol
 		const solMat = new BABYLON.StandardMaterial("sol");
         solMat.diffuseTexture = new BABYLON.Texture("texturas/sol.png")
-        const sol = BABYLON.MeshBuilder.CreateSphere("mer", {diameter: 10, segments: 32}, scene);
-        sol.position = new BABYLON.Vector3(4, 1.0, -15);
+        const sol = BABYLON.MeshBuilder.CreateSphere("sol", {diameter: t[0]/150 , segments: 32}, scene);
+        sol.position = new BABYLON.Vector3(0, 0, 0);
 		sol.material = solMat;
 
-		// Mercurio
+        for (let i=1; i<9; i++)
+		{
+		   txtMat[i] = new BABYLON.StandardMaterial("txt");
+           txtMat[i].diffuseTexture = new BABYLON.Texture("texturas/"+a[i]+".jpg")
+           planeta[i] = BABYLON.MeshBuilder.CreateSphere("planeta", {diameter: t[i]/30, segments: 32}, scene);
+           planeta[i].position = new BABYLON.Vector3(0, 0, d[i]/30+t[0]/300);
+	       planeta[i].material = txtMat[i];
+		   BABYLON.Animation.CreateAndStartAnimation('planeta', planeta[i], 'rotation.y', 20, 360, 0, 3.1416*2);  
+		}		
+	/*	// Mercurio
 		const merMat = new BABYLON.StandardMaterial("mer");
         merMat.diffuseTexture = new BABYLON.Texture("texturas/mercurio.jpg")
-        const mer = BABYLON.MeshBuilder.CreateSphere("mer", {diameter: 1, segments: 32}, scene);
+        const mer = BABYLON.MeshBuilder.CreateSphere("mer", {diameter: t[1], segments: 32}, scene);
         mer.position = new BABYLON.Vector3(4, 1.0, -4);
 		mer.material = merMat;
 		BABYLON.Animation.CreateAndStartAnimation('merTerra', mer, 'rotation.y', 20, 360, 0, 3.1416*2);  
@@ -57,7 +68,7 @@
 		// Venus
 		const venMat = new BABYLON.StandardMaterial("ven");
         venMat.diffuseTexture = new BABYLON.Texture("texturas/venus.jpg")
-        const ven = BABYLON.MeshBuilder.CreateSphere("ven", {diameter: 1.6, segments: 32}, scene);
+        const ven = BABYLON.MeshBuilder.CreateSphere("ven", {diameter: t[2], segments: 32}, scene);
         ven.position = new BABYLON.Vector3(-4, 1.0, -2);
 		ven.material = venMat;
 		BABYLON.Animation.CreateAndStartAnimation('venTerra', ven, 'rotation.y', 20, 360, 0, 3.1416*2);  
@@ -65,7 +76,7 @@
         // Terra
 		const terraMat = new BABYLON.StandardMaterial("terra");
         terraMat.diffuseTexture = new BABYLON.Texture("texturas/terra.jpg")
-        const terra = BABYLON.MeshBuilder.CreateSphere("terra", {diameter: 2.0, segments: 32}, scene);
+        const terra = BABYLON.MeshBuilder.CreateSphere("terra", {diameter: t[3], segments: 32}, scene);
         terra.position = new BABYLON.Vector3(0, 1.0, 0);
 		terra.material = terraMat;
 		BABYLON.Animation.CreateAndStartAnimation('rotTerra', terra, 'rotation.y', 20, 360, 0, 3.1416*2);  
@@ -109,12 +120,12 @@
         ura.position = new BABYLON.Vector3(30, 2.0, 40);
 		ura.material = uraMat;
        	BABYLON.Animation.CreateAndStartAnimation('uraTerra', ura, 'rotation.y', 20, 360, 0, 3.1416*2);  
-
+*/
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
 		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 15, -20), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 200, -200), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 
