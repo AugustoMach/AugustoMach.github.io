@@ -21,13 +21,7 @@
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
-        const scene = new BABYLON.Scene(engine);
- 	    // Som de fundo
-        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
-		var t[10] = {5,12,13,7,143,120,51,49};
-		var d[10] = {58,108,150,228,778,1430,2870,4500};
-		var a[10] = {"mercurio","venus","terra","marte","jupiter","saturno","netuno","urano"};
-     /*   t0=1391016;d0=0;r0=10;t0=0;
+   /*   t0=1391016;d0=0;r0=10;t0=0;
         t1=4880;d1=57.9;r1=10;t1=0.24;
         t2=12104;d2=108.2;r2=5832;t2=0.67;
         t3=12756;d3=149.6;r3=24;t3=1;
@@ -36,28 +30,63 @@
         t6=120000;d6=1430;r6=10;t6=29.5;
         t7=51000;d7=2870;r7=17;t7=84;
         t8=49500;d8=4500;r8=16;t8=164;*/
-
+        const scene = new BABYLON.Scene(engine);
+ 	    // Som de fundo
+        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		// Nave
         const nav = BABYLON.MeshBuilder.CreateSphere("nav", {diameter: 1, segments: 32}, scene);
         nav.position = new BABYLON.Vector3(4, 10, -25);
-
-		// Sol
-		const solMat = new BABYLON.StandardMaterial("sol");
-        solMat.diffuseTexture = new BABYLON.Texture("texturas/sol.png")
-        const sol = BABYLON.MeshBuilder.CreateSphere("sol", {diameter: t[0]/150 , segments: 32}, scene);
-        sol.position = new BABYLON.Vector3(0, 0, 0);
-		sol.material = solMat;
-
-        for (let i=1; i<9; i++)
+        // Defina o ponto zero como o ponto de origem (0, 0, 0)
+        var pontoZero = new BABYLON.Vector3(0, 0, 0);
+		// Planeta
+		var n = ["sol","mercurio","venus","terra","marte","jupiter","saturno","netuno","urano"];
+		var d = [1391,5,12,13,7,143,120,51,49];
+		var z = [0,58,108,150,228,778,1430,2870,4500];
+		var r = [9999999,10,5832,24,24,19,10,17,16];
+		var t = [0,0.24,0.67,1,1.88,11.86,29.5,84,164];
+        var txtMat=[];
+        var planeta=[];
+        for (let i=0; i<9; i++)
 		{
+		   var pz = z[i]/30;
+		   if ( i>0 ) pz = pz+d[0]/60;
 		   txtMat[i] = new BABYLON.StandardMaterial("txt");
-           txtMat[i].diffuseTexture = new BABYLON.Texture("texturas/"+a[i]+".jpg")
-           planeta[i] = BABYLON.MeshBuilder.CreateSphere("planeta", {diameter: t[i]/30, segments: 32}, scene);
-           planeta[i].position = new BABYLON.Vector3(0, 0, d[i]/30+t[0]/300);
+           txtMat[i].diffuseTexture = new BABYLON.Texture("texturas/"+n[i]+".jpg")
+           planeta[i] = BABYLON.MeshBuilder.CreateSphere("planeta", {diameter: d[i]/30, segments: 32}, scene);
+           planeta[i].position = new BABYLON.Vector3(0, 0, pz);
 	       planeta[i].material = txtMat[i];
-		   BABYLON.Animation.CreateAndStartAnimation('planeta', planeta[i], 'rotation.y', 20, 360, 0, 3.1416*2);  
+		   BABYLON.Animation.CreateAndStartAnimation('planeta', planeta[i], 'rotation.y', 5000/r[i], 360, 0, 3.1416*2);  
+           // Crie uma animação que move o objeto em um círculo ao redor do ponto zero
+           var animation = new BABYLON.Animation(
+               "circleAnimation",
+               "position",
+               60, // Taxa de quadros por segundo
+               BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+               BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+           );
+           // Define os quadros-chave da animação
+           var keys = [];
+           keys.push({
+             frame: 0,
+             value: planeta[i].position.clone(),
+           });
+           keys.push({
+             frame: 100,
+             value: new BABYLON.Vector3(Math.cos(0), 0, Math.sin(0)).scaleInPlace(pz) // Raio do círculo
+           });
+           animation.setKeys(keys);
+           // Anexa a animação ao objeto
+           planeta[i].animations = [animation];
+           // Iniciar a animação
+           scene.beginAnimation(planeta[i], 0, 100, true);
 		}		
-	/*	// Mercurio
+	/*	// Sol
+		const solMat = new BABYLON.StandardMaterial("txt");
+        solMat.diffuseTexture = new BABYLON.Texture("texturas/"+n[0]+".jpg")
+        const sol = BABYLON.MeshBuilder.CreateSphere("sol", {diameter: d[0]/30 , segments: 32}, scene);
+        sol.position = pontoZero;
+		sol.material = solMat;
+		// Mercurio
 		const merMat = new BABYLON.StandardMaterial("mer");
         merMat.diffuseTexture = new BABYLON.Texture("texturas/mercurio.jpg")
         const mer = BABYLON.MeshBuilder.CreateSphere("mer", {diameter: t[1], segments: 32}, scene);
