@@ -21,23 +21,13 @@
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
-   /*   t0=1391016;d0=0;r0=10;t0=0;
-        t1=4880;d1=57.9;r1=10;t1=0.24;
-        t2=12104;d2=108.2;r2=5832;t2=0.67;
-        t3=12756;d3=149.6;r3=24;t3=1;
-        t4=6794;d4=227.9;r4=24;t4=1.88;
-        t5=143000;d5=778.3;r5=10;t5=11.86;
-        t6=120000;d6=1430;r6=10;t6=29.5;
-        t7=51000;d7=2870;r7=17;t7=84;
-        t8=49500;d8=4500;r8=16;t8=164;*/
+	    var pontoZero = new BABYLON.Vector3(0, 0, 0);
         const scene = new BABYLON.Scene(engine);
  	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		// Nave
         const nav = BABYLON.MeshBuilder.CreateSphere("nav", {diameter: 1, segments: 32}, scene);
         nav.position = new BABYLON.Vector3(4, 10, -25);
-        // Defina o ponto zero como o ponto de origem (0, 0, 0)
-        var pontoZero = new BABYLON.Vector3(0, 0, 0);
 		// Planeta
 		var n = ["sol","mercurio","venus","terra","marte","jupiter","saturno","netuno","urano"];
 		var d = [1391,5,12,13,7,143,120,51,49];
@@ -46,7 +36,7 @@
 		var t = [0,0.24,0.67,1,1.88,11.86,29.5,84,164];
         var txtMat=[];
         var planeta=[];
-        for (let i=0; i<9; i++)
+        for (let i=1; i<9; i++)
 		{
 		   var pz = z[i]/30;
 		   if ( i>0 ) pz = pz+d[0]/60;
@@ -56,7 +46,7 @@
            planeta[i].position = new BABYLON.Vector3(0, 0, pz);
 	       planeta[i].material = txtMat[i];
 		   BABYLON.Animation.CreateAndStartAnimation('planeta', planeta[i], 'rotation.y', 5000/r[i], 360, 0, 3.1416*2);  
-           // Crie uma animação que move o objeto em um círculo ao redor do ponto zero
+       /*    // Crie uma animação que move o objeto em um círculo ao redor do ponto zero
            var animation = new BABYLON.Animation(
                "circleAnimation",
                "position",
@@ -78,78 +68,9 @@
            // Anexa a animação ao objeto
            planeta[i].animations = [animation];
            // Iniciar a animação
-           scene.beginAnimation(planeta[i], 0, 100, true);
+           scene.beginAnimation(planeta[i], 0, 100, true);*/
 		}		
-	/*	// Sol
-		const solMat = new BABYLON.StandardMaterial("txt");
-        solMat.diffuseTexture = new BABYLON.Texture("texturas/"+n[0]+".jpg")
-        const sol = BABYLON.MeshBuilder.CreateSphere("sol", {diameter: d[0]/30 , segments: 32}, scene);
-        sol.position = pontoZero;
-		sol.material = solMat;
-		// Mercurio
-		const merMat = new BABYLON.StandardMaterial("mer");
-        merMat.diffuseTexture = new BABYLON.Texture("texturas/mercurio.jpg")
-        const mer = BABYLON.MeshBuilder.CreateSphere("mer", {diameter: t[1], segments: 32}, scene);
-        mer.position = new BABYLON.Vector3(4, 1.0, -4);
-		mer.material = merMat;
-		BABYLON.Animation.CreateAndStartAnimation('merTerra', mer, 'rotation.y', 20, 360, 0, 3.1416*2);  
 
-		// Venus
-		const venMat = new BABYLON.StandardMaterial("ven");
-        venMat.diffuseTexture = new BABYLON.Texture("texturas/venus.jpg")
-        const ven = BABYLON.MeshBuilder.CreateSphere("ven", {diameter: t[2], segments: 32}, scene);
-        ven.position = new BABYLON.Vector3(-4, 1.0, -2);
-		ven.material = venMat;
-		BABYLON.Animation.CreateAndStartAnimation('venTerra', ven, 'rotation.y', 20, 360, 0, 3.1416*2);  
-
-        // Terra
-		const terraMat = new BABYLON.StandardMaterial("terra");
-        terraMat.diffuseTexture = new BABYLON.Texture("texturas/terra.jpg")
-        const terra = BABYLON.MeshBuilder.CreateSphere("terra", {diameter: t[3], segments: 32}, scene);
-        terra.position = new BABYLON.Vector3(0, 1.0, 0);
-		terra.material = terraMat;
-		BABYLON.Animation.CreateAndStartAnimation('rotTerra', terra, 'rotation.y', 20, 360, 0, 3.1416*2);  
-
-		// Marte 
-		const marMat = new BABYLON.StandardMaterial("mar");
-        marMat.diffuseTexture = new BABYLON.Texture("texturas/marte.jpg")
-        const mar = BABYLON.MeshBuilder.CreateSphere("mar", {diameter: 2.0, segments: 32}, scene);
-        mar.position = new BABYLON.Vector3(10, 1.0, 5);
-		mar.material = marMat;
-		BABYLON.Animation.CreateAndStartAnimation('marTerra', mar, 'rotation.y', 20, 360, 0, 3.1416*2);  
-
-		// Jupiter
-		const jupMat = new BABYLON.StandardMaterial("jup");
-        jupMat.diffuseTexture = new BABYLON.Texture("texturas/jupiter.jpg")
-        const jup = BABYLON.MeshBuilder.CreateSphere("jup", {diameter: 5.0, segments: 32}, scene);
-        jup.position = new BABYLON.Vector3(20, 2.0, 15);
-		jup.material = jupMat;
-		BABYLON.Animation.CreateAndStartAnimation('jupTerra', jup, 'rotation.y', 20, 360, 0, 3.1416*2);  
-
-		// Saturno
-		const satMat = new BABYLON.StandardMaterial("sat");
-        satMat.diffuseTexture = new BABYLON.Texture("texturas/saturno.jpg")
-        const sat = BABYLON.MeshBuilder.CreateSphere("sat", {diameter: 4.0, segments: 32}, scene);
-        sat.position = new BABYLON.Vector3(-20, 2.0, 20);
-		sat.material = satMat;
-       	BABYLON.Animation.CreateAndStartAnimation('satTerra', sat, 'rotation.y', 20, 360, 0, 3.1416*2);  
-
-		// Netuno
-		const netMat = new BABYLON.StandardMaterial("net");
-        netMat.diffuseTexture = new BABYLON.Texture("texturas/netuno.jpg")
-        const net = BABYLON.MeshBuilder.CreateSphere("net", {diameter: 3.0, segments: 32}, scene);
-        net.position = new BABYLON.Vector3(-25, 2.0, 30);
-		net.material = netMat;
-       	BABYLON.Animation.CreateAndStartAnimation('netTerra', net, 'rotation.y', 20, 360, 0, 3.1416*2);  
-
-		// Urano
-		const uraMat = new BABYLON.StandardMaterial("ura");
-        uraMat.diffuseTexture = new BABYLON.Texture("texturas/urano.jpg")
-        const ura = BABYLON.MeshBuilder.CreateSphere("ura", {diameter: 3.0, segments: 32}, scene);
-        ura.position = new BABYLON.Vector3(30, 2.0, 40);
-		ura.material = uraMat;
-       	BABYLON.Animation.CreateAndStartAnimation('uraTerra', ura, 'rotation.y', 20, 360, 0, 3.1416*2);  
-*/
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
