@@ -27,7 +27,7 @@
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		// Nave
         const nav = BABYLON.MeshBuilder.CreateSphere("nav", {diameter: 1, segments: 32}, scene);
-        nav.position = new BABYLON.Vector3(4, 10, -25);
+        nav.position = new BABYLON.Vector3(4, 7, -25);
 		// Planeta
 		var n = ["sol","mercurio","venus","terra","marte","jupiter","saturno","netuno","urano"];
 		var d = [1391,5,12,13,7,143,120,51,49];
@@ -39,7 +39,7 @@
         for (let i=0; i<9; i++)
 		{
 		   var pz = z[i]/30;
-		   if ( i>1 ) pz = pz+d[0]/60;
+		   if ( i>0 ) pz = pz+d[0]/60;
 		   txtMat[i] = new BABYLON.StandardMaterial("txt");
            txtMat[i].diffuseTexture = new BABYLON.Texture("texturas/"+n[i]+".jpg")
            planeta[i] = BABYLON.MeshBuilder.CreateSphere("planeta", {diameter: d[i]/30, segments: 32}, scene);
