@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Planetas</title>
+  <title>Planetas R</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>	
@@ -36,10 +36,10 @@
 		var t = [0,0.24,0.67,1,1.88,11.86,29.5,84,164];
         var txtMat=[];
         var planeta=[];
-        for (let i=1; i<9; i++)
+        for (let i=0; i<9; i++)
 		{
 		   var pz = z[i]/30;
-		   if ( i>0 ) pz = pz+d[0]/60;
+		   if ( i>1 ) pz = pz+d[0]/60;
 		   txtMat[i] = new BABYLON.StandardMaterial("txt");
            txtMat[i].diffuseTexture = new BABYLON.Texture("texturas/"+n[i]+".jpg")
            planeta[i] = BABYLON.MeshBuilder.CreateSphere("planeta", {diameter: d[i]/30, segments: 32}, scene);
