@@ -52,12 +52,21 @@
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
+		
+		// Configurações da câmera
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
+		camera.setTarget(BABYLON.Vector3.Zero());
+        camera.attachControl(canvas, true);
+        scene.registerBeforeRender(function () {
+           camera.position = capsuleP1.position;
+        });
 		// Configurações da câmera
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 	    scene.registerBeforeRender(function () {
-			if (capsuleP1.position.y < 0){capsuleP1.position = new BABYLON.Vector3(0, 5, 0);} 
+			if (capsuleP1.position.y < 0){capsuleP1.position = new BABYLON.Vector3(0, 1, 0);} 
+			camera.position = capsuleP1.position;
  	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 		
