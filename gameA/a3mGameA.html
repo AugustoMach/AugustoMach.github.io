@@ -43,7 +43,7 @@
 		
 	    // Personagem
 		const pMat = new BABYLON.StandardMaterial("pMat", scene);
-	    pMat.emissiveColor = new BABYLON.Color3(0, 1, 0);
+	    pMat.emissiveColor = new BABYLON.Color3(0, 1, 1);
 	    const capsuleP1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleP1", {height: 1.0, radius: 1.0}, scene)
         capsuleP1.position = new BABYLON.Vector3(0, 1, 0);
 		capsuleP1.material = pMat;
