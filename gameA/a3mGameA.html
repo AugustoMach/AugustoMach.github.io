@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGameA-Labirinto</title>
+  <title>Labirinto</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -41,10 +41,13 @@
         ground.material.diffuseTexture.vScale = 5;
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 		
-        // Dado	 
-        const box = BABYLON.MeshBuilder.CreateBox("box", options);
-		box.position = new BABYLON.Vector3(-2, 5, 0);
-        const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
+	    // Personagem
+		const pMat = new BABYLON.StandardMaterial("pMat", scene);
+	    pMat.emissiveColor = new BABYLON.Color3(0, 1, 0);
+	    const capsuleP1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleP1", {height: 1.0, radius: 1.0}, scene)
+        capsuleP1.position = new BABYLON.Vector3(0, 1, 0);
+		capsuleP1.material = pMat;
+        const pAggregate = new BABYLON.PhysicsAggregate(capsuleP1, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.6 }, scene);
 
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
@@ -54,8 +57,7 @@
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 	    scene.registerBeforeRender(function () {
-			if (box.position.y < 0){box.position = new BABYLON.Vector3(0, 5, 0);} 
-			if (box1.position.y < 0){box1.position = new BABYLON.Vector3(0, 5, 0);} 
+			if (capsuleP1.position.y < 0){capsuleP1.position = new BABYLON.Vector3(0, 5, 0);} 
  	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 		
@@ -71,7 +73,28 @@
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
                 if (trigger0.pressed) { 
-				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.005, 1, .01), box.getAbsolutePosition()); 
+				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, .1), capsuleP1.getAbsolutePosition()); 
+				}
+              });
+			  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
+              trigger1.onButtonStateChangedObservable.add(() => {
+                if (trigger1.pressed) { 
+				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(.1, 0, 0), capsuleP1.getAbsolutePosition()); 
+				}
+              });
+            }
+			if (motionController.handness === 'left') {
+              const xr_ids = motionController.getComponentIds();		 
+              let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+              trigger0.onButtonStateChangedObservable.add(() => {
+                if (trigger0.pressed) { 
+				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, -.1), capsuleP1.getAbsolutePosition()); 
+				}
+              });
+			  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
+              trigger1.onButtonStateChangedObservable.add(() => {
+                if (trigger1.pressed) { 
+				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.1, 0, 0), capsuleP1.getAbsolutePosition()); 
 				}
               });
             }
@@ -79,9 +102,9 @@
  	    });
 		xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
           xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
-            xr.baseExperience.camera.position.x = box.position.x;
-            xr.baseExperience.camera.position.y = box.position.y;
-            xr.baseExperience.camera.position.z = box.position.z;
+            xr.baseExperience.camera.position.x = capsuleP1.position.x;
+            xr.baseExperience.camera.position.y = capsuleP1.position.y;
+            xr.baseExperience.camera.position.z = capsuleP1.position.z;
           })
         });
 
