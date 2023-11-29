@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Planetas R</title>
+  <title>Planetas</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>	
@@ -27,7 +27,7 @@
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		// Nave
         const nav = BABYLON.MeshBuilder.CreateSphere("nav", {diameter: 1, segments: 32}, scene);
-        nav.position = new BABYLON.Vector3(4, 7, -25);
+        nav.position = new BABYLON.Vector3(4, 7	, -25);
 		// Planeta
 		var n = ["sol","mercurio","venus","terra","marte","jupiter","saturno","netuno","urano"];
 		var d = [1391,5,12,13,7,143,120,51,49];
