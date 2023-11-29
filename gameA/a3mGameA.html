@@ -57,13 +57,6 @@
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
-        scene.registerBeforeRender(function () {
-           camera.position = capsuleP1.position;
-        });
-		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
-		camera.setTarget(BABYLON.Vector3.Zero());
-        camera.attachControl(canvas, true);
 	    scene.registerBeforeRender(function () {
 			if (capsuleP1.position.y < 0){capsuleP1.position = new BABYLON.Vector3(0, 1, 0);} 
 			camera.position = capsuleP1.position;
@@ -93,16 +86,16 @@
               });
             }
 			if (motionController.handness === 'left') {
-              const xr_ids = motionController.getComponentIds();		 
-              let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-              trigger0.onButtonStateChangedObservable.add(() => {
-                if (trigger0.pressed) { 
+              const xr_ids1 = motionController.getComponentIds();		 
+              let trigger0e = motionController.getComponent(xr_ids1[0]); //xr-standard-trigger
+              trigger0e.onButtonStateChangedObservable.add(() => {
+                if (trigger0e.pressed) { 
 				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, -.1), capsuleP1.getAbsolutePosition()); 
 				}
               });
-			  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
-              trigger1.onButtonStateChangedObservable.add(() => {
-                if (trigger1.pressed) { 
+			  let trigger1e = motionController.getComponent(xr_ids1[1]); //xr-standard-trigger
+              trigger1e.onButtonStateChangedObservable.add(() => {
+                if (trigger1e.pressed) { 
 				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.1, 0, 0), capsuleP1.getAbsolutePosition()); 
 				}
               });
