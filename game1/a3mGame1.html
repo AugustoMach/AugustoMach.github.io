@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame1-Futebol</title>
+  <title>Futebol</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -39,11 +39,26 @@
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 31, height: 46}, scene);
+/*      PhysicsAggregate:
+		center
+        extents
+        friction
+        isTriggerShape
+        mass
+        mesh
+        pointA
+        pointB
+        radius
+        restitution
+        rotation
+        startAsleep
+*/
+
 		ground.material = grdMat;
 		// Agrega fisica ao Chao
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
-		// Goleira
+		// Goleiras
 	    const myPath = [
 		 	new BABYLON.Vector3(-2, 0, 0),
 			new BABYLON.Vector3(-2, 2.1, 0),
@@ -52,7 +67,7 @@
 	    ];
 	    const tube1 = BABYLON.MeshBuilder.CreateTube("tube1", {path: myPath, radius: 0.1, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
 		tube1.position = new BABYLON.Vector3(0, 0, 23);
-		const tube2 = BABYLON.MeshBuilder.CreateTube("tube1", {path: myPath, radius: 0.1, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+		const tube2 = BABYLON.MeshBuilder.CreateTube("tube2", {path: myPath, radius: 0.1, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
 		tube2.position = new BABYLON.Vector3(0, 0, -23);
         
 		// Bola
