@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame0-Dado1a</title>
+  <title>a3mGame0-Dado</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -59,8 +59,8 @@
         box.material = mat;
 		box.position = new BABYLON.Vector3(-2, 5, 0);
         const boxAggregate = new BABYLON.PhysicsAggregate(box, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.75 }, scene);
-//		boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 10, 0), box.getAbsolutePosition());     	
-        const box1 = BABYLON.MeshBuilder.CreateBox("box1", options);
+       
+	    const box1 = BABYLON.MeshBuilder.CreateBox("box1", options);
         box1.material = mat;
 		box1.position = new BABYLON.Vector3(2, 5, 0);
         const box1Aggregate = new BABYLON.PhysicsAggregate(box1, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.8 }, scene);
@@ -74,6 +74,7 @@
         camera.attachControl(canvas, true);
 	    scene.registerBeforeRender(function () {
 			if (box.position.y < 0){box.position = new BABYLON.Vector3(0, 5, 0);} 
+			if (box1.position.y < 0){box1.position = new BABYLON.Vector3(0, 5, 0);} 
  	    });
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
