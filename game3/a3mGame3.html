@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>a3mGame3-PulaPula</title>
+  <title>PulaPula</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -21,10 +21,11 @@
   <script>
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
+	var gameOver = false;
     async function createScene() {
         const scene = new BABYLON.Scene(engine);
 	    // Som de fundo
-        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+        const music = new BABYLON.Sound("musica", "s ons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Som do Motor Parado
 	    //const chute = new BABYLON.Sound("chute", "sons/stop1.wav", scene);
 		// Som do Motor Voando
@@ -82,7 +83,7 @@
             xr.baseExperience.camera.position.y = capsuleP1.position.y;
             xr.baseExperience.camera.position.z = capsuleP1.position.z;
           })
-        })
+        });
 		
 		xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
@@ -92,6 +93,7 @@
               trigger0.onButtonStateChangedObservable.add(() => {
                 if (trigger0.pressed && capsuleP1.position.y < 3) { 
 					if (capsuleP1.position.y < 2){
+					   gameOver = true;
 					   capsuleP1.position = new BABYLON.Vector3(0, 10, 0); 
 					}else{
 				       pAggregate.body.applyImpulse(new BABYLON.Vector3(0, 3, 0), capsuleP1.getAbsolutePosition()); 
@@ -106,8 +108,9 @@
     }
     async function run() {
       const scene = await createScene();
-      engine.runRenderLoop(() => {
-        scene.render();
+ 	  engine.runRenderLoop(function () {
+        if(gameOver) { scene.dispose(); }
+        else  { scene.render(); }
       });
     }
     run();
