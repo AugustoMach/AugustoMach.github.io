@@ -1,173 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pega-Pega</title>
-  <script src="https://cdn.babylonjs.com/babylon.js"></script>
-  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
-  <style>	
-    html, body {
-      margin: 0;
-      overflow: hidden;
-    }
-    #renderCanvas {
-      width: 100%;
-      height: 100%;
-    }
- </style>
+    <meta charset="UTF-8">
+    <title>Movimentando Esferas com Teclas</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <canvas id="renderCanvas"></canvas>
-  <script>
-    const canvas = document.getElementById("renderCanvas");
-    const engine = new BABYLON.Engine(canvas, true);
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script>
+        var canvas = document.createElement("canvas");
+        document.body.appendChild(canvas);
 
-    async function createScene() {
-        const scene = new BABYLON.Scene(engine);
- 	    // Som de fundo
-        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
-
-		// Inicializa Physics
-        const havokInstance = await HavokPhysics();
-        const hk = new BABYLON.HavokPlugin(true, havokInstance);
-        scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
-	
-		// Chao
-        const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 500, height: 500}, scene);
-        ground.material = grdMat;
-        ground.material.diffuseTexture.uScale = 5;
-        ground.material.diffuseTexture.vScale = 5;
-        // const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
-		
-	    // Personagem1
-		const pMat1 = new BABYLON.StandardMaterial("pMat1", scene);
-	    pMat1.emissiveColor = new BABYLON.Color3(0, 1, 1);
-	    const capsuleP1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleP1", {height: 1.0, radius: 1.0}, scene)
-        capsuleP1.position = new BABYLON.Vector3(-10, 1, 0);
-		capsuleP1.material = pMat1;
-        // const pAggregate1 = new BABYLON.PhysicsAggregate(capsuleP1, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.6 }, scene);
-
-	    // Personagem2
-		const pMat2 = new BABYLON.StandardMaterial("pMat2", scene);
-	    pMat2.emissiveColor = new BABYLON.Color3(1, 1, 0);
-	    const capsuleP2 = new BABYLON.MeshBuilder.CreateCapsule("capsuleP2", {height: 1.0, radius: 1.0}, scene)
-        capsuleP2.position = new BABYLON.Vector3(10, 1, 0);
-		capsuleP2.material = pMat2;
-        // const pAggregate2 = new BABYLON.PhysicsAggregate(capsuleP2, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.6 }, scene);
-
-        // Configurações da luz  
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
-        light.intensity = 0.7;
-		
-		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
+        var engine = new BABYLON.Engine(canvas, true);
+        var scene = new BABYLON.Scene(engine);
+	   	// Configurações da câmera
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 50, 0), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
-        camera.attachControl(canvas, true);
-		
-	    const box = BABYLON.MeshBuilder.CreateBox("box", {height: 1, width: 0.75, depth: 0.25, updatable: true});
-        const box1 = box.clone("box1");
-        box.position.x = -1;
-        box1.position.x = 1;
-		
-	    scene.onKeyboardObservable.add((kbInfo) => {
-		  switch (kbInfo.type) {
-			case BABYLON.KeyboardEventTypes.KEYDOWN:
-				switch (kbInfo.event.key) {
-                    case "a":
-                        capsuleP1.position.x -= 0.2;
-                    break;
-                    case "d":
-                        capsuleP1.position.x += 0.2;
-                    break;
-                    case "w":
-                        capsuleP1.position.z += 0.2;
-                    break;
-                    case "s":
-                        capsuleP1.position.z -= 0.2;
-                    break;
-					
-					case "k":
-					    capsuleP2.position.x -= 0.2;
-                    break;
-                    case "ç":
-					    capsuleP2.position.x += 0.2;
-                    break;
-					case "o":
-					    capsuleP2.position.z += 0.2;
-                    break;
-					case "l":
-					    capsuleP2.position.z -= 0.2;
-                    break;
-                }
-			break;
-		  }
-	    });
-	    scene.registerBeforeRender(function () {
-			//if (capsuleP1.position.y < 0){capsuleP1.position = new BABYLON.Vector3(0, 1, 0);} 
-			//if (capsuleP2.position.y < 0){capsuleP2.position = new BABYLON.Vector3(0, 1, 0);} 
-			//camera.position = capsuleP1.position;
- 	    });
+        //camera.attachControl(canvas, true);
 
-        engine.onResizeObservable.add(() => { engine.resize(); });
+	    // Chao
+		var wg = 70;
+		var hg = 40;
+        const grdMat = new BABYLON.StandardMaterial("grdMat");
+		grdMat.emissiveColor = new BABYLON.Color3(0, 1, 0);
+       // grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7.png");
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 70, height: 40}, scene);
+		ground.material = grdMat;
+
+        // Criando esferas		
+		const Mat1 = new BABYLON.StandardMaterial("Mat1", scene);
+	    Mat1.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", { diameter: 1 }, scene);
+		sphere1.material = Mat1;
+		sphere1.position.y = 1;
+        sphere1.position.x = wg/2;
 		
-	    var xr = await scene.createDefaultXRExperienceAsync({
-          floorMeshes: [ground]  
-        });		
-        xr.teleportation.addFloorMesh(ground);
-        xr.pointerSelection.attach();
-		xr.input.onControllerAddedObservable.add((controller) => {
-          controller.onMotionControllerInitObservable.add((motionController) => {
- 		    if (motionController.handness === 'right') {
-              const xr_ids = motionController.getComponentIds();		 
-              let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-              trigger0.onButtonStateChangedObservable.add(() => {
-                if (trigger0.pressed) { 
-				  // boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, .1), capsuleP1.getAbsolutePosition()); 
-				}
-              });
-			  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
-              trigger1.onButtonStateChangedObservable.add(() => {
-                if (trigger1.pressed) { 
-				  // boxAggregate.body.applyImpulse(new BABYLON.Vector3(.1, 0, 0), capsuleP1.getAbsolutePosition()); 
-				}
-              });
-            }
-			if (motionController.handness === 'left') {
-              const xr_ids1 = motionController.getComponentIds();		 
-              let trigger0e = motionController.getComponent(xr_ids1[0]); //xr-standard-trigger
-              trigger0e.onButtonStateChangedObservable.add(() => {
-                if (trigger0e.pressed) { 
-				  // boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, -.1), capsuleP1.getAbsolutePosition()); 
-				}
-              });
-			  let trigger1e = motionController.getComponent(xr_ids1[1]); //xr-standard-trigger
-              trigger1e.onButtonStateChangedObservable.add(() => {
-                if (trigger1e.pressed) { 
-				  // boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.1, 0, 0), capsuleP1.getAbsolutePosition()); 
-				}
-              });
-            }
-          })
- 	    });
-		xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
-          xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
-           // capsuleP1.position.x =xr.baseExperience.camera.position.x ;
-           // capsuleP1.position.y = xr.baseExperience.camera.position.y ;
-           // xr.baseExperience.camera.position.z = capsuleP1.position.z;
-          })
+		const Mat2 = new BABYLON.StandardMaterial("Mat2", scene);
+	    Mat2.emissiveColor = new BABYLON.Color3(0, 0, 1);
+        var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere2", { diameter: 1 }, scene);
+		sphere2.material = Mat2;
+        sphere2.position.y = 1;
+        sphere2.position.x = -wg/2;
+
+        // Adicionando eventos de teclado
+        var inputMap = {};
+        window.addEventListener("keydown", function (event) {
+            inputMap[event.key] = event.type === "keydown";
+        });
+        window.addEventListener("keyup", function (event) {
+            inputMap[event.key] = event.type === "keydown";
         });
 
-        return scene;
-    }
-    async function run() {
-      const scene = await createScene();
-      engine.runRenderLoop(() => {
-        scene.render();
-      });
-    }
-    run();
-  </script>
+        // Render Loop
+        engine.runRenderLoop(function () {
+            if (inputMap["w"] && sphere1.position.z > -hg/2) {
+                sphere1.position.z -= 0.1;
+            }
+            if (inputMap["s"] && sphere1.position.z < hg/2) {
+                sphere1.position.z += 0.1;
+            }
+            if (inputMap["a"] && sphere1.position.x < wg/2) {
+                sphere1.position.x += 0.1;
+            }
+            if (inputMap["d"] && sphere1.position.x > -wg/2) {
+                sphere1.position.x -= 0.1;
+            }
+            if (inputMap["ArrowUp"] && sphere2.position.z > -hg/2) {
+                sphere2.position.z -= 0.1;
+            }
+            if (inputMap["ArrowDown"] && sphere2.position.z < hg/2) {
+                sphere2.position.z += 0.1;
+            }
+            if (inputMap["ArrowLeft"] && sphere2.position.x < wg/2) {
+                sphere2.position.x += 0.1;
+            }
+            if (inputMap["ArrowRight"] && sphere2.position.x > -wg/2) {
+                sphere2.position.x -= 0.1;
+            }
+            scene.render();
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
 </body>
 </html>
+
