@@ -25,7 +25,7 @@
         var engine = new BABYLON.Engine(canvas, true);
         var scene = new BABYLON.Scene(engine);
 	   	// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 50, 0), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 30, -20), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         //camera.attachControl(canvas, true);
 
@@ -62,6 +62,8 @@
             inputMap[event.key] = event.type === "keydown";
         });
 
+
+
         // Render Loop
         engine.runRenderLoop(function () {
             if (inputMap["w"] && sphere1.position.z > -hg/2) {
@@ -90,7 +92,13 @@
             }
             scene.render();
         });
-
+		
+        // Verificar colisão
+        scene.registerBeforeRender(function () {
+            if (sphere1.intersectsMesh(sphere2, true)) {
+ 				sphere2.position.x = -wg/2;
+            }
+        });
         // Resize
         window.addEventListener("resize", function () {
             engine.resize();
