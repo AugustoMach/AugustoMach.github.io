@@ -74,14 +74,39 @@
 		var v2 = 0.20;
         // Render Loop
         engine.runRenderLoop(function () {
-            if (inputMap["s"] && sphere1.position.z > -hg/2) { sphere1.position.z -= v1; }
-            if (inputMap["w"] && sphere1.position.z < hg/2) { sphere1.position.z += v1; }
-            if (inputMap["d"] && sphere1.position.x < wg/2) { sphere1.position.x += v1; }
-            if (inputMap["a"] && sphere1.position.x > -wg/2) {sphere1.position.x -= v1; }
-            if (inputMap["ArrowDown"] && sphere2.position.z > -hg/2) { sphere2.position.z -= v2; }
-            if (inputMap["ArrowUp"] && sphere2.position.z < hg/2) { sphere2.position.z += v2; }
-            if (inputMap["ArrowRight"] && sphere2.position.x < wg/2) { sphere2.position.x += v2; }
-            if (inputMap["ArrowLeft"] && sphere2.position.x > -wg/2) { sphere2.position.x -= v2; }
+            if (inputMap["s"]) {
+			   if  (sphere1.position.z > -hg/2) sphere1.position.z -= v1;  
+			   else sphere1.position.z = hg/2; 
+			}
+            if (inputMap["w"]){
+    		   if (sphere1.position.z < hg/2) sphere1.position.z += v1;  
+			   else sphere1.position.z = -hg/2; 
+			}
+            if (inputMap["d"]){
+			   if (sphere1.position.x < wg/2) sphere1.position.x += v1; 
+			   else sphere1.position.x = -wg/2; 
+			}
+            if (inputMap["a"]){
+			   if (sphere1.position.x > -wg/2) sphere1.position.x -= v1;  
+			   else sphere1.position.x = wg/2;
+			}
+			
+            if (inputMap["ArrowDown"]){ 
+			   if (sphere2.position.z > -hg/2) sphere2.position.z -= v2;  
+			   else sphere2.position.z = hg/2;
+			}
+			if (inputMap["ArrowUp"]){
+    		   if (sphere2.position.z < hg/2) sphere2.position.z += v1;  
+			   else sphere2.position.z = -hg/2; 
+			}
+            if (inputMap["ArrowRight"]){
+			   if (sphere2.position.x < wg/2) sphere2.position.x += v1; 
+			   else sphere2.position.x = -wg/2; 
+			}
+            if (inputMap["ArrowLeft"]){
+			   if (sphere2.position.x > -wg/2) sphere2.position.x -= v1;  
+			   else sphere2.position.x = wg/2;
+			}
             scene.render();
         });
 		
