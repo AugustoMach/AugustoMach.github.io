@@ -24,6 +24,15 @@
 
         var engine = new BABYLON.Engine(canvas, true);
         var scene = new BABYLON.Scene(engine);
+		
+		// Som de fundo
+        //const music = new BABYLON.Sound("musica", "sons/torcida.mp3", scene, null, { loop: true, autoplay: true });
+        // Som do chute
+	    const colisao = new BABYLON.Sound("colisao", "sons/metal2.mp3", scene);
+		// Som da torcida GOOL
+	    //const gol = new BABYLON.Sound("gol", "sons/gol1.wav", scene);
+
+
 	   	// Configurações da câmera
         const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 35, -40), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
@@ -83,6 +92,7 @@
  				sphere1.position.z = 0;
  				sphere2.position.x = wg/2;
 				sphere2.position.z = 0;
+				colisao.play();
             }
         });
         // Resize
