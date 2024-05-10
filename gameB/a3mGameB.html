@@ -50,14 +50,14 @@
         // Criando esferas		
 		const Mat1 = new BABYLON.StandardMaterial("Mat1", scene);
 	    Mat1.emissiveColor = new BABYLON.Color3(1, 0, 0);
-        var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", { diameter: 1 }, scene);
+        var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", { diameter: 2 }, scene);
 		sphere1.material = Mat1;
 		sphere1.position.y = 1;
         sphere1.position.x = -wg/2;
 		
 		const Mat2 = new BABYLON.StandardMaterial("Mat2", scene);
 	    Mat2.emissiveColor = new BABYLON.Color3(0, 0, 1);
-        var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere2", { diameter: 1 }, scene);
+        var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere2", { diameter: 2 }, scene);
 		sphere2.material = Mat2;
         sphere2.position.y = 1;
         sphere2.position.x = wg/2;
@@ -71,7 +71,7 @@
             inputMap[event.key] = event.type === "keydown";
         });
         var v1 = 0.15;
-		var v2 = 0.20;
+		var v2 = 0.25;
         // Render Loop
         engine.runRenderLoop(function () {
             if (inputMap["s"]) {
@@ -96,15 +96,15 @@
 			   else sphere2.position.z = hg/2;
 			}
 			if (inputMap["ArrowUp"]){
-    		   if (sphere2.position.z < hg/2) sphere2.position.z += v1;  
+    		   if (sphere2.position.z < hg/2) sphere2.position.z += v2;  
 			   else sphere2.position.z = -hg/2; 
 			}
             if (inputMap["ArrowRight"]){
-			   if (sphere2.position.x < wg/2) sphere2.position.x += v1; 
+			   if (sphere2.position.x < wg/2) sphere2.position.x += v2; 
 			   else sphere2.position.x = -wg/2; 
 			}
             if (inputMap["ArrowLeft"]){
-			   if (sphere2.position.x > -wg/2) sphere2.position.x -= v1;  
+			   if (sphere2.position.x > -wg/2) sphere2.position.x -= v2;  
 			   else sphere2.position.x = wg/2;
 			}
             scene.render();
