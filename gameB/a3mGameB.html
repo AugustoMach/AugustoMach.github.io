@@ -25,7 +25,7 @@
         var engine = new BABYLON.Engine(canvas, true);
         var scene = new BABYLON.Scene(engine);
 	   	// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 30, -20), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 35, -40), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
         //camera.attachControl(canvas, true);
 
@@ -44,14 +44,14 @@
         var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", { diameter: 1 }, scene);
 		sphere1.material = Mat1;
 		sphere1.position.y = 1;
-        sphere1.position.x = wg/2;
+        sphere1.position.x = -wg/2;
 		
 		const Mat2 = new BABYLON.StandardMaterial("Mat2", scene);
 	    Mat2.emissiveColor = new BABYLON.Color3(0, 0, 1);
         var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere2", { diameter: 1 }, scene);
 		sphere2.material = Mat2;
         sphere2.position.y = 1;
-        sphere2.position.x = -wg/2;
+        sphere2.position.x = wg/2;
 
         // Adicionando eventos de teclado
         var inputMap = {};
@@ -61,34 +61,33 @@
         window.addEventListener("keyup", function (event) {
             inputMap[event.key] = event.type === "keydown";
         });
-
-
-
+        var v1 = 0.1;
+		var v2 = 0.15;
         // Render Loop
         engine.runRenderLoop(function () {
-            if (inputMap["w"] && sphere1.position.z > -hg/2) {
-                sphere1.position.z -= 0.1;
+            if (inputMap["s"] && sphere1.position.z > -hg/2) {
+                sphere1.position.z -= v1;
             }
-            if (inputMap["s"] && sphere1.position.z < hg/2) {
-                sphere1.position.z += 0.1;
+            if (inputMap["w"] && sphere1.position.z < hg/2) {
+                sphere1.position.z += v1;
             }
-            if (inputMap["a"] && sphere1.position.x < wg/2) {
-                sphere1.position.x += 0.1;
+            if (inputMap["d"] && sphere1.position.x < wg/2) {
+                sphere1.position.x += v1;
             }
-            if (inputMap["d"] && sphere1.position.x > -wg/2) {
-                sphere1.position.x -= 0.1;
+            if (inputMap["a"] && sphere1.position.x > -wg/2) {
+                sphere1.position.x -= v1;
             }
-            if (inputMap["ArrowUp"] && sphere2.position.z > -hg/2) {
-                sphere2.position.z -= 0.1;
+            if (inputMap["ArrowDown"] && sphere2.position.z > -hg/2) {
+                sphere2.position.z -= v2;
             }
-            if (inputMap["ArrowDown"] && sphere2.position.z < hg/2) {
-                sphere2.position.z += 0.1;
+            if (inputMap["ArrowUp"] && sphere2.position.z < hg/2) {
+                sphere2.position.z += v2;
             }
-            if (inputMap["ArrowLeft"] && sphere2.position.x < wg/2) {
-                sphere2.position.x += 0.1;
+            if (inputMap["ArrowRight"] && sphere2.position.x < wg/2) {
+                sphere2.position.x += v2;
             }
-            if (inputMap["ArrowRight"] && sphere2.position.x > -wg/2) {
-                sphere2.position.x -= 0.1;
+            if (inputMap["ArrowLeft"] && sphere2.position.x > -wg/2) {
+                sphere2.position.x -= v2;
             }
             scene.render();
         });
@@ -96,7 +95,10 @@
         // Verificar colisão
         scene.registerBeforeRender(function () {
             if (sphere1.intersectsMesh(sphere2, true)) {
- 				sphere2.position.x = -wg/2;
+ 				sphere1.position.x = -wg/2;
+ 				sphere1.position.z = 0;
+ 				sphere2.position.x = wg/2;
+				sphere2.position.z = 0;
             }
         });
         // Resize
