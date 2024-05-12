@@ -24,7 +24,7 @@
     async function createScene() {
         const scene = new BABYLON.Scene(engine);
 	    // Som de fundo
-        const music = new BABYLON.Sound("musica", "sons/torcida.mp3", scene, null, { loop: true, autoplay: true });
+        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
         // Som da colisao
 	    const colisao = new BABYLON.Sound("colisao", "sons/metal2.mp3", scene);
 		
@@ -38,7 +38,7 @@
 		var hg = 46;
 
         const grdMat = new BABYLON.StandardMaterial("grdMat");
-        grdMat.diffuseTexture = new BABYLON.Texture("texturas/gramaFut7.png");
+        grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
         const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: wg, height: hg}, scene);
 /*      PhysicsAggregate:
 		center
