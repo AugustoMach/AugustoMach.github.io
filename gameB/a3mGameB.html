@@ -133,8 +133,8 @@
         scene.registerBeforeRender(function () {
           if (capsuleA1.intersectsMesh(capsuleB1, true)) {
  			  capsuleA1.position.x += .3; //-wg/2;
- 			  capsuleA1.position.z = 0;
- 			  capsuleB1.position.x += .3; //= wg/2;
+ 			  capsuleA1.position.z += .3;
+ 			  capsuleB1.position.x += 0; //= wg/2;
 			  capsuleB1.position.z = 0;
 			  colisao.play();
           }
