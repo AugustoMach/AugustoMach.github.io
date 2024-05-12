@@ -54,8 +54,8 @@
         rotation
         startAsleep
 */
-
 		ground.material = grdMat;
+		
 		// Agrega fisica ao Chao
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
        
@@ -132,9 +132,9 @@
 		// Verificar colisão
         scene.registerBeforeRender(function () {
           if (capsuleA1.intersectsMesh(capsuleB1, true)) {
- 			  capsuleA1.position.x = -wg/2;
+ 			  capsuleA1.position.x += .3; //-wg/2;
  			  capsuleA1.position.z = 0;
- 			  capsuleB1.position.x = wg/2;
+ 			  capsuleB1.position.x += .3; //= wg/2;
 			  capsuleB1.position.z = 0;
 			  colisao.play();
           }
