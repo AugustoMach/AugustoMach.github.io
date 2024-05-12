@@ -61,25 +61,25 @@
        
 	    // Time A
 		const TAMat = new BABYLON.StandardMaterial("TAMat", scene);
-	    TAMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
-	    const capsuleA1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA1", {height: 1.8, radius: 0.2}, scene)
-        capsuleA1.position = new BABYLON.Vector3(0, 0.9, -22);
+	    TAMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
+	    const capsuleA1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleA1", {height: 1.8, radius: 0.6}, scene)
+        capsuleA1.position = new BABYLON.Vector3(5, 0.9, -22);
 		capsuleA1.material = TAMat;
 
         // Time B
 		const TBMat = new BABYLON.StandardMaterial("TBMat", scene);
-		TBMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
-	    const capsuleB1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleB1", {height: 1.8, radius: 0.2}, scene)
-        capsuleB1.position = new BABYLON.Vector3(0, 0.9, 22);
+		TBMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
+	    const capsuleB1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleB1", {height: 1.8, radius: 0.6}, scene)
+        capsuleB1.position = new BABYLON.Vector3(-5, 0.9, 22);
 		capsuleB1.material = TBMat;
 		
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
 		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, 15), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 25, -50), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
-        camera.attachControl(canvas, true);
+       // camera.attachControl(canvas, true);
 		
 		// Adicionando eventos de teclado
         var inputMap = {};
@@ -89,8 +89,8 @@
         window.addEventListener("keyup", function (event) {
             inputMap[event.key] = event.type === "keydown";
         });
-        var v1 = 0.15;
-		var v2 = 0.25;
+        var v1 = 0.04;
+		var v2 = 0.08;
         // Render Loop
         engine.runRenderLoop(function () {
             if (inputMap["s"]) {
@@ -120,7 +120,7 @@
 			}
             if (inputMap["ArrowRight"]){
 			   if (capsuleB1.position.x < wg/2) capsuleB1.position.x += v2; 
-			   else capsuleB1.position.x = -wg/2; 
+			   else capsuleB1.position.x = 	-wg/2; 
 			}
             if (inputMap["ArrowLeft"]){
 			   if (capsuleB1.position.x > -wg/2) capsuleB1.position.x -= v2;  
@@ -135,7 +135,7 @@
  			  capsuleA1.position.x += .3; //-wg/2;
  			  capsuleA1.position.z += .3;
  			  capsuleB1.position.x += 0; //= wg/2;
-			  capsuleB1.position.z = 0;
+			  capsuleB1.position.z += 0;
 			  colisao.play();
           }
         });
