@@ -76,7 +76,8 @@
             scene.onBeforeRenderObservable.add(() => {
                const deltaTime = engine.getDeltaTime() / 1000;
 			  // movement.z =  1;
-               const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(movement.z *      speed * deltaTime);
+             //  const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(movement.z *      speed * deltaTime);
+			    const forward = new BABYLON.Vector3(0, 0, movement.z);
                //const right = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Right()).scale(movement.x * speed *   deltaTime);
                //const upDown = new BABYLON.Vector3(0, movement.y * speed * deltaTime, 0);
                xr.baseExperience.camera.position.addInPlace(forward);
