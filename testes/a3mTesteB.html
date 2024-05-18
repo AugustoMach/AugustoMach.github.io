@@ -18,19 +18,16 @@
 <body>
   <canvas id="renderCanvas"></canvas>
   <script>
+
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
-
        var speed = 0.0;
-   
-       // This creates a basic Babylon Scene object (non-mesh)
-       var scene = new BABYLON.Scene(engine);
-
+	   
+       var scene = new BABYLON.Scene(engine);	   
 	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene);
-
+       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene); 
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 100, height: 100 }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
@@ -53,8 +50,7 @@
           floorMeshes: [ground]  
        });		
        xr.pointerSelection.attach();
- 
-       //controller input
+       //Teste Controles
        xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
              if (motionController.handness === 'right') {
@@ -69,7 +65,7 @@
                         speed = 0.0;						
                     }
                 });
-			  }
+			 }
 			 if (motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
@@ -84,16 +80,45 @@
                 });
 			 }
 		  });
-         
+      
           scene.onBeforeRenderObservable.add(() => {
              const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 			 if (speed > 0.06) forward.y = 0;
              xr.baseExperience.camera.position.addInPlace(forward);
           }); 
 	   });
-       return scene;
-    }
-
+	   function testaControles(){
+	         controller.onMotionControllerInitObservable.add((motionController) => {
+             if (motionController.handness === 'right') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+                    if (triggerComponent.pressed) {
+                        box.scaling= new BABYLON.Vector3(2,2,2); 
+						speed = 0.07;
+                    }else{
+                        box.scaling= new BABYLON.Vector3(1,1,1);   
+                        speed = 0.0;						
+                    }
+                });
+			 }
+			 if (motionController.handness === 'left') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+                    if (triggerComponent.pressed) {
+                        box.scaling= new BABYLON.Vector3(2,2,2); 
+						speed = 0.06;
+                    }else{
+                        box.scaling= new BABYLON.Vector3(1,1,1);   
+                        speed = 0.0;						
+                    }
+                });
+			 }
+		  });
+	   }
+	   return scene;
+    }      
     // await xr.exitXRAsync();
     async function run() {
       const scene = await createScene();
