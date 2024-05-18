@@ -50,17 +50,17 @@
 	var xr = await scene.createDefaultXRExperienceAsync({
         floorMeshes: [ground]  
     });		
-    xr.teleportation.addFloorMesh(ground);
+   // xr.teleportation.addFloorMesh(ground);
     xr.pointerSelection.attach();
 	
              var speed = 0.1;
 	         var movement = { x: 0, y: 0, z: 0 };
             //controller input
-             xr.input.onControllerAddedObservable.add((controller) => {
+            xr.input.onControllerAddedObservable.add((controller) => {
             controller.onMotionControllerInitObservable.add((motionController) => {
-           if (motionController.handness === 'right') {
+            if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
-                let triggerComponent = motionController.getComponent(xr_ids[0]);//xr-standard-trigger
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
                     if (triggerComponent.pressed) {
                         box.scaling= new BABYLON.Vector3(1.2,1.2,1.2); 
@@ -76,8 +76,8 @@
             scene.onBeforeRenderObservable.add(() => {
                const deltaTime = engine.getDeltaTime() / 1000;
 			  // movement.z =  1;
-             //  const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(movement.z *      speed * deltaTime);
-			    const forward = new BABYLON.Vector3(0, 0, movement.z);
+               const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(movement.z);
+			  // const forward = new BABYLON.Vector3(0, 0, movement.z);
                //const right = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Right()).scale(movement.x * speed *   deltaTime);
                //const upDown = new BABYLON.Vector3(0, movement.y * speed * deltaTime, 0);
                xr.baseExperience.camera.position.addInPlace(forward);
