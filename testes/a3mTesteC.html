@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Babylon.js WebXR with Oculus Quest</title>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+    <script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+</head>
+<body>
+    <canvas id="renderCanvas" touch-action="none"></canvas>
+    <script>
+        const canvas = document.getElementById('renderCanvas');
+        const engine = new BABYLON.Engine(canvas, true);
+
+        const createScene = async () => {
+            const scene = new BABYLON.Scene(engine);
+            const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.6, 0), scene);
+
+            const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+
+            // Ground
+            const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 100, height: 100 }, scene);
+
+            // WebXR
+            const xrHelper = await scene.createDefaultXRExperienceAsync({
+                floorMeshes: [ground]
+            });
+
+            const xrInput = xrHelper.input;
+
+            let rightController = null;
+            let leftController = null;
+
+            const cylinder = BABYLON.MeshBuilder.CreateCylinder("cylinder", { diameter: 0.1, height: 1 }, scene);
+            cylinder.isVisible = false;
+
+            xrInput.onControllerAddedObservable.add(controller => {
+                controller.onMotionControllerInitObservable.add(motionController => {
+                    if (motionController.handness === "right") {
+                        rightController = controller;
+                    } else if (motionController.handness === "left") {
+                        leftController = controller;
+                    }
+                });
+            });
+
+            scene.onBeforeRenderObservable.add(() => {
+                if (rightController && leftController) {
+                    const rightPos = rightController.grip ? rightController.grip.position : rightController.pointer.position;
+                    const leftPos = leftController.grip ? leftController.grip.position : leftController.pointer.position;
+
+                    const distance = BABYLON.Vector3.Distance(rightPos, leftPos);
+                    const midPoint = BABYLON.Vector3.Center(rightPos, leftPos);
+                    const direction = leftPos.subtract(rightPos).normalize();
+                    const up = new BABYLON.Vector3(0, 1, 0);
+                    const axis = BABYLON.Vector3.Cross(up, direction).normalize();
+                    const angle = Math.acos(BABYLON.Vector3.Dot(up, direction));
+
+                    cylinder.scaling.y = distance / 2;
+                    cylinder.position = midPoint;
+                    cylinder.rotationQuaternion = BABYLON.Quaternion.RotationAxis(axis, angle);
+                    cylinder.isVisible = true;
+                }
+            });
+
+            return scene;
+        };
+
+        const scene = await createScene();
+        engine.runRenderLoop(() => {
+            scene.render();
+        });
+
+        window.addEventListener('resize', () => {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
