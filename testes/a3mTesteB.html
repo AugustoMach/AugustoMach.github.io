@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Babylon.js WebXR with Oculus Quest 2</title>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+    <script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+</head>
+<body>
+    <canvas id="renderCanvas" touch-action="none"></canvas>
+    <script>
+        const canvas = document.getElementById('renderCanvas');
+        const engine = new BABYLON.Engine(canvas, true);
+
+        const createScene = () => {
+            const scene = new BABYLON.Scene(engine);
+            const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.6, 0), scene);
+
+            const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+
+            // Ground
+            const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 100, height: 100 }, scene);
+
+            // WebXR
+            const xrHelper = scene.createDefaultXRExperienceAsync({
+                floorMeshes: [ground]
+            }).then(xr => {
+                const xrInput = xr.input;
+                const xrCamera = xr.baseExperience.camera;
+
+                let speed = 0.1;
+                const movement = { x: 0, y: 0, z: 0 };
+
+                xrInput.onControllerAddedObservable.add(controller => {
+                    controller.onMotionControllerInitObservable.add(motionController => {
+                        if (motionController.handness === "right") {
+                            const xrController = controller;
+
+                            motionController.onSqueezeStateChangedObservable.add((component) => {
+                                if (component.changes.pressed) {
+                                    if (component.pressed) {
+                                        // Implement squeeze behavior if needed
+                                    } else {
+                                        // Implement squeeze release behavior if needed
+                                    }
+                                }
+                            });
+
+                            motionController.onThumbstickValuesChangedObservable.add((values) => {
+                                movement.x = values.x;
+                                movement.z = values.y;
+                            });
+                        }
+
+                        if (motionController.handness === "left") {
+                            motionController.onThumbstickValuesChangedObservable.add((values) => {
+                                movement.y = values.y;
+                                if (values.pressed) {
+                                    speed = 0.2; // Double speed when thumbstick is pressed
+                                } else {
+                                    speed = 0.1; // Normal speed
+                                }
+                            });
+                        }
+                    });
+                });
+
+                scene.onBeforeRenderObservable.add(() => {
+                    const deltaTime = engine.getDeltaTime() / 1000;
+                    const forward = new BABYLON.Vector3(0, 0, movement.z * speed * deltaTime);
+                    const right = new BABYLON.Vector3(movement.x * speed * deltaTime, 0, 0);
+                    const upDown = new BABYLON.Vector3(0, movement.y * speed * deltaTime, 0);
+
+                    xrCamera.position.addInPlace(forward);
+                    xrCamera.position.addInPlace(right);
+                    xrCamera.position.addInPlace(upDown);
+                });
+            });
+
+            return scene;
+        };
+
+        const scene = createScene();
+        engine.runRenderLoop(() => {
+            scene.render();
+        });
+
+        window.addEventListener('resize', () => {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
