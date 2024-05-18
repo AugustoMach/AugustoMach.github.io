@@ -4,7 +4,7 @@
   <title>Move 1pessoa</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+  //<script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
   <style>
     html, body {
       margin: 0;
@@ -54,15 +54,13 @@
    // xr.teleportation.addFloorMesh(ground);
     xr.pointerSelection.attach();
 	  // Create advanced texture for GUI
-      var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-
-      // Create text block to show direction
-      var textBlock = new BABYLON.GUI.TextBlock();
-      textBlock.color = "white";
-      textBlock.fontSize = 24;
-      textBlock.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-      textBlock.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-      advancedTexture.addControl(textBlock);
+ //     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+  //    var textBlock = new BABYLON.GUI.TextBlock();
+   /   textBlock.color = "white";
+   //   textBlock.fontSize = 24;
+    //  textBlock.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+   //   textBlock.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    //  advancedTexture.addControl(textBlock);
 	
              var speed = 0.0;
 			 
@@ -101,7 +99,7 @@
                const deltaTime = engine.getDeltaTime() / 1000;
                const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
 			   
-			   textBlock.text = "Camera Direction: " + forward.toPrecision(2); // Show direction in the text block
+			//   textBlock.text = "Camera Direction: " + forward.toPrecision(2); // Show direction in the text block
 			   
 			   if (speed > 0.06) forward.y = 0;
 			  // const forward = new BABYLON.Vector3(0, 0, movement.z);
