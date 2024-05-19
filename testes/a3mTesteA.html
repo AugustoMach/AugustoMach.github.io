@@ -68,6 +68,17 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
+				   if (triggerComponent.pressed) speed = 0.03;
+                });
+				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+                xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				   if (xbuttonComponent.pressed) speed = -0.03;
+                });
+			 }
+			 if (motionController.handness === 'left') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
 				   if (triggerComponent.pressed) speed = 0.07;
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
@@ -75,29 +86,20 @@
  				   if (xbuttonComponent.pressed) speed = -0.07;
                 });
 			 }
-			 if (motionController.handness === 'left') {
-                const xr_ids = motionController.getComponentIds();
-                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-                triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speed = 0.06;
-                });
-				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
-                xbuttonComponent.onButtonStateChangedObservable.add(() => {
- 				   if (xbuttonComponent.pressed) speed = -0.06;
-                });
-			 }
 		  });      
           scene.onBeforeRenderObservable.add(() => {
 			 if (speed < 0)	{
                 let backward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Backward()).scale(Math.abs(speed));
-			    if (Math.abs(speed) > 0.06) backward.y = 0;
+			    if (Math.abs(speed) < 0.04) backward.y = 0;
                 xr.baseExperience.camera.position.addInPlace(backward);
 				if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;
              }else if (speed > 0) {	
 			    let forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
-				if (speed > 0.06) forward.y = 0;
+				if (speed < 0.04) forward.y = 0;
 				xr.baseExperience.camera.position.addInPlace(forward);
                 if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;				
+			 }else{
+			    xr.baseExperience.camera.position.addInPlace(BABYLON.Vector3(0,0,0));
 			 }
           }); 
 	   });
