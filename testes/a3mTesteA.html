@@ -101,7 +101,9 @@
 			 }else{
 			    xr.baseExperience.camera.position.addInPlace(BABYLON.Vector3(0,0,0));
 			 }
-          }); 
+			 if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;				
+			 if (Math.abs(xr.baseExperience.camera.position.x) > wg) xr.baseExperience.camera.position.x=wg;
+			 if (Math.abs(xr.baseExperience.camera.position.z) > hg) xr.baseExperience.camera.position.z=hg;         }); 
 	   });
 	   return scene;
     }      
