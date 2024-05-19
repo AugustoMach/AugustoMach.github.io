@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Move 1pessoa</title>
+  <title>Move 1pessoa - 2046</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -28,6 +28,9 @@
 	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene); 
+       // Sons  
+       const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+	   const gatshot = new BABYLON.Sound("gunshot", "sons/metal1.wav", scene);
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 100, height: 100 }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
@@ -36,7 +39,6 @@
        groundMaterial.diffuseTexture.vScale = 6;
        groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
        ground.material = groundMaterial;
-
 	   // Cubo 
        const boxMat = new BABYLON.StandardMaterial("boxMat");
        boxMat.diffuseTexture = new BABYLON.Texture("texturas/caixa1.png")
@@ -53,73 +55,30 @@
        //Teste Controles
        xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
+		     speed = 0.0;
              if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-                    if (triggerComponent.pressed) {
-                        box.scaling= new BABYLON.Vector3(2,2,2); 
-						speed = 0.07;
-                    }else{
-                        box.scaling= new BABYLON.Vector3(1,1,1);   
-                        speed = 0.0;						
-                    }
+				   if (triggerComponent.pressed) speed = 0.07;
                 });
 			 }
 			 if (motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-                    if (triggerComponent.pressed) {
-                        box.scaling= new BABYLON.Vector3(2,2,2); 
-						speed = 0.06;
-                    }else{
-                        box.scaling= new BABYLON.Vector3(1,1,1);   
-                        speed = 0.0;						
-                    }
+				   if (triggerComponent.pressed) speed = 0.06;
                 });
 			 }
-		  });
-      
+		  });      
           scene.onBeforeRenderObservable.add(() => {
              const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 			 if (speed > 0.06) forward.y = 0;
              xr.baseExperience.camera.position.addInPlace(forward);
           }); 
 	   });
-	   function testaControles(){
-	         controller.onMotionControllerInitObservable.add((motionController) => {
-             if (motionController.handness === 'right') {
-                const xr_ids = motionController.getComponentIds();
-                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-                triggerComponent.onButtonStateChangedObservable.add(() => {
-                    if (triggerComponent.pressed) {
-                        box.scaling= new BABYLON.Vector3(2,2,2); 
-						speed = 0.07;
-                    }else{
-                        box.scaling= new BABYLON.Vector3(1,1,1);   
-                        speed = 0.0;						
-                    }
-                });
-			 }
-			 if (motionController.handness === 'left') {
-                const xr_ids = motionController.getComponentIds();
-                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-                triggerComponent.onButtonStateChangedObservable.add(() => {
-                    if (triggerComponent.pressed) {
-                        box.scaling= new BABYLON.Vector3(2,2,2); 
-						speed = 0.06;
-                    }else{
-                        box.scaling= new BABYLON.Vector3(1,1,1);   
-                        speed = 0.0;						
-                    }
-                });
-			 }
-		  });
-	   }
 	   return scene;
     }      
-    // await xr.exitXRAsync();
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
