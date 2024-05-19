@@ -49,6 +49,11 @@
          const sambaAnim = scene.getAnimationGroupByName("Samba"); // Idle Samba Walking
          sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
        });
+       BABYLON.SceneLoader.ImportMesh("", "glb/", "pirateFort.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          var fort = newMeshes[0];
+          fort.scaling.scaleInPlace(0.8);
+		  fort.position = new BABYLON.Vector3(17.5, .6, 20);
+       });
 			
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
