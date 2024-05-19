@@ -88,21 +88,20 @@
 			 }
 		  });      
           scene.onBeforeRenderObservable.add(() => {
-			 if (speed < 0.0)	{
-                let backward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Backward()).scale(Math.abs(speed));
-			    if (Math.abs(speed) < 0.04) backward.y = 0;
-                xr.baseExperience.camera.position.addInPlace(backward);
-				if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;
-             }else if (speed > 0.0) {	
-			    let forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
-				if (speed < 0.04) forward.y = 0;
-				xr.baseExperience.camera.position.addInPlace(forward);
-                if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;				
-			 }else{
-			    let forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
-			    xr.baseExperience.camera.position.addInPlace(forward);
-			 }
-			 if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;				
+             const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
+			 if (speed < 0.05) forward.y = 0;
+             xr.baseExperience.camera.position.addInPlace(forward);
+			 
+			// if (speed < 0.0)	{
+              //  let backward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Backward()).scale(Math.abs(speed));
+			   // if (Math.abs(speed) < 0.04) backward.y = 0;
+             //  xr.baseExperience.camera.position.addInPlace(backward);
+           //  }else if (speed > 0.0) {	
+			 //   let forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
+			//if (speed < 0.04) forward.y = 0;
+			//	xr.baseExperience.camera.position.addInPlace(forward);
+ 			// }
+			if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;				
 			// if (Math.abs(xr.baseExperience.camera.position.x) > wg) xr.baseExperience.camera.position.x=wg;
 			// if (Math.abs(xr.baseExperience.camera.position.z) > hg) xr.baseExperience.camera.position.z=hg;
 			}); 
