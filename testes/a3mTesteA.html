@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e -2232</title>
+  <title>1pessoa e -2257</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -46,8 +46,8 @@
          var hero = newMeshes[0];
          hero.scaling.scaleInPlace(0.1);
 		 hero.position.z = 5;
-         const sambaAnim = scene.getAnimationGroupByName("Samba"); // Idle Samba Walking
-         sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
+         const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
+         Anim.start(true, 1.0, Anim.from, Anim.to, false);
        });
        BABYLON.SceneLoader.ImportMesh("", "glb/", "pirateFort.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
           var fort = newMeshes[0];
