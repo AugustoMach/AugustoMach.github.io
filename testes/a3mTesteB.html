@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Move 1pessoa - 2046</title>
+  <title>Move 1pessoa - 2209</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -55,19 +55,21 @@
        //Teste Controles
        xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
-		     speed = 0.0;
+		     
              if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
 				   if (triggerComponent.pressed) speed = 0.07;
+				   else speed = 0.0;
                 });
 			 }
 			 if (motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speed = 0.06;
+				   if (triggerComponent.pressed) speed = -0.06;
+				   else speed = 0.0;
                 });
 			 }
 		  });      
