@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e -2257</title>
+  <title>1pessoa e - 2226</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -60,6 +60,29 @@
           floorMeshes: [ground]  
        });		
        xr.pointerSelection.attach();
+	   
+	   // Obter posição das mãos/controles
+     //  var lHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
+     //  var rHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");
+      
+       const box = BABYLON.MeshBuilder.CreateBox("box", {});
+       box.position.x = 0.5;
+       box.position.y = 1;
+       const boxMaterial = new BABYLON.StandardMaterial("material", scene);
+       boxMaterial.diffuseColor = BABYLON.Color3.Random();
+       box.material = boxMaterial;
+	   box.actionManager = new BABYLON.ActionManager(scene);
+       box.actionManager.registerAction(
+          new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
+             function (evt) {
+                const sourceBox = evt.meshUnderPointer;
+                sourceBox.position.x += 0.1;
+                sourceBox.position.y += 0.1;
+                boxMaterial.diffuseColor = BABYLON.Color3.Random();
+			 }
+          )
+	   );
+	   
        // Testa Controles
        xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
@@ -75,6 +98,11 @@
  				   if (xbuttonComponent.pressed) speed = -0.03;
 				   else speed = 0.0;
                 });
+				let ybuttonComponent = motionController.getComponent(xr_ids[4]);//y-button
+				ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				   if (ybuttonComponent.pressed) speed = 0.03;
+				   else speed = 0.0;
+                });
 			 }
 			 if (motionController.handness === 'left') {
                 const xr_ids = motionController.getComponentIds();
@@ -88,6 +116,11 @@
  				   if (xbuttonComponent.pressed) speed = -0.07;
 				   else speed = 0.0;
                 });
+				let ybuttonComponent = motionController.getComponent(xr_ids[4]);//y-button
+				ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				   if (ybuttonComponent.pressed) speed = 0.07;
+				   else speed = 0.0;
+                });
 			 }
 		  });      
           scene.onBeforeRenderObservable.add(() => {
@@ -97,10 +130,20 @@
 			if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;				
 			// if (Math.abs(xr.baseExperience.camera.position.x) > wg) xr.baseExperience.camera.position.x=wg;
 			// if (Math.abs(xr.baseExperience.camera.position.z) > hg) xr.baseExperience.camera.position.z=hg;
-			}); 
+			
+			// Verificar a posição da mão esquerda
+            // if (lHand.handMesh) {
+            //    var lHandPosition = lHand.handMesh.absolutePosition;
+            // }
+            // Verificar a posição da mão direita
+            // if (rHand.handMesh) {
+            //   var rHandPosition = rHand.handMesh.absolutePosition;
+           //  }
+		  }); 
 	   });
 	   return scene;
-    }      
+    } 
+	
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
