@@ -103,13 +103,13 @@
                 triggerComponent.onButtonStateChangedObservable.add(() => {
 				   if (triggerComponent.pressed) {
                       // Create a ray from the controller
-                      const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
+//const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
                       // Check intersection with the character
-                      const hit = scene.pickWithRay(ray);
-                      if (hit.pickedMesh && hit.pickedMesh === hero) {
-					     hero.dispose();
-				         gatshot.play();
-					  }
+                     // const hit = scene.pickWithRay(ray);
+                     // if (hit.pickedMesh && hit.pickedMesh === hero) {
+					 //    hero.dispose();
+				      //   gatshot.play();
+					//  }
 				   } 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
