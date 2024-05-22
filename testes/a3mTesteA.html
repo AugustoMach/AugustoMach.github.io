@@ -33,6 +33,8 @@
        // Sons  
        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 	   const gatshot = new BABYLON.Sound("gunshot", "sons/metal1.wav", scene);
+
+
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
@@ -84,7 +86,8 @@
             new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
               function (evt) {
                 const sourceBox = evt.meshUnderPointer;
-                sourceBox.dispose();;
+                sourceBox.dispose();
+				gatshot.play();
 			  }
             )
 	      );
