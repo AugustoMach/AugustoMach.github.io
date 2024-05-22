@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2244</title>
+  <title>1pessoa e - 2300</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -101,8 +101,16 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speed = 0.03;
-				   else speed = 0.0;
+				   if (triggerComponent.pressed) {
+                      // Create a ray from the controller
+                      const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
+                      // Check intersection with the character
+                      const hit = scene.pickWithRay(ray);
+                      if (hit.pickedMesh && hit.pickedMesh === hero) {
+					     hero.dispose();
+				         gatshot.play();
+					  }
+				   } 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
