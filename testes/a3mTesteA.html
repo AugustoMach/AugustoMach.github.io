@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2238</title>
+  <title>1pessoa e - 2244</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
- <style>
+  <style>
     html, body {
       margin: 0;
       overflow: hidden;
@@ -32,8 +32,7 @@
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene); 
        // Sons  
        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
-	   const gatshot = new BABYLON.Sound("gunshot", "sons/metal1.mp3", scene);
-
+	   const gatshot = new BABYLON.Sound("gunshot", "sons/explosao1.mp3", scene);
 
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
