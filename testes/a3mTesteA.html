@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2226</title>
+  <title>1pessoa e - 2230</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -62,26 +62,35 @@
        xr.pointerSelection.attach();
 	   
 	   // Obter posição das mãos/controles
-     //  var lHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
-     //  var rHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");
+       // var lHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
+       // var rHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");
       
-       const box = BABYLON.MeshBuilder.CreateBox("box", {});
+       // Alvo
+	   const box = BABYLON.MeshBuilder.CreateBox("box", {});
        box.position.x = 0.5;
        box.position.y = 1;
        const boxMaterial = new BABYLON.StandardMaterial("material", scene);
        boxMaterial.diffuseColor = BABYLON.Color3.Random();
        box.material = boxMaterial;
-	   box.actionManager = new BABYLON.ActionManager(scene);
-       box.actionManager.registerAction(
-          new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
-             function (evt) {
+
+	   // Array to hold the cloned boxes
+       var boxes = [];
+       // Clone the base box to create three boxes
+       for (var i = 0; i < 3; i++) {
+          var clonedBox = box.clone("clonedBox" + i);
+          clonedBox.position.x = i * 3 - 3; // Position the boxes
+		  clonedBox.actionManager = new BABYLON.ActionManager(scene);
+          clonedBox.actionManager.registerAction(
+            new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
+              function (evt) {
                 const sourceBox = evt.meshUnderPointer;
-                sourceBox.position.x += 0.1;
-                sourceBox.position.y += 0.1;
-                boxMaterial.diffuseColor = BABYLON.Color3.Random();
-			 }
-          )
-	   );
+                sourceBox.dispose();;
+			  }
+            )
+	      );
+          boxes.push(clonedBox);
+       }
+       box.dispose();
 	   
        // Testa Controles
        xr.input.onControllerAddedObservable.add((controller) => {
