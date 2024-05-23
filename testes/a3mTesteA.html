@@ -55,6 +55,12 @@
           fort.scaling.scaleInPlace(0.8);
 		  fort.position = new BABYLON.Vector3(17.5, .6, 20);
        });
+	   
+	   BABYLON.SceneLoader.ImportMesh("", "obj/", "wall.obj", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          var wall = newMeshes[0];
+          wall.scaling.scaleInPlace(0.8);
+		  wall.position = new BABYLON.Vector3(-2, 0, 20);
+       });
 			
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
