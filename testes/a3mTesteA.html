@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2234</title>
+  <title>1pessoa e - 1549</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -55,13 +55,25 @@
           fort.scaling.scaleInPlace(0.8);
 		  fort.position = new BABYLON.Vector3(17.5, .6, 20);
        });
+   
+	   // Carregar modelos de mãos ou armas
+       const handMeshTask = BABYLON.SceneLoader.ImportMesh("", "glb/", "cottage_fbx.fbx",  scene,function (newMeshes) {
+		  var hh = newMeshes[0];
+ 		  hh.position = new BABYLON.Vector3(0.5, .6, -5);
+	   });
+
+	   BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/CedricGuillemet/dump/master/", "funnyGuy.glb", scene,
+        function (meshes, particleSystems, skeletons) {  
+        var skeleton = skeletons[2];
+        scene.beginAnimation(skeletons[0], 0, 50, true, 10.0);
+       });
 	   
  	   // Carregar o modelo .obj
-       BABYLON.SceneLoader.ImportMesh("", "obj/", "wall.obj", scene, function (meshes) {
+     //  BABYLON.SceneLoader.ImportMesh("", "obj/", "wall.obj", scene, function (meshes) {
          // Executa esta função quando o modelo é carregado
          // "meshes" contém uma lista de malhas carregadas
          // Aqui você pode fazer qualquer manipulação ou adicionar funcionalidades
-       });
+     //  });
 			
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
