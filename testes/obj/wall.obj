@@ -1,6 +1,15 @@
 # wall.obj
 
-mtllib wall.mtl
+# Definições de material (equivalente ao conteúdo do .mtl)
+newmtl BrickMaterial
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+d 1.0
+illum 2
+map_Kd tijolo.JPG
+
+# Geometria do objeto
 o Wall
 
 v -2.0 0.0 0.0
