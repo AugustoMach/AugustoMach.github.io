@@ -1,0 +1,30 @@
+# wall.obj
+
+# Definições de material (equivalente ao conteúdo do .mtl)
+newmtl BrickMaterial
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+d 1.0
+illum 2
+map_Kd tijolo.JPG
+
+# Geometria do objeto
+o Wall
+
+v -2.0 0.0 0.0
+v 2.0 0.0 0.0
+v -2.0 2.0 0.0
+v 2.0 2.0 0.0
+
+vt 0.0 0.0
+vt 4.0 0.0
+vt 0.0 1.0
+vt 4.0 1.0
+
+vn 0.0 0.0 1.0
+
+usemtl BrickMaterial
+s off
+f 1/1/1 2/2/1 4/4/1
+f 1/1/1 4/4/1 3/3/1
