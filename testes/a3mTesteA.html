@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2329</title>
+  <title>1pessoa e - 2344</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -168,8 +168,9 @@
     
           scene.onBeforeRenderObservable.add(() => {
 		    if (hero) {
-               hero.position.addInPlace(direction.scale(moveSpeed));
-               hero.lookAt(hero.position.add(direction));
+			   //const hf = hero.lookAt(hero.position.add(direction));
+               hero.position.z += moveSpeed;
+              // hero.lookAt(hero.position.add(direction));
             }
             const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 			if (Math.abs(speed)<0.05) forward.y = 0;
