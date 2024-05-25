@@ -99,7 +99,7 @@
        // Clone the base box to create three boxes
        for (var i = 0; i < 3; i++) {
           var clonedBox = box.clone("clonedBox" + i);
-          clonedBox.position.x = i * 3 - 3; // Position the boxes
+          clonedBox.position.x = i * 3 - 2; // Position the boxes
 		  clonedBox.actionManager = new BABYLON.ActionManager(scene);
           clonedBox.actionManager.registerAction(
             new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
@@ -164,7 +164,7 @@
 		  });      
 		        // Move the dude along the ground
           var moveSpeed = 0.02;
-          var direction = new BABYLON.Vector3(0, 0, .1);
+          var direction = new BABYLON.Vector3(0, 0, 1);
     
           scene.onBeforeRenderObservable.add(() => {
 		    if (hero) {
