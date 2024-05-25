@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2344</title>
+  <title>1pessoa e - 2351</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -44,7 +44,7 @@
        ground.material = groundMaterial;
 	   // Carrega personagem
 	   var hero;
-       BABYLON.SceneLoader.ImportMesh("", "glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", "glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          hero = newMeshes[0];
          hero.scaling.scaleInPlace(0.1);
 		 hero.position.z = 0;
@@ -162,7 +162,8 @@
                 });
 			 }
 		  });      
-		        // Move the dude along the ground
+	   });
+	   		  // Move the dude along the ground
           var moveSpeed = 0.02;
           var direction = new BABYLON.Vector3(0, 0, 1);
     
@@ -170,7 +171,7 @@
 		    if (hero) {
 			   //const hf = hero.lookAt(hero.position.add(direction));
                hero.position.z += moveSpeed;
-              // hero.lookAt(hero.position.add(direction));
+               //hero.lookAt(hero.position.add(direction));
             }
             const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 			if (Math.abs(speed)<0.05) forward.y = 0;
@@ -188,7 +189,6 @@
             //   var rHandPosition = rHand.handMesh.absolutePosition;
            //  }
 		  }); 
-	   });
 	   return scene;
     } 
 	
