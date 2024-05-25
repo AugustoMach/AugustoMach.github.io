@@ -171,6 +171,7 @@
 		    if (hero) {
 			   //const hf = hero.lookAt(hero.position.add(direction));
                hero.position.z += moveSpeed;
+			   if (hero.position.z > 50) hero.position.z = -50;
                //hero.lookAt(hero.position.add(direction));
             }
             const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
