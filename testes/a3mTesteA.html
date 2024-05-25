@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 1549</title>
+  <title>1pessoa e - 2322</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -43,10 +43,11 @@
        groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
        ground.material = groundMaterial;
 	   // Carrega personagem
+	   var hero;
        BABYLON.SceneLoader.ImportMesh("", "glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-         var hero = newMeshes[0];
+         hero = newMeshes[0];
          hero.scaling.scaleInPlace(0.1);
-		 hero.position.z = 5;
+		 hero.position.z = -10;
          const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
          Anim.start(true, 1.0, Anim.from, Anim.to, false);
        });
@@ -161,7 +162,15 @@
                 });
 			 }
 		  });      
+		        // Move the dude along the ground
+          var moveSpeed = 0.02;
+          var direction = new BABYLON.Vector3(0, 0, 1);
+    
           scene.onBeforeRenderObservable.add(() => {
+		     if (dude) {
+               dude.position.addInPlace(direction.scale(moveSpeed));
+               dude.lookAt(dude.position.add(direction));
+            }
             const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 			if (Math.abs(speed)<0.05) forward.y = 0;
             xr.baseExperience.camera.position.addInPlace(forward);
