@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2351</title>
+  <title>1pessoa e - 2043</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -29,7 +29,7 @@
        var scene = new BABYLON.Scene(engine);	   
 	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -5), scene); 
+       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -5), scene); 
        // Sons  
        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 	   const gatshot = new BABYLON.Sound("gunshot", "sons/explosao1.mp3", scene);
@@ -58,10 +58,10 @@
        });
    
 	   // Carregar modelos de mãos ou armas
-       const handMeshTask = BABYLON.SceneLoader.ImportMesh("", "glb/", "cottage_fbx.fbx",  scene,function (newMeshes) {
-		  var hh = newMeshes[0];
- 		  hh.position = new BABYLON.Vector3(0.5, .6, -5);
-	   });
+      // const handMeshTask = BABYLON.SceneLoader.ImportMesh("", "glb/", "cottage_fbx.fbx",  scene,function (newMeshes) {
+		 // var hh = newMeshes[0];
+ 		//  hh.position = new BABYLON.Vector3(0.5, .6, -5);
+	  // });
 
 	  // BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/CedricGuillemet/dump/master/", //"funnyGuy.glb", scene,
      //   function (meshes, particleSystems, skeletons) {  
@@ -76,23 +76,22 @@
          // Aqui você pode fazer qualquer manipulação ou adicionar funcionalidades
      //  });
 			
+	   var headPosition;
+	   var leftHandPosition;
+	   var rightHandPosition;
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground]  
        });		
        xr.pointerSelection.attach();
-	   
-	   // Obter posição das mãos/controles
-       // var lHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "left");
-       // var rHand = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRFeatureName.HAND_TRACKING, "right");
       
        // Alvo
 	   const box = BABYLON.MeshBuilder.CreateBox("box", {});
-       box.position.x = 0.5;
-       box.position.y = 1;
        const boxMaterial = new BABYLON.StandardMaterial("material", scene);
        boxMaterial.diffuseColor = BABYLON.Color3.Random();
        box.material = boxMaterial;
+       box.position.z = -2;
+	   box.position.y = 1.7;
 
 	   // Array to hold the cloned boxes
        var boxes = [];
@@ -116,6 +115,15 @@
 	   
        // Testa Controles
        xr.input.onControllerAddedObservable.add((controller) => {
+	      if (controller.inputSource.handedness === 'right') {
+            const handle1 = BABYLON.MeshBuilder.CreateCylinder('handle1', {
+                height: 0.7, diameter: 0.02, tessellation: 8
+            });
+            handle1.rotate(BABYLON.Axis.X, Math.PI / 2);
+            handle1.position.z += 0.2;
+            handle1.parent = controller.grip || controller.pointer;
+            xr.input.onControllerRemovedObservable.add(() => {});
+          } 
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
@@ -147,8 +155,8 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speed = 0.07;
-				   else speed = 0.0;
+				 //  if (triggerComponent.pressed) speed = 0.07;
+				 //  else speed = 0.0;
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
@@ -172,23 +180,20 @@
 			   //const hf = hero.lookAt(hero.position.add(direction));
                hero.position.z += moveSpeed;
 			   if (hero.position.z > 50) hero.position.z = -50;
-               //hero.lookAt(hero.position.add(direction));
             }
             const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 			if (Math.abs(speed)<0.05) forward.y = 0;
             xr.baseExperience.camera.position.addInPlace(forward);
-			if (xr.baseExperience.camera.position.y < 0) xr.baseExperience.camera.position.y = 0;				
-			// if (Math.abs(xr.baseExperience.camera.position.x) > wg) xr.baseExperience.camera.position.x=wg;
-			// if (Math.abs(xr.baseExperience.camera.position.z) > hg) xr.baseExperience.camera.position.z=hg;
-			
-			// Verificar a posição da mão esquerda
-            // if (lHand.handMesh) {
-            //    var lHandPosition = lHand.handMesh.absolutePosition;
-            // }
-            // Verificar a posição da mão direita
-            // if (rHand.handMesh) {
-            //   var rHandPosition = rHand.handMesh.absolutePosition;
-           //  }
+			if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
+          //   var inputSources = xr.input.xrInput.controllers;
+         //    inputSources.forEach(controller => {
+         //      if (controller.inputSource.handedness === "left") {
+         //        var leftHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
+         //      } else if (controller.inputSource.handedness === "right") {
+         //        var rightHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
+		 //	     box.position = rightHandPosition;
+		 //     }
+		//	});
 		  }); 
 	   return scene;
     } 
