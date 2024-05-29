@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2127</title>
+  <title>1pessoa e - 0037</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -18,7 +18,6 @@
 <body>
   <canvas id="renderCanvas"></canvas>
   <script>
-
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
@@ -55,21 +54,21 @@
 		  fort.position = new BABYLON.Vector3(17.5, .6, 20);
        });
 	   // Carregar modelos de mãos ou armas
-      // const handMeshTask = BABYLON.SceneLoader.ImportMesh("", "glb/", "cottage_fbx.fbx",  scene,function (newMeshes) {
-		 // var hh = newMeshes[0];
- 		//  hh.position = new BABYLON.Vector3(0.5, .6, -5);
-	  // });
-	  // BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/CedricGuillemet/dump/master/", //"funnyGuy.glb", scene,
-     //   function (meshes, particleSystems, skeletons) {  
-      //  var skeleton = skeletons[2];
-      //  scene.beginAnimation(skeletons[0], 0, 50, true, 10.0);
-    //  });
+       // const handMeshTask = BABYLON.SceneLoader.ImportMesh("", "glb/", "cottage_fbx.fbx", scene, function(newMeshes) {
+	   // var hh = newMeshes[0];
+ 	   // hh.position = new BABYLON.Vector3(0.5, .6, -5);
+	   // });
+	   // BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/CedricGuillemet/dump/master/", //"funnyGuy.glb", scene,
+       //   function (meshes, particleSystems, skeletons) {  
+       //  var skeleton = skeletons[2];
+       //  scene.beginAnimation(skeletons[0], 0, 50, true, 10.0);
+       //  });
  	   // Carregar o modelo .obj
-     //  BABYLON.SceneLoader.ImportMesh("", "obj/", "wall.obj", scene, function (meshes) {
-         // Executa esta função quando o modelo é carregado
-         // "meshes" contém uma lista de malhas carregadas
-         // Aqui você pode fazer qualquer manipulação ou adicionar funcionalidades
-     //  });
+       //  BABYLON.SceneLoader.ImportMesh("", "obj/", "wall.obj", scene, function (meshes) {
+       // Executa esta função quando o modelo é carregado
+       // "meshes" contém uma lista de malhas carregadas
+       // Aqui você pode fazer qualquer manipulação ou adicionar funcionalidades
+       //  });
 	   var headPosition;
 	   var leftHandPosition;
 	   var rightHandPosition;
@@ -105,6 +104,11 @@
        }
        box.dispose();
        // Testa Controles
+	   const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
+          height: 0.7, diameter: 0.02, tessellation: 8
+       });
+       armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
+       armaD.position.z += 0.2;
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
             const handle1 = BABYLON.MeshBuilder.CreateCylinder('handle1', {
@@ -112,7 +116,7 @@
             });
             handle1.rotate(BABYLON.Axis.X, Math.PI / 2);
             handle1.position.z += 0.2;
-            handle1.parent = controller.grip || controller.pointer;
+            armaD.parent = controller.grip || controller.pointer;
             xr.input.onControllerRemovedObservable.add(() => {});
           } 
           controller.onMotionControllerInitObservable.add((motionController) => {
