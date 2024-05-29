@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2043</title>
+  <title>1pessoa e - 2127</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -25,7 +25,6 @@
        var speed = 0.0;
 	   const wg = 100;
 	   const hg = 100;
-	   
        var scene = new BABYLON.Scene(engine);	   
 	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
@@ -33,7 +32,6 @@
        // Sons  
        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 	   const gatshot = new BABYLON.Sound("gunshot", "sons/explosao1.mp3", scene);
-
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
@@ -56,26 +54,22 @@
           fort.scaling.scaleInPlace(0.8);
 		  fort.position = new BABYLON.Vector3(17.5, .6, 20);
        });
-   
 	   // Carregar modelos de mãos ou armas
       // const handMeshTask = BABYLON.SceneLoader.ImportMesh("", "glb/", "cottage_fbx.fbx",  scene,function (newMeshes) {
 		 // var hh = newMeshes[0];
  		//  hh.position = new BABYLON.Vector3(0.5, .6, -5);
 	  // });
-
 	  // BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/CedricGuillemet/dump/master/", //"funnyGuy.glb", scene,
      //   function (meshes, particleSystems, skeletons) {  
       //  var skeleton = skeletons[2];
       //  scene.beginAnimation(skeletons[0], 0, 50, true, 10.0);
     //  });
-	   
  	   // Carregar o modelo .obj
      //  BABYLON.SceneLoader.ImportMesh("", "obj/", "wall.obj", scene, function (meshes) {
          // Executa esta função quando o modelo é carregado
          // "meshes" contém uma lista de malhas carregadas
          // Aqui você pode fazer qualquer manipulação ou adicionar funcionalidades
      //  });
-			
 	   var headPosition;
 	   var leftHandPosition;
 	   var rightHandPosition;
@@ -84,7 +78,6 @@
           floorMeshes: [ground]  
        });		
        xr.pointerSelection.attach();
-      
        // Alvo
 	   const box = BABYLON.MeshBuilder.CreateBox("box", {});
        const boxMaterial = new BABYLON.StandardMaterial("material", scene);
@@ -92,7 +85,6 @@
        box.material = boxMaterial;
        box.position.z = -2;
 	   box.position.y = 1.7;
-
 	   // Array to hold the cloned boxes
        var boxes = [];
        // Clone the base box to create three boxes
@@ -112,7 +104,6 @@
           boxes.push(clonedBox);
        }
        box.dispose();
-	   
        // Testa Controles
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
@@ -131,13 +122,13 @@
                 triggerComponent.onButtonStateChangedObservable.add(() => {
 				   if (triggerComponent.pressed) {
                       // Create a ray from the controller
-//const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
+                      // const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
                       // Check intersection with the character
-                     // const hit = scene.pickWithRay(ray);
-                     // if (hit.pickedMesh && hit.pickedMesh === hero) {
-					 //    hero.dispose();
+                      // const hit = scene.pickWithRay(ray);
+                      // if (hit.pickedMesh && hit.pickedMesh === hero) {
+					  //   hero.dispose();
 				      //   gatshot.play();
-					//  }
+					  // }
 				   } 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
@@ -145,7 +136,7 @@
  				   if (xbuttonComponent.pressed) speed = -0.03;
 				   else speed = 0.0;
                 });
-				let ybuttonComponent = motionController.getComponent(xr_ids[4]);//y-button
+				let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
 				ybuttonComponent.onButtonStateChangedObservable.add(() => {
 				   if (ybuttonComponent.pressed) speed = 0.03;
 				   else speed = 0.0;
@@ -171,33 +162,31 @@
 			 }
 		  });      
 	   });
-	   		  // Move the dude along the ground
-          var moveSpeed = 0.02;
-          var direction = new BABYLON.Vector3(0, 0, 1);
-    
-          scene.onBeforeRenderObservable.add(() => {
-		    if (hero) {
-			   //const hf = hero.lookAt(hero.position.add(direction));
-               hero.position.z += moveSpeed;
-			   if (hero.position.z > 50) hero.position.z = -50;
-            }
-            const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
-			if (Math.abs(speed)<0.05) forward.y = 0;
-            xr.baseExperience.camera.position.addInPlace(forward);
-			if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
-          //   var inputSources = xr.input.xrInput.controllers;
-         //    inputSources.forEach(controller => {
-         //      if (controller.inputSource.handedness === "left") {
-         //        var leftHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
-         //      } else if (controller.inputSource.handedness === "right") {
-         //        var rightHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
-		 //	     box.position = rightHandPosition;
-		 //     }
-		//	});
-		  }); 
+	   // Movimenta personagem 
+       var moveSpeed = 0.02;
+       var direction = new BABYLON.Vector3(0, 0, 1);
+       scene.onBeforeRenderObservable.add(() => {
+		 if (hero) {
+		   //const hf = hero.lookAt(hero.position.add(direction));
+           hero.position.z += moveSpeed;
+		   if (hero.position.z > 50) hero.position.z = -50;
+         }
+         const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
+		 if (Math.abs(speed)<0.05) forward.y = 0;
+         xr.baseExperience.camera.position.addInPlace(forward);
+		 if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
+         //var inputSources = xr.input.xrInput.controllers;
+         //inputSources.forEach (controller => {
+         //  if (controller.inputSource.handedness === "left") {
+         //    var leftHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
+         //  } else if (controller.inputSource.handedness === "right") {
+         //    var rightHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
+		 //	   box.position = rightHandPosition;
+		 //  }
+		 //});
+	   }); 
 	   return scene;
     } 
-	
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
