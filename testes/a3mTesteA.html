@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa e - 2004</title>
+  <title>1pessoa e - 2011</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -79,7 +79,7 @@
        xr.pointerSelection.attach();
        // Alvo
 	   const box = BABYLON.MeshBuilder.CreateBox("box", {});
-       const boxMaterial = new BABYLON.StandardMaterial("material", scene);
+       const boxMaterial = new BABYLON.StandardMaterial("boxMat", scene);
        boxMaterial.diffuseColor = BABYLON.Color3.Random();
        box.material = boxMaterial;
        box.position.z = -2;
@@ -107,15 +107,13 @@
 	   const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
           height: 0.7, diameter: 0.02, tessellation: 8
        });
+	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
+       armaMat.diffuseColor = BABYLON.Color3.Random();
        armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
        armaD.position.z += 0.2;
+	   armaD.material = armaMat;
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
-           // const handle1 = BABYLON.MeshBuilder.CreateCylinder('handle1', {
-           //     height: 0.7, diameter: 0.02, tessellation: 8
-           // });
-           // handle1.rotate(BABYLON.Axis.X, Math.PI / 2);
-           // handle1.position.z += 0.2;
             armaD.parent = controller.grip || controller.pointer;
             xr.input.onControllerRemovedObservable.add(() => {});
           } 
@@ -130,8 +128,8 @@
                       // Check intersection with the character
                       // const hit = scene.pickWithRay(ray);
                       // if (hit.pickedMesh && hit.pickedMesh === hero) {
-					  //   hero.dispose();
-				      //   gatshot.play();
+					  //  hero.dispose();
+				       //  gatshot.play();
 					  // }
 				   } 
                 });
