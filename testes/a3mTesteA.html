@@ -111,11 +111,11 @@
        armaD.position.z += 0.2;
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
-            const handle1 = BABYLON.MeshBuilder.CreateCylinder('handle1', {
-                height: 0.7, diameter: 0.02, tessellation: 8
-            });
-            handle1.rotate(BABYLON.Axis.X, Math.PI / 2);
-            handle1.position.z += 0.2;
+           // const handle1 = BABYLON.MeshBuilder.CreateCylinder('handle1', {
+           //     height: 0.7, diameter: 0.02, tessellation: 8
+           // });
+           // handle1.rotate(BABYLON.Axis.X, Math.PI / 2);
+           // handle1.position.z += 0.2;
             armaD.parent = controller.grip || controller.pointer;
             xr.input.onControllerRemovedObservable.add(() => {});
           } 
