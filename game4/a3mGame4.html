@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Basquete</title>
+  <title>Basquete v1.0</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -124,17 +124,10 @@
               trigger0.onButtonStateChangedObservable.add(() => {
 			    if (trigger0.pressed) { 
 				  const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
-				  if (sphere.position.y = 1.7) {
+				  if (sphere.position.y <= 1.7) {
 				    bolaAggregate.body.applyImpulse(new forward, sphere.getAbsolutePosition()); 
 				  }
 				}
-                if (trigger0.pressed && sphere.position.y < 1) { 
-					if (sphere.position.y < 1) {
-					   sphere.position = new BABYLON.Vector3(0, .2, 0); 
-					} else {
-				       bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 2.3, 4), sphere.getAbsolutePosition()); 
-				    }
-				}				
               });
 			  let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
               xbuttonComponent.onButtonStateChangedObservable.add(() => {
@@ -151,8 +144,8 @@
  	    });
  	    // Movimenta personagem 
         scene.onBeforeRenderObservable.add(() => {
-		  if (sphere.position.y < 1) { sphere.position = xr.baseExperience.camera.position; }
-          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
+		  if ( sphere.position.y < 1 ) { sphere.position = xr.baseExperience.camera.position; }
+          const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
 		  forward.y = 0;
           xr.baseExperience.camera.position.addInPlace(forward);
 		  if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
