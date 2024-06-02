@@ -125,7 +125,7 @@
 			    if (trigger0.pressed) { 
 				  const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
 				  if (sphere.position.y <= 1.7) {
-				    bolaAggregate.body.applyImpulse(new forward, sphere.getAbsolutePosition()); 
+				    bolaAggregate.body.applyImpulse(forward, sphere.getAbsolutePosition()); 
 				  }
 				}
               });
