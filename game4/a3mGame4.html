@@ -22,6 +22,7 @@
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
+	    var speed = 0.0;
         const scene = new BABYLON.Scene(engine);
 	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/torcida.mp3", scene, null, { loop: true, autoplay: true });
@@ -130,9 +131,40 @@
 				    }
 				}				
               });
+			  let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+              xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				   if (xbuttonComponent.pressed) speed = -0.03;
+				   else speed = 0.0;
+              });
+			  let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
+			  ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				   if (ybuttonComponent.pressed) speed = 0.03;
+				   else speed = 0.0;
+              });
             }
           })
+		  controller.onMotionControllerInitObservable.add((motionController) => {
+             if (motionController.handness === 'right') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+				   if (triggerComponent.pressed) {  } 
+                });
+
+			 }
+		  }); 
  	    });
+ 
+	   // Movimenta personagem 
+       var moveSpeed = 0.03;
+       var direction = new BABYLON.Vector3(0, 0, 1);
+       scene.onBeforeRenderObservable.add(() => {
+         const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
+		 if (Math.abs(speed)<0.05) forward.y = 0;
+         xr.baseExperience.camera.position.addInPlace(forward);
+		 if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
+	   }); 
+
         scene.registerBeforeRender(function () {
 	    });
 
