@@ -103,17 +103,16 @@
         camera.attachControl(canvas, true);
 		
 		// Shadows
-	  //  var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
-	  //  shadowGenerator.getShadowMap().renderList.push(sphere);
-	  //  shadowGenerator.useBlurExponentialShadowMap = true;
+	   //  var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
+	   //  shadowGenerator.getShadowMap().renderList.push(sphere);
+	   //  shadowGenerator.useBlurExponentialShadowMap = true;
        // shadowGenerator.useKernelBlur = true;
-        //shadowGenerator.blurKernel = 64;
-
+       //shadowGenerator.blurKernel = 64;
 	   // ground.receiveShadows = true;
 	
         engine.onResizeObservable.add(() => { engine.resize(); });
 	    var xr = await scene.createDefaultXRExperienceAsync({
-          floorMeshes: [ground] /* Array of meshes to be used as landing points */
+          floorMeshes: [ground]  /* Array of meshes to be used as landing points */
         });		
         xr.teleportation.addFloorMesh(ground);
         xr.pointerSelection.attach();
@@ -123,10 +122,16 @@
               const xr_ids = motionController.getComponentIds();		 
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
+			    if (trigger0.pressed) { 
+				  const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
+				  if (sphere.position.y = 1.7) {
+				    bolaAggregate.body.applyImpulse(new forward, sphere.getAbsolutePosition()); 
+				  }
+				}
                 if (trigger0.pressed && sphere.position.y < 1) { 
-					if (sphere.position.y < 0){
+					if (sphere.position.y < 1) {
 					   sphere.position = new BABYLON.Vector3(0, .2, 0); 
-					}else{
+					} else {
 				       bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 2.3, 4), sphere.getAbsolutePosition()); 
 				    }
 				}				
@@ -138,33 +143,20 @@
               });
 			  let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
 			  ybuttonComponent.onButtonStateChangedObservable.add(() => {
-				   if (ybuttonComponent.pressed) speed = 0.03;
+				   if (ybuttonComponent.pressed) speed = 0.04;
 				   else speed = 0.0;
               });
             }
           })
-		  controller.onMotionControllerInitObservable.add((motionController) => {
-             if (motionController.handness === 'right') {
-                const xr_ids = motionController.getComponentIds();
-                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-                triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) {  } 
-                });
-
-			 }
-		  }); 
  	    });
- 
-	   // Movimenta personagem 
-       var moveSpeed = 0.03;
-       var direction = new BABYLON.Vector3(0, 0, 1);
-       scene.onBeforeRenderObservable.add(() => {
-         const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
-		 if (Math.abs(speed)<0.05) forward.y = 0;
-         xr.baseExperience.camera.position.addInPlace(forward);
-		 if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
-	   }); 
-
+ 	    // Movimenta personagem 
+        scene.onBeforeRenderObservable.add(() => {
+		  if (sphere.position.y < 1) { sphere.position = xr.baseExperience.camera.position; }
+          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
+		  forward.y = 0;
+          xr.baseExperience.camera.position.addInPlace(forward);
+		  if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
+	    }); 
         scene.registerBeforeRender(function () {
 	    });
 
