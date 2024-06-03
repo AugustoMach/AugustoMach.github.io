@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Basquete v1.0</title>
+  <title>Basquete v1.1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -87,12 +87,15 @@
         // Bola
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
-        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, 1.5, 0);
+        const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.25, segments: 32}, scene);
+		var posBola = new BABYLON.Vector3(0, 1.5, 0)
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.2 }, scene);
  
- 		bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 7, 10), sphere.getAbsolutePosition());     	
+        sphere.position = posBola;
+		var posMao = posBola;
+		var jumpBola = new BABYLON.Vector3(0, 7, 10);
+ 		//bolaAggregate.body.applyImpulse(jumpBola, sphere.getAbsolutePosition());     	
 	   
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
@@ -124,9 +127,9 @@
               trigger0.onButtonStateChangedObservable.add(() => {
 			    if (trigger0.pressed) { 
 				 // const forward1 = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward());
-				  if (sphere.position.y <= 1.7) {
-				   //  bolaAggregate.body.applyImpulse(forward1, sphere.getAbsolutePosition()); 
-				  }
+				 if (sphere.position.y <= 1.7) {
+ 		             bolaAggregate.body.applyImpulse(jumpBola, sphere.getAbsolutePosition());     	
+				 }
 			    }
               });
 			  let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
@@ -152,8 +155,7 @@
  		     //bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 7, 10), sphere.getAbsolutePosition());     	
              //sphere.position = xr.baseExperience.camera.position;
              //sphere.position.y = 2;	 
-			 sphere.position = new BABYLON.Vector3(0, 1.5, 0);
-
+			 sphere.position = posBola;
 		  }
 	    }); 
         scene.registerBeforeRender(function () {
