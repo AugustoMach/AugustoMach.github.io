@@ -123,9 +123,9 @@
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
 			    if (trigger0.pressed) { 
-				  const forward1 = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);
+				  const forward1 = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward());
 				  if (sphere.position.y <= 1.7) {
-				     bolaAggregate.body.applyImpulse(forward1, sphere.getAbsolutePosition()); 
+				   //  bolaAggregate.body.applyImpulse(forward1, sphere.getAbsolutePosition()); 
 				  }
 			    }
               });
@@ -144,11 +144,11 @@
  	    });
  	    // Movimenta personagem 
         scene.onBeforeRenderObservable.add(() => {
-		  if ( sphere.position.y < 1 ) { sphere.position = xr.baseExperience.camera.position; }
           const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
 		  forward.y = 0;
           xr.baseExperience.camera.position.addInPlace(forward);
 		  if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
+		  if ( sphere.position.y < 1 ) { sphere.position = xr.baseExperience.camera.position; }
 	    }); 
         scene.registerBeforeRender(function () {
 	    });
