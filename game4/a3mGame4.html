@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Basquete v1n</title>
+  <title>Basquete v1x</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -128,7 +128,8 @@
 			    if (trigger0.pressed) { 
 				  // const forward1 = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward());
 				  if (posMao === posBola) {
- 		             bolaAggregate.body.applyImpulse(jumpBola, sphere.getAbsolutePosition()); 					 
+				     posBola = new BABYLON.Vector3(0, 1.5, 3);
+ 		             bolaAggregate.body.applyImpulse(jumpBola, sphere.getAbsolutePosition()); 
 				  }else{
 				  }
 			    }
@@ -157,8 +158,9 @@
 		  if ( sphere.position.y < 1 ) { 
  		     //bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 7, 10), sphere.getAbsolutePosition());     	
              //sphere.position = xr.baseExperience.camera.position;
-             //sphere.position.y = 2;	 
-			// sphere.position = posBola;
+             //sphere.position.y = 2;
+             posBola  = posMao;			 
+			 sphere.position = posMao;
 		  }
 	    });
         return scene;
