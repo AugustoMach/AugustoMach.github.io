@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Basquete v1.a</title>
+  <title>Basquete v1.b</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -92,8 +92,8 @@
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.2 }, scene);
  
-        sphere.position = posBola;
-		var posMao = posBola;
+        sphere.position = posBola.Clone();
+		var posMao = posBola.Clone();
 		var jumpBola = new BABYLON.Vector3(0, 7, 10);
  		//bolaAggregate.body.applyImpulse(jumpBola, sphere.getAbsolutePosition());     	
 		
@@ -155,7 +155,7 @@
  		     //bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 7, 10), sphere.getAbsolutePosition());     	
              //sphere.position = xr.baseExperience.camera.position;
              //sphere.position.y = 2;	 
-			 sphere.position = posBola;
+			 sphere.position = posBola.Clone();
 		  }
 	    }); 
         scene.registerBeforeRender(function () {
