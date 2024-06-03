@@ -133,8 +133,8 @@
  		             bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 7, 10), sphere.getAbsolutePosition());     	
  				  }else{
 				  }
-			    }
-              });
+			    }	
+              });				
 			  let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
               xbuttonComponent.onButtonStateChangedObservable.add(() => {
  				if (xbuttonComponent.pressed) speed = -0.03;
