@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Basquete v1.1</title>
+  <title>Basquete v1.0</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -96,7 +96,8 @@
 		var posMao = posBola;
 		var jumpBola = new BABYLON.Vector3(0, 7, 10);
  		//bolaAggregate.body.applyImpulse(jumpBola, sphere.getAbsolutePosition());     	
-	   
+	    var chBolaMao='N';	
+		
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
@@ -127,8 +128,9 @@
               trigger0.onButtonStateChangedObservable.add(() => {
 			    if (trigger0.pressed) { 
 				 // const forward1 = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward());
-				 if (sphere.position.y <= 1.7) {
- 		             bolaAggregate.body.applyImpulse(jumpBola, sphere.getAbsolutePosition());     	
+				 if (chBolaMao==='S') {
+ 		             bolaAggregate.body.applyImpulse(jumpBola, sphere.getAbsolutePosition()); 
+                     chBolaMao='N';					 
 				 }
 			    }
               });
@@ -156,6 +158,7 @@
              //sphere.position = xr.baseExperience.camera.position;
              //sphere.position.y = 2;	 
 			 sphere.position = posBola;
+			 chBolaMao='S';
 		  }
 	    }); 
         scene.registerBeforeRender(function () {
