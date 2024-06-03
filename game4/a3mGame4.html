@@ -123,7 +123,7 @@
               let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
               trigger0.onButtonStateChangedObservable.add(() => {
 			    if (trigger0.pressed) { 
-				  const forward1 = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward());
+				 // const forward1 = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward());
 				  if (sphere.position.y <= 1.7) {
 				   //  bolaAggregate.body.applyImpulse(forward1, sphere.getAbsolutePosition()); 
 				  }
