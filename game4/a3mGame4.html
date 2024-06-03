@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Basquete v1.2</title>
+  <title>Basquete v1.1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -148,7 +148,7 @@
 		  forward.y = 0;
           xr.baseExperience.camera.position.addInPlace(forward);
 		  if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
-		  //if ( sphere.position.y < 1 ) { sphere.position = xr.baseExperience.camera.position; }
+		  if ( sphere.position.y < 1 ) { sphere.position = xr.baseExperience.camera.position; }
 	    }); 
         scene.registerBeforeRender(function () {
 	    });
