@@ -88,11 +88,11 @@
 		const bolaMat = new BABYLON.StandardMaterial("bolaMat");
         bolaMat.diffuseTexture = new BABYLON.Texture("texturas/bolaB1.png")
         const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 0.28, segments: 32}, scene);
-        sphere.position = new BABYLON.Vector3(0, .2, 0);
+        sphere.position = new BABYLON.Vector3(0, 1.5, 0);
 		sphere.material = bolaMat;
 		const bolaAggregate = new BABYLON.PhysicsAggregate(sphere, BABYLON.PhysicsShapeType.SPHERE, { mass: 1, restitution: 0.2 }, scene);
  
- 		bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 8, 12), sphere.getAbsolutePosition());     	
+ 		bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 7, 10), sphere.getAbsolutePosition());     	
 	   
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
@@ -148,7 +148,11 @@
 		  forward.y = 0;
           xr.baseExperience.camera.position.addInPlace(forward);
 		  if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
-		  if ( sphere.position.y < 1 ) { sphere.position = xr.baseExperience.camera.position; }
+		  if ( sphere.position.y < 1 ) { 
+		     sphere.position = new BABYLON.Vector3(0, 1.5, 0);
+ 		     //bolaAggregate.body.applyImpulse(new BABYLON.Vector3(0, 7, 10), sphere.getAbsolutePosition());     	
+             sphere.position = xr.baseExperience.camera.position; 
+		  }
 	    }); 
         scene.registerBeforeRender(function () {
 	    });
