@@ -23,15 +23,14 @@
     const engine = new BABYLON.Engine(canvas, true);
 
     async function createScene() {
+		var speed = 0.0;
         const scene = new BABYLON.Scene(engine);
  	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
-
 		// Inicializa Physics
         const havokInstance = await HavokPhysics();
         const hk = new BABYLON.HavokPlugin(true, havokInstance);
         scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
-	
 		// Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
@@ -40,76 +39,51 @@
         ground.material.diffuseTexture.uScale = 5;
         ground.material.diffuseTexture.vScale = 5;
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
-		
-	    // Personagem
-		const pMat = new BABYLON.StandardMaterial("pMat", scene);
-	    pMat.emissiveColor = new BABYLON.Color3(0, 1, 1);
-	    const capsuleP1 = new BABYLON.MeshBuilder.CreateCapsule("capsuleP1", {height: 1.0, radius: 1.0}, scene)
-        capsuleP1.position = new BABYLON.Vector3(0, 1, 0);
-		capsuleP1.material = pMat;
-        const pAggregate = new BABYLON.PhysicsAggregate(capsuleP1, BABYLON.PhysicsShapeType.BOX, { mass: 1, restitution: 0.6 }, scene);
+ 		// Labirinto
+        const labMat = new BABYLON.StandardMaterial("labMat");
+        labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
+		const lab = BABYLON.MeshBuilder.CreateBox("lab", {}, scene);
+        lab.material = grdMat;
+        lab.material.diffuseTexture.uScale = 5;
+        lab.material.diffuseTexture.vScale = 5;
+	    lab.position.y = 0.5;
+        const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
-		
 		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -12), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -12), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
-        camera.attachControl(canvas, true);
-	    scene.registerBeforeRender(function () {
-			if (capsuleP1.position.y < 0){capsuleP1.position = new BABYLON.Vector3(0, 1, 0);} 
-			camera.position = capsuleP1.position;
- 	    });
+
         engine.onResizeObservable.add(() => { engine.resize(); });
 		
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground]  
         });		
-        xr.teleportation.addFloorMesh(ground);
         xr.pointerSelection.attach();
 		xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
  		    if (motionController.handness === 'right') {
               const xr_ids = motionController.getComponentIds();		 
-              let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-              trigger0.onButtonStateChangedObservable.add(() => {
-                if (trigger0.pressed) { 
-				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, .1), capsuleP1.getAbsolutePosition()); 
-				}
+			  let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+              xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				if (xbuttonComponent.pressed) speed = -0.03;
+				else speed = 0.0;
               });
-			  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-trigger
-              trigger1.onButtonStateChangedObservable.add(() => {
-                if (trigger1.pressed) { 
-				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(.1, 0, 0), capsuleP1.getAbsolutePosition()); 
-				}
-              });
-            }
-			if (motionController.handness === 'left') {
-              const xr_ids1 = motionController.getComponentIds();		 
-              let trigger0e = motionController.getComponent(xr_ids1[0]); //xr-standard-trigger
-              trigger0e.onButtonStateChangedObservable.add(() => {
-                if (trigger0e.pressed) { 
-				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(0, 0, -.1), capsuleP1.getAbsolutePosition()); 
-				}
-              });
-			  let trigger1e = motionController.getComponent(xr_ids1[1]); //xr-standard-trigger
-              trigger1e.onButtonStateChangedObservable.add(() => {
-                if (trigger1e.pressed) { 
-				   boxAggregate.body.applyImpulse(new BABYLON.Vector3(-.1, 0, 0), capsuleP1.getAbsolutePosition()); 
-				}
+			  let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
+			  ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				if (ybuttonComponent.pressed) speed = 0.04;
+				else speed = 0.0;
               });
             }
           })
  	    });
-		xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
-          xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
-            xr.baseExperience.camera.position.x = capsuleP1.position.x;
-            xr.baseExperience.camera.position.y = capsuleP1.position.y;
-            xr.baseExperience.camera.position.z = capsuleP1.position.z;
-          })
-        });
-
+		scene.onBeforeRenderObservable.add(() => {
+          const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
+		  forward.y = 0;
+          xr.baseExperience.camera.position.addInPlace(forward);
+	    }); 
         return scene;
     }
     async function run() {
