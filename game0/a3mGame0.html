@@ -23,6 +23,7 @@
     const engine = new BABYLON.Engine(canvas, true);
 
     async function createScene() {
+	    var speed = 0.0;
         const scene = new BABYLON.Scene(engine);
  	    // Som de fundo
         const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
@@ -93,9 +94,24 @@
 				   box1Aggregate.body.applyImpulse(new BABYLON.Vector3(0, 1.2, 0), box1.getAbsolutePosition()); 
 				}
               });
+			  let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+              xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				if (xbuttonComponent.pressed) speed = -0.03;
+				else speed = 0.0;
+              });
+			  let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
+			  ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				if (ybuttonComponent.pressed) speed = 0.04;
+				else speed = 0.0;
+              });
             }
           })
  	    });
+		scene.onBeforeRenderObservable.add(() => {
+          const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
+		  forward.y = 0;
+          xr.baseExperience.camera.position.addInPlace(forward);
+	    }); 
 
         return scene;
     }
