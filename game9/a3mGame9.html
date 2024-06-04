@@ -76,8 +76,7 @@
 	  });
 	  scene.onBeforeRenderObservable.add(() => {
         const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
-	    forward.y = 0;
-       xr.baseExperience.camera.position.addInPlace(forward);
+        xr.baseExperience.camera.position.addInPlace(forward);
 	  });
       return scene;
     }
