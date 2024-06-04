@@ -63,12 +63,12 @@
             const xr_ids = motionController.getComponentIds();		 
 		    let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
             xbuttonComponent.onButtonStateChangedObservable.add(() => {
- 			  if (xbuttonComponent.pressed) speed = -0.03;
+ 			  if (xbuttonComponent.pressed) speed = -0.1;
 			  else speed = 0.0;
             });
 		    let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
 		    ybuttonComponent.onButtonStateChangedObservable.add(() => {
-			  if (ybuttonComponent.pressed) speed = 0.08;
+			  if (ybuttonComponent.pressed) speed = 0.8;
 		      else speed = 0.0;
             });
           }
