@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Avião</title>
+  <title>Voo v2</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -23,7 +23,7 @@
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
       const scene = new BABYLON.Scene(engine);
- 	    
+ 	  var speed = 0.0;  
       // Som de fundo
       const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 		
@@ -52,46 +52,33 @@
 	  camera.setTarget(BABYLON.Vector3.Zero());
       camera.attachControl(canvas, true);
 
-    engine.onResizeObservable.add(() => { engine.resize(); });
-	var xr = await scene.createDefaultXRExperienceAsync({
+      engine.onResizeObservable.add(() => { engine.resize(); });
+	  var xr = await scene.createDefaultXRExperienceAsync({
         floorMeshes: [ground]  
-    });		
-    xr.teleportation.addFloorMesh(ground);
-    xr.pointerSelection.attach();
-    xr.baseExperience.onInitialXRPoseSetObservable.add(()=>{
-      xr.baseExperience.sessionManager.onXRFrameObservable.add(()=>{
-        xr.baseExperience.camera.position.x = sphere.position.x;
-        xr.baseExperience.camera.position.y = sphere.position.y;
-        xr.baseExperience.camera.position.z = sphere.position.z;
-      })
-    })
- 
-	xr.input.onControllerAddedObservable.add((controller) => {
-      controller.onMotionControllerInitObservable.add((motionController) => {
-        if (motionController.handness === 'left') {
-          const xr_ids = motionController.getComponentIds();		 
-		  let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-          trigger0.onButtonStateChangedObservable.add(() => {
-              if (trigger0.pressed) { sphere.position.y += .2; }
-          });
-		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-squeeze
-          trigger1.onButtonStateChangedObservable.add(() => {
-              if (trigger1.pressed) { sphere.position.y -= .2; }
-          });
-        }
-		if (motionController.handness === 'right') {
-          const xr_ids = motionController.getComponentIds();		 
-		  let trigger0 = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-          trigger0.onButtonStateChangedObservable.add(() => {
-              if (trigger0.pressed) { sphere.position.y += .2; }
-          });
-		  let trigger1 = motionController.getComponent(xr_ids[1]); //xr-standard-squeeze
-          trigger1.onButtonStateChangedObservable.add(() => {
-              if (trigger1.pressed) { sphere.position.y -= .2; }
-          });
-        }
-      });
-	});
+      });		
+      xr.pointerSelection.attach();
+	  xr.input.onControllerAddedObservable.add((controller) => {
+        controller.onMotionControllerInitObservable.add((motionController) => {
+		  if (motionController.handness === 'right') {
+            const xr_ids = motionController.getComponentIds();		 
+		    let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+            xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 			  if (xbuttonComponent.pressed) speed = -0.03;
+			  else speed = 0.0;
+            });
+		    let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
+		    ybuttonComponent.onButtonStateChangedObservable.add(() => {
+			  if (ybuttonComponent.pressed) speed = 0.08;
+		      else speed = 0.0;
+            });
+          }
+        });
+	  });
+	  scene.onBeforeRenderObservable.add(() => {
+        const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
+	    forward.y = 0;
+       xr.baseExperience.camera.position.addInPlace(forward);
+	  });
       return scene;
     }
     async function run() {
