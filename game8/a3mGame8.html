@@ -58,7 +58,28 @@
         });		
         xr.teleportation.addFloorMesh(ground);
         xr.pointerSelection.attach();
-
+		xr.input.onControllerAddedObservable.add((controller) => {
+          controller.onMotionControllerInitObservable.add((motionController) => {
+ 		    if (motionController.handness === 'right') {
+              const xr_ids = motionController.getComponentIds();		 
+			  let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+              xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				if (xbuttonComponent.pressed) speed = -0.03;
+				else speed = 0.0;
+              });
+			  let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
+			  ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				if (ybuttonComponent.pressed) speed = 0.04;
+				else speed = 0.0;
+              });
+            }
+          })
+ 	    });
+		scene.onBeforeRenderObservable.add(() => {
+          const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
+		  forward.y = 0;
+          xr.baseExperience.camera.position.addInPlace(forward);
+	    });
         return scene;
     }
     async function run() {
