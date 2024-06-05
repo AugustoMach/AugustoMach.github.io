@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Labirinto v2</title>
+  <title>Labirinto v3</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -42,12 +42,32 @@
  		// Labirinto
         const labMat = new BABYLON.StandardMaterial("labMat");
         labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-		const lab = BABYLON.MeshBuilder.CreateBox("lab", { height: 4, width: 50, depth: .1 }, scene);
-        lab.material = grdMat;
-        lab.material.diffuseTexture.uScale = 50;
-        lab.material.diffuseTexture.vScale = 5;
-	    lab.position.y = 2;
-        const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
+		//Create a custom mesh  
+	    var modeloZ = new BABYLON.Mesh("custom", scene);
+        var positions = [-25,4,3, -25,0,3, 25,0,3, 25,4,3];
+        var indices = [0, 1, 2, 0, 2, 3 ];
+	    var vertexData = new BABYLON.VertexData();
+ 	    vertexData.positions = positions;
+	    vertexData.indices = indices;	
+	    vertexData.applyToMesh(modeloZ);
+	    modeloZ.material = labMat;
+		
+		// Array to hold the cloned boxes
+        var paredesZ = [];
+        // Clone the base box to create three boxes
+        for (var i = 0; i < 5; i++) {
+          var clonedParZ = modeloZ.clone("clonedParZ" + i);
+          clonedParZ.position.z = i * 5 - 10; // Position the boxes
+          paredesZ.push(clonedParZ);
+        }
+        modeloZ.dispose();
+
+		//const lab = BABYLON.MeshBuilder.CreateBox("lab", { height: 4, width: 50, depth: .1 }, scene);
+        //lab.material = grdMat;
+        //lab.material.diffuseTexture.uScale = 50;
+        //lab.material.diffuseTexture.vScale = 5;
+	    //lab.position.y = 2;
+        //const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
@@ -81,7 +101,7 @@
  	    });
 		scene.onBeforeRenderObservable.add(() => {
           const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
-		  forward.y = 0;
+		 // forward.y = 0;
           xr.baseExperience.camera.position.addInPlace(forward);
 	    }); 
         return scene;
