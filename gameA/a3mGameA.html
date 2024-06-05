@@ -41,17 +41,10 @@
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
  		// Labirinto
         const labMat = new BABYLON.StandardMaterial("labMat");
-        labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-		//Create a custom mesh  
-	    var modeloZ = new BABYLON.Mesh("custom", scene);
-        var positions = [-25,4,3, -25,0,3, 25,0,3, 25,4,3];
-        var indices = [0, 1, 2, 0, 2, 3 ];
-	    var vertexData = new BABYLON.VertexData();
- 	    vertexData.positions = positions;
-	    vertexData.indices = indices;	
-	    vertexData.applyToMesh(modeloZ);
+       // labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
+		labMat.diffuseColor = BABYLON.Color3.Random();
+		const modeloZ = BABYLON.MeshBuilder.CreateBox("box", {width: 50, height: 1, depth: .01}, scene)
 	    modeloZ.material = labMat;
-		
 		// Array to hold the cloned boxes
         var paredesZ = [];
         // Clone the base box to create three boxes
@@ -61,12 +54,6 @@
           paredesZ.push(clonedParZ);
         }
         modeloZ.dispose();
-
-		//const lab = BABYLON.MeshBuilder.CreateBox("lab", { height: 4, width: 50, depth: .1 }, scene);
-        //lab.material = grdMat;
-        //lab.material.diffuseTexture.uScale = 50;
-        //lab.material.diffuseTexture.vScale = 5;
-	    //lab.position.y = 2;
         //const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
         // Configurações da luz  
