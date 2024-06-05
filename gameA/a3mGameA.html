@@ -42,9 +42,9 @@
  		// Labirinto
         const labMat = new BABYLON.StandardMaterial("labMat");
         labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-		const lab = BABYLON.MeshBuilder.CreateBox("lab", {}, scene);
+		const lab = BABYLON.MeshBuilder.CreateBox("lab", { height: 5, width: 50, depth: .1 }, scene);
         lab.material = grdMat;
-        lab.material.diffuseTexture.uScale = 5;
+        lab.material.diffuseTexture.uScale = 50;
         lab.material.diffuseTexture.vScale = 5;
 	    lab.position.y = 0.5;
         const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
