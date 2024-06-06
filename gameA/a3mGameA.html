@@ -41,17 +41,17 @@
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
  		// Labirinto
         const labMat = new BABYLON.StandardMaterial("labMat");
-       // labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-		labMat.diffuseColor = BABYLON.Color3.Random();
-		const modeloZ = BABYLON.MeshBuilder.CreateBox("box", {width: 50, height: 1, depth: .01}, scene)
+		labMat.diffuseColor = new BABYLON.Color3(0, 1, 0); //BABYLON.Color3.Random(); 
+		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 1, depth: .01}, scene);
 	    modeloZ.material = labMat;
-		// Array to hold the cloned boxes
         var paredesZ = [];
-        // Clone the base box to create three boxes
         for (var i = 0; i < 5; i++) {
-          var clonedParZ = modeloZ.clone("clonedParZ" + i);
-          clonedParZ.position.z = i * 5 - 10; // Position the boxes
-          paredesZ.push(clonedParZ);
+		  for (var j = 0; j < 5; j++) {
+            var clonedParZ = modeloZ.clone("clonedParZ" + i);
+			clonedParZ.position.x = j * 10 - 25; 
+            clonedParZ.position.z = i * 5 - 10; 
+            paredesZ.push(clonedParZ);
+		  }
         }
         modeloZ.dispose();
         //const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
@@ -64,7 +64,6 @@
 		camera.setTarget(BABYLON.Vector3.Zero());
 
         engine.onResizeObservable.add(() => { engine.resize(); });
-		
 	    var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground]  
         });		
@@ -88,7 +87,7 @@
  	    });
 		scene.onBeforeRenderObservable.add(() => {
           const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
-		 // forward.y = 0;
+		  // forward.y = 0;
           xr.baseExperience.camera.position.addInPlace(forward);
 	    }); 
         return scene;
