@@ -42,18 +42,23 @@
  		// Labirinto
         const labMat = new BABYLON.StandardMaterial("labMat");
 		labMat.diffuseColor = new BABYLON.Color3(0, 1, 0); //BABYLON.Color3.Random(); 
-		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 1, depth: .01}, scene);
+		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 4, depth: .01}, scene);
 	    modeloZ.material = labMat;
         var paredesZ = [];
         for (var i = 0; i < 5; i++) {
 		  for (var j = 0; j < 5; j++) {
             var clonedParZ = modeloZ.clone("clonedParZ" + i);
-			clonedParZ.position.x = j * 10 - 25; 
+			clonedParZ.position.x = j * 10 - 20; 
             clonedParZ.position.z = i * 5 - 10; 
             paredesZ.push(clonedParZ);
 		  }
         }
         modeloZ.dispose();
+		//parameters - arrayOfMeshes, disposeSource, allow32BitsIndices, meshSubclass, subdivideWithSubMeshes, multiMultiMaterial
+        //var mesh = BABYLON.Mesh.MergeMeshes([sphere, cube], true, true, undefined, false, true);
+        //mesh.position = new BABYLON.Vector3(2, 1.5, 0);
+		//box[i].parent = disc;
+
         //const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
         // Configurações da luz  
