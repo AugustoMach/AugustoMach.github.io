@@ -103,6 +103,19 @@
           boxes.push(clonedBox);
        }
        box.dispose();
+	   
+       var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 1, segments: 32}, scene);
+       sphere1.position.y = 2;
+       var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 1}, scene);
+       box1.position = new BABYLON.Vector3(-.50, 1.5, -.5);	   
+	   let sphereCSG = BABYLON.CSG.FromMesh(sphere1);
+       let boxCSG = BABYLON.CSG.FromMesh(box1);
+       let booleanCSG = sphereCSG.subtract(boxCSG);
+       let newMesh = booleanCSG.toMesh("newMesh", null, scene);
+       newMesh.position.y = 3;
+       sphere1.dispose();
+       box1.dispose();
+	
        // Testa Controles
 	   const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
           height: 0.7, diameter: 0.02, tessellation: 8
@@ -165,7 +178,7 @@
 		  });      
 	   });
 	   // Movimenta personagem 
-       var moveSpeed = 0.02;
+       var moveSpeed = 0.03;
        var direction = new BABYLON.Vector3(0, 0, 1);
        scene.onBeforeRenderObservable.add(() => {
 		 if (hero) {
