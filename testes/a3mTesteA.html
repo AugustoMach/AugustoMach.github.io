@@ -27,7 +27,7 @@
        var scene = new BABYLON.Scene(engine);	   
 	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -5), scene); 
+       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -8), scene); 
        // Sons  
        const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 	   const gatshot = new BABYLON.Sound("gunshot", "sons/explosao1.mp3", scene);
@@ -104,22 +104,37 @@
        }
        box.dispose();
 	   
+       // Materials
+       var mat1 = new BABYLON.StandardMaterial('mat1', scene);
+       mat1.diffuseColor = new BABYLON.Color3(1, 0, 0);
+       var mat2 = new BABYLON.StandardMaterial('mat2', scene);
+       mat2.diffuseColor = new BABYLON.Color3(0, 1, 0);
        var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 1, segments: 32}, scene);
        sphere1.position.y = 2;
+	   sphere1.material = mat1;
        var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 1}, scene);
-       box1.position = new BABYLON.Vector3(-.50, 1.5, -.5);	   
+       box1.position = new BABYLON.Vector3(-.50, 1.5, -.5);	
+       box1.material = mat2;	   
 	   let sphereCSG = BABYLON.CSG.FromMesh(sphere1);
        let boxCSG = BABYLON.CSG.FromMesh(box1);
        let booleanCSG = sphereCSG.subtract(boxCSG);
        let newMesh = booleanCSG.toMesh("newMesh", null, scene);
-       newMesh.position.y = 3;
+       newMesh.position = new BABYLON.Vector3(2, 4, 0);
+	   newMesh.material = mat2;
+	   
+	   //parameters - arrayOfMeshes, disposeSource, allow32BitsIndices, meshSubclass, subdivideWithSubMeshes, multiMultiMaterial
+       var mesh1 = BABYLON.Mesh.MergeMeshes([sphere1, box1], true, true, undefined, false, true);
+       mesh1.position = new BABYLON.Vector3(-2, 2, 0);
+		//box[i].parent = disc;
        sphere1.dispose();
        box1.dispose();
 	
        // Testa Controles
-	   const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
-          height: 0.7, diameter: 0.02, tessellation: 8
-       });
+	   //const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
+          //height: 0.7, diameter: 0.02, tessellation: 8
+       //});
+	   const armaD = newMesh;
+
 	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
        armaMat.diffuseColor = BABYLON.Color3.Random();
        armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
