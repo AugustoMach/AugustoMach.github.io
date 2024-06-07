@@ -41,16 +41,20 @@
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
  		// Labirinto
         const labMat = new BABYLON.StandardMaterial("labMat");
+		//labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
 		labMat.diffuseColor = new BABYLON.Color3(0, 1, 0); //BABYLON.Color3.Random(); 
 		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 4, depth: .01}, scene);
 	    modeloZ.material = labMat;
         var paredesZ = [];
+		var padrao = "--a---a-------aa-------a-";
         for (var i = 0; i < 5; i++) {
 		  for (var j = 0; j < 5; j++) {
-            var clonedParZ = modeloZ.clone("clonedParZ" + i);
-			clonedParZ.position.x = j * 10 - 20; 
-            clonedParZ.position.z = i * 5 - 10; 
-            paredesZ.push(clonedParZ);
+		    if (padrao.substr(i*5+j,1) === '-') {
+              var clonedParZ = modeloZ.clone("clonedParZ" + i);
+			  clonedParZ.position.x = j * 10 - 20; 
+              clonedParZ.position.z = i * 5 - 10; 
+              paredesZ.push(clonedParZ);
+			}
 		  }
         }
         modeloZ.dispose();
