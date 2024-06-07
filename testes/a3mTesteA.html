@@ -124,7 +124,7 @@
 	   
 	   //parameters - arrayOfMeshes, disposeSource, allow32BitsIndices, meshSubclass, subdivideWithSubMeshes, multiMultiMaterial
        var mesh1 = BABYLON.Mesh.MergeMeshes([sphere1, box1], false, true, undefined, false, true);
-       mesh1.position = new BABYLON.Vector3(-3, 2, 0);
+       mesh1.position = new BABYLON.Vector3(-3, 3, 0);
        sphere1.dispose();
        box1.dispose();
 	   /*
@@ -148,12 +148,13 @@
 	   //const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
           //height: 0.7, diameter: 0.02, tessellation: 8
        //});
-	   const armaD = newMesh.clone("armaD");
-
+	   const armaD = mesh1.clone("armaD");
 	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
        armaMat.diffuseColor = BABYLON.Color3.Random();
        armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
        armaD.position.z += 0.2;
+       //armaD.position.x = 1;
+	   //armaD.position.y = 3;
 	   armaD.material = armaMat;
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
