@@ -53,6 +53,7 @@
           fort.scaling.scaleInPlace(0.8);
 		  fort.position = new BABYLON.Vector3(17.5, .6, 20);
        });
+	   
 	   // Carregar modelos de mãos ou armas
        // const handMeshTask = BABYLON.SceneLoader.ImportMesh("", "glb/", "cottage_fbx.fbx", scene, function(newMeshes) {
 	   // var hh = newMeshes[0];
@@ -69,6 +70,7 @@
        // "meshes" contém uma lista de malhas carregadas
        // Aqui você pode fazer qualquer manipulação ou adicionar funcionalidades
        //  });
+	   
 	   var headPosition;
 	   var leftHandPosition;
 	   var rightHandPosition;
@@ -121,7 +123,6 @@
        let newMesh = booleanCSG.toMesh("newMesh", null, scene);
        newMesh.position = new BABYLON.Vector3(2, 4, 0);
 	   newMesh.material = mat2;
-	   
 	   //parameters - arrayOfMeshes, disposeSource, allow32BitsIndices, meshSubclass, subdivideWithSubMeshes, multiMultiMaterial
        var mesh1 = BABYLON.Mesh.MergeMeshes([sphere1, box1], false, true, undefined, false, true);
        mesh1.position = new BABYLON.Vector3(-3, 3, 0);
@@ -144,17 +145,15 @@
        wheelLF = wheelRF.clone("wheelLF");
        wheelLF.position.y = -0.2 - 0.035; */
 
-       // Testa Controles
-	   const armaE = BABYLON.MeshBuilder.CreateCylinder('armaE', {
-          height: 0.9, diameter: 0.03, tessellation: 8
-       });
+       // Armas para Mãos
 	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
        armaMat.diffuseColor = BABYLON.Color3.Random();
-       armaE.rotate(BABYLON.Axis.X, Math.PI / 2);
-       armaE.position.z += 0.3;
-	   armaE.material = armaMat;
-	   const armaD = BABYLON.MeshBuilder.CreateSphere("armaD", {diameter: .3, segments: 32}, scene);
+	   const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {height:0.9,diameter:0.03,tessellation:8}, scene);
+       armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
+       armaD.position.z += 0.35;
 	   armaD.material = armaMat;
+	   const armaE = BABYLON.MeshBuilder.CreateSphere("armaE", {diameter:.3,segments:32}, scene);
+	   armaE.material = armaMat;
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
