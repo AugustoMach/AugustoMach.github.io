@@ -159,7 +159,7 @@
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
-            armaD.parent = controller.grip || controller.pointer;
+            mesh1.parent = controller.grip || controller.pointer;
             xr.input.onControllerRemovedObservable.add(() => {});
           } 
           controller.onMotionControllerInitObservable.add((motionController) => {
