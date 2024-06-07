@@ -145,10 +145,10 @@
        wheelLF.position.y = -0.2 - 0.035; */
 
        // Testa Controles
-	   //const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
-          //height: 0.7, diameter: 0.02, tessellation: 8
-       //});
-	   const armaD = mesh1.clone("armaD");
+	   const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
+          height: 0.9, diameter: 0.03, tessellation: 8
+       });
+	   //const armaD = mesh1.clone("armaD");
 	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
        armaMat.diffuseColor = BABYLON.Color3.Random();
        armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
