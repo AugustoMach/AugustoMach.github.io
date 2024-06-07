@@ -153,13 +153,11 @@
        armaMat.diffuseColor = BABYLON.Color3.Random();
        armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
        armaD.position.z += 0.2;
-       //armaD.position.x = 1;
-	   //armaD.position.y = 3;
 	   armaD.material = armaMat;
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
-            mesh1.parent = controller.grip || controller.pointer;
+            armaD.parent = controller.grip || controller.pointer;
             xr.input.onControllerRemovedObservable.add(() => {});
           } 
           controller.onMotionControllerInitObservable.add((motionController) => {
