@@ -108,12 +108,12 @@
        var mat1 = new BABYLON.StandardMaterial('mat1', scene);
        mat1.diffuseColor = new BABYLON.Color3(1, 0, 0);
        var mat2 = new BABYLON.StandardMaterial('mat2', scene);
-       mat2.diffuseColor = new BABYLON.Color3(0, 1, 0);
+       mat2.diffuseColor = new BABYLON.Color3(0, 0, 1);
        var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 1, segments: 32}, scene);
-       sphere1.position.y = 2;
+       sphere1.position.y = 1;
 	   sphere1.material = mat1;
        var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 1}, scene);
-       box1.position = new BABYLON.Vector3(-.50, 1.5, -.5);	
+       box1.position = new BABYLON.Vector3(-.50,  .5, -.5);	
        box1.material = mat2;	   
 	   let sphereCSG = BABYLON.CSG.FromMesh(sphere1);
        let boxCSG = BABYLON.CSG.FromMesh(box1);
@@ -123,23 +123,39 @@
 	   newMesh.material = mat2;
 	   
 	   //parameters - arrayOfMeshes, disposeSource, allow32BitsIndices, meshSubclass, subdivideWithSubMeshes, multiMultiMaterial
-       var mesh1 = BABYLON.Mesh.MergeMeshes([sphere1, box1], true, true, undefined, false, true);
-       mesh1.position = new BABYLON.Vector3(-2, 2, 0);
-		//box[i].parent = disc;
+       var mesh1 = BABYLON.Mesh.MergeMeshes([sphere1, box1], false, true, undefined, false, true);
+       mesh1.position = new BABYLON.Vector3(-3, 2, 0);
        sphere1.dispose();
        box1.dispose();
-	
+	   /*
+	   const car = buildCar ();
+	   const wheelRB = BABYLON.MeshBuilder.CreateCylinder("wheelRB", {diameter: 0.125, height: 0.05});
+       wheelRB.parent = car;
+       wheelRB.position.z = -0.1;
+       wheelRB.position.x = -0.2;
+       wheelRB.position.y = 0.035;
+
+       wheelRF = wheelRB.clone("wheelRF");
+       wheelRF.position.x = 0.1;
+
+       wheelLB = wheelRB.clone("wheelLB");
+       wheelLB.position.y = -0.2 - 0.035;
+
+       wheelLF = wheelRF.clone("wheelLF");
+       wheelLF.position.y = -0.2 - 0.035; */
+
        // Testa Controles
 	   //const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
           //height: 0.7, diameter: 0.02, tessellation: 8
        //});
-	   const armaD = newMesh;
+	   const armaD = newMesh.clone("armaD");
 
 	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
        armaMat.diffuseColor = BABYLON.Color3.Random();
        armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
        armaD.position.z += 0.2;
 	   armaD.material = armaMat;
+	   
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
             armaD.parent = controller.grip || controller.pointer;
@@ -217,6 +233,24 @@
 	   }); 
 	   return scene;
     } 
+	const buildCar = () => {
+      //base
+      const outline = [
+        new BABYLON.Vector3(-0.3, 0, -0.1),
+        new BABYLON.Vector3(0.2, 0, -0.1),
+      ]
+      //curved front
+      for (let i = 0; i < 20; i++) {
+        outline.push(new BABYLON.Vector3(0.2 * Math.cos(i * Math.PI / 40), 0, 0.2 * Math.sin(i * Math.PI / 40) - 0.1));
+      }
+      //top
+      outline.push(new BABYLON.Vector3(0, 0, 0.1));
+      outline.push(new BABYLON.Vector3(-0.3, 0, 0.1));
+      //back formed automatically
+      const car = BABYLON.MeshBuilder.ExtrudePolygon("car", {shape: outline, depth: 0.2});
+      return car;
+    }
+	
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
