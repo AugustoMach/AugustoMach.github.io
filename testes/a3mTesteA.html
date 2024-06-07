@@ -145,14 +145,15 @@
        wheelLF.position.y = -0.2 - 0.035; */
 
        // Testa Controles
-	   //const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {
-        //  height: 0.9, diameter: 0.03, tessellation: 8
-      // });
-	   const armaD = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: .1, segments: 32}, scene);
+	   const armaE = BABYLON.MeshBuilder.CreateCylinder('armaE', {
+          height: 0.9, diameter: 0.03, tessellation: 8
+       });
 	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
        armaMat.diffuseColor = BABYLON.Color3.Random();
-       armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
-       armaD.position.z += 0.2;
+       armaE.rotate(BABYLON.Axis.X, Math.PI / 2);
+       armaE.position.z += 0.3;
+	   armaE.material = armaMat;
+	   const armaD = BABYLON.MeshBuilder.CreateSphere("armaD", {diameter: .3, segments: 32}, scene);
 	   armaD.material = armaMat;
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
@@ -160,6 +161,10 @@
             armaD.parent = controller.grip || controller.pointer;
             xr.input.onControllerRemovedObservable.add(() => {});
           } 
+		  if (controller.inputSource.handedness === 'left') {
+            armaE.parent = controller.grip || controller.pointer;
+            xr.input.onControllerRemovedObservable.add(() => {});
+          }
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
