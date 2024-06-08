@@ -44,14 +44,15 @@
 		//labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
 		labMat.diffuseColor = new BABYLON.Color3(0, 1, 0); //BABYLON.Color3.Random(); 
 		
-		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 4, depth: .01}, scene);
+		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 4, depth: .05}, scene);
 	    modeloZ.material = labMat;
-		const modeloZx = BABYLON.MeshBuilder.CreateBox("modeloZa", {width: 2, height: 3, depth: .03}, scene);
-	    modeloZx.material = labMat;
+		const modeloZx = BABYLON.MeshBuilder.CreateBox("modeloZa", {width: 2, height: 3, depth: .07}, scene);
 		let modeloZ1 = BABYLON.CSG.FromMesh(modeloZ);
         let modeloZ2 = BABYLON.CSG.FromMesh(modeloZx);
         let booleanCSG = modeloZ1.subtract(modeloZ2);
         let modeloZa = booleanCSG.toMesh("modeloZa", null, scene);
+		modeloZa.material = labMat;
+
 		modeloZx.dispose();
 		
         var paredesZ = [];
@@ -73,6 +74,7 @@
 		  }
         }
         modeloZ.dispose();
+		modeloZa.dispose();
         //const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
         // Configurações da luz  
