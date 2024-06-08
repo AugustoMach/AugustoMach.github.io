@@ -41,12 +41,14 @@
         const groundAggregate = new BABYLON.PhysicsAggregate(ground, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
  		// Labirinto
         const labMat = new BABYLON.StandardMaterial("labMat");
-		//labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-		labMat.diffuseColor = new BABYLON.Color3(0, 1, 0); //BABYLON.Color3.Random(); 
+		labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
+		//labMat.diffuseColor = new BABYLON.Color3(0, 1, 1); //BABYLON.Color3.Random(); 
 		
-		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 4, depth: .05}, scene);
+		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 4, depth: .2}, scene);
 	    modeloZ.material = labMat;
-		const modeloZx = BABYLON.MeshBuilder.CreateBox("modeloZa", {width: 2, height: 3, depth: .07}, scene);
+		modeloZ.position.y  =+2;
+		const modeloZx = BABYLON.MeshBuilder.CreateBox("modeloZx", {width: 2, height: 3, depth: .22}, scene);
+		modeloZx.position.y  =+1.5;
 		let modeloZ1 = BABYLON.CSG.FromMesh(modeloZ);
         let modeloZ2 = BABYLON.CSG.FromMesh(modeloZx);
         let booleanCSG = modeloZ1.subtract(modeloZ2);
