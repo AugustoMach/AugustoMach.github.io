@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Labirinto v3</title>
+  <title>Labirinto v1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
@@ -43,14 +43,29 @@
         const labMat = new BABYLON.StandardMaterial("labMat");
 		//labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
 		labMat.diffuseColor = new BABYLON.Color3(0, 1, 0); //BABYLON.Color3.Random(); 
+		
 		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 4, depth: .01}, scene);
 	    modeloZ.material = labMat;
+		const modeloZx = BABYLON.MeshBuilder.CreateBox("modeloZa", {width: 2, height: 3, depth: .03}, scene);
+	    modeloZx.material = labMat;
+		let modeloZ1 = BABYLON.CSG.FromMesh(modeloZ);
+        let modeloZ2 = BABYLON.CSG.FromMesh(modeloZx);
+        let booleanCSG = modeloZ1.subtract(modeloZ2);
+        let modeloZa = booleanCSG.toMesh("modeloZa", null, scene);
+		modeloZx.dispose();
+		
         var paredesZ = [];
 		var padrao = "--a---a-------aa-------a-";
         for (var i = 0; i < 5; i++) {
 		  for (var j = 0; j < 5; j++) {
 		    if (padrao.substr(i*5+j,1) === '-') {
               var clonedParZ = modeloZ.clone("clonedParZ" + i);
+			  clonedParZ.position.x = j * 10 - 20; 
+              clonedParZ.position.z = i * 5 - 10; 
+              paredesZ.push(clonedParZ);
+			}
+			if (padrao.substr(i*5+j,1) === 'a') {
+              var clonedParZ = modeloZa.clone("clonedParZ" + i);
 			  clonedParZ.position.x = j * 10 - 20; 
               clonedParZ.position.z = i * 5 - 10; 
               paredesZ.push(clonedParZ);
