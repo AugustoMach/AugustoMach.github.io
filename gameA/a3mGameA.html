@@ -110,7 +110,7 @@
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
 		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 50.7, -100), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -45), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
 
         engine.onResizeObservable.add(() => { engine.resize(); });
