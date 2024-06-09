@@ -60,9 +60,8 @@
 		modeloXx.dispose();
 		
         var paredesX = [];
-		//var padrao = "---a---;--a---a;----La-;--a--a-;a--L--a;--a-aL-;-a-L---;------a";
-		var padrao = "---a-----a---a----La---a--a-a--L--a--a-aL--a-L---------a";
-		//padrao = padrao.replaceaAll(';','');
+		var padrao = "---a---;--a---a;----La-;--a--a-;a--L--a;--a-aL-;-a-L---;------a";
+		padrao = padrao.replaceAll(";","");
         for (var i = 0; i < 8; i++) {
 		  if (i > 0){
 		    var clonedParZ = modeloZ.clone("clonedParX1" + i);
@@ -74,7 +73,6 @@
             clonedParZ.position.z = i * 10 - 40; 
             paredesX.push(clonedParZ);
 		  }
-
 		  for (var j = 0; j < 7; j++) {
 		    if (j==0)
 			if (padrao.substr(j==0) === 'L') {
@@ -123,7 +121,12 @@
 		xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
  		    if (motionController.handness === 'right') {
-              const xr_ids = motionController.getComponentIds();		 
+              const xr_ids = motionController.getComponentIds();
+			  let tbuttonComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+              tbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				if (tbuttonComponent.pressed) speed = 0.1;
+				else speed = 0.0;
+              });			  
 			  let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
               xbuttonComponent.onButtonStateChangedObservable.add(() => {
  				if (xbuttonComponent.pressed) speed = -0.03;
@@ -139,7 +142,7 @@
  	    });
 		scene.onBeforeRenderObservable.add(() => {
           const forward = xr.baseExperience.camera.getDirection (BABYLON.Vector3.Forward()).scale(speed);			   
-		  // forward.y = 0;
+		  forward.y = 0;
           xr.baseExperience.camera.position.addInPlace(forward);
 	    }); 
         return scene;
