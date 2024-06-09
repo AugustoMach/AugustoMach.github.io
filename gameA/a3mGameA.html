@@ -34,7 +34,7 @@
 		// Chao
         const grdMat = new BABYLON.StandardMaterial("grdMat");
         grdMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
-        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 50, height: 50}, scene);
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 90, height: 90}, scene);
         ground.material = grdMat;
         ground.material.diffuseTexture.uScale = 5;
         ground.material.diffuseTexture.vScale = 5;
@@ -44,46 +44,75 @@
 		labMat.diffuseTexture = new BABYLON.Texture("texturas/chao1.png");
 		//labMat.diffuseColor = new BABYLON.Color3(0, 1, 1); //BABYLON.Color3.Random(); 
 		
-		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: 10, height: 4, depth: .2}, scene);
+		const modeloZ = BABYLON.MeshBuilder.CreateBox("modeloZ", {width: .2, height: 4, depth: 10}, scene);
 	    modeloZ.material = labMat;
 		modeloZ.position.y  =+2;
-		const modeloZx = BABYLON.MeshBuilder.CreateBox("modeloZx", {width: 2, height: 3, depth: .22}, scene);
-		modeloZx.position.y  =+1.5;
-		let modeloZ1 = BABYLON.CSG.FromMesh(modeloZ);
-        let modeloZ2 = BABYLON.CSG.FromMesh(modeloZx);
-        let booleanCSG = modeloZ1.subtract(modeloZ2);
-        let modeloZa = booleanCSG.toMesh("modeloZa", null, scene);
-		modeloZa.material = labMat;
-
-		modeloZx.dispose();
+		const modeloX = BABYLON.MeshBuilder.CreateBox("modeloX", {width: 10, height: 4, depth: .2}, scene);
+	    modeloX.material = labMat;
+		modeloX.position.y  =+2;
+		const modeloXx = BABYLON.MeshBuilder.CreateBox("modeloXx", {width: 2, height: 3, depth: .22}, scene);
+		modeloXx.position.y  =+1.5;
+		let modeloX1 = BABYLON.CSG.FromMesh(modeloX);
+        let modeloX2 = BABYLON.CSG.FromMesh(modeloXx);
+        let booleanCSG = modeloX1.subtract(modeloX2);
+        let modeloXa = booleanCSG.toMesh("modeloXa", null, scene);
+		modeloXa.material = labMat;
+		modeloXx.dispose();
 		
-        var paredesZ = [];
-		var padrao = "--a---a-------aa-------a-";
-        for (var i = 0; i < 5; i++) {
-		  for (var j = 0; j < 5; j++) {
-		    if (padrao.substr(i*5+j,1) === '-') {
-              var clonedParZ = modeloZ.clone("clonedParZ" + i);
-			  clonedParZ.position.x = j * 10 - 20; 
-              clonedParZ.position.z = i * 5 - 10; 
-              paredesZ.push(clonedParZ);
+        var paredesX = [];
+		//var padrao = "---a---;--a---a;----La-;--a--a-;a--L--a;--a-aL-;-a-L---;------a";
+		var padrao = "---a-----a---a----La---a--a-a--L--a--a-aL--a-L---------a";
+		//padrao = padrao.replaceaAll(';','');
+        for (var i = 0; i < 8; i++) {
+		  if (i > 0){
+		    var clonedParZ = modeloZ.clone("clonedParX1" + i);
+		    clonedParZ.position.x = -35; 
+            clonedParZ.position.z = i * 10 - 40; 
+            paredesX.push(clonedParZ);
+			var clonedParZ = modeloZ.clone("clonedParX2" + i);
+		    clonedParZ.position.x = 35; 
+            clonedParZ.position.z = i * 10 - 40; 
+            paredesX.push(clonedParZ);
+		  }
+
+		  for (var j = 0; j < 7; j++) {
+		    if (j==0)
+			if (padrao.substr(j==0) === 'L') {
+              var clonedParZ = modeloZ.clone("clonedParXz" + i);
+			  clonedParZ.position.x = j * 10 - 30; 
+              clonedParZ.position.z = i * 10 - 40; 
+              paredesX.push(clonedParZ);
 			}
-			if (padrao.substr(i*5+j,1) === 'a') {
-              var clonedParZ = modeloZa.clone("clonedParZ" + i);
-			  clonedParZ.position.x = j * 10 - 20; 
-              clonedParZ.position.z = i * 5 - 10; 
-              paredesZ.push(clonedParZ);
+		    if (padrao.substr(i*7+j,1) === '-' || padrao.substr(i*7+j,1) === 'L') {
+              var clonedParX = modeloX.clone("clonedParX" + i);
+			  clonedParX.position.x = j * 10 - 30; 
+              clonedParX.position.z = i * 10 - 35; 
+              paredesX.push(clonedParX);
+			}
+			if (padrao.substr(i*7+j,1) === 'L') {
+              var clonedParZ = modeloZ.clone("clonedParXz" + i);
+			  clonedParZ.position.x = j * 10 - 30; 
+              clonedParZ.position.z = i * 10 - 40; 
+              paredesX.push(clonedParZ);
+			}
+			if (padrao.substr(i*7+j,1) === 'a') {
+              var clonedParX = modeloXa.clone("clonedParX" + i);
+			  clonedParX.position.x = j * 10 - 30; 
+              clonedParX.position.z = i * 10 - 35; 
+              paredesX.push(clonedParX);
 			}
 		  }
         }
-        modeloZ.dispose();
-		modeloZa.dispose();
+        modeloX.dispose();
+		modeloXa.dispose();
+		modeloZ.dispose();
         //const labAggregate = new BABYLON.PhysicsAggregate(lab, BABYLON.PhysicsShapeType.BOX, { mass: 0 }, scene);
 
         // Configurações da luz  
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 3, 0), scene);
         light.intensity = 0.7;
 		// Configurações da câmera
-        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -12), scene);
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 50.7, -100), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());
 
         engine.onResizeObservable.add(() => { engine.resize(); });
