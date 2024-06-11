@@ -200,6 +200,7 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
+				   armaE.parent = null;
 				 //  if (triggerComponent.pressed) speed = 0.07;
 				 //  else speed = 0.0;
                 });
@@ -238,13 +239,14 @@
 		 //	   box.position = rightHandPosition;
 		 //  }
 		 //});
-	   }); 
+	   });
+   
 	   return scene;
     } 
 	// Remove o parent após 5 segundos
-    setTimeout(() => {
-      armaE.parent = null; // Remove o efeito .parent
-    }, 5000);
+       setTimeout(() => {
+         armaE.parent = null; // Remove o efeito .parent
+       }, 5000);	
     // Retoma o parent após 10 segundos
     setTimeout(() => {
       // armaE.parent = parentBox; // Retoma o efeito .parent
