@@ -167,6 +167,11 @@
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
+				// 0 = xr-standard-trigger
+				// 1 = xr-standard-squeeze
+				// 2 = xr-standard-thumbstick
+				// 3 = x-button
+				// 4 = y-button
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
 				   if (triggerComponent.pressed) {
@@ -236,6 +241,15 @@
 	   }); 
 	   return scene;
     } 
+	// Remove o parent após 5 segundos
+    setTimeout(() => {
+      armaE.parent = null; // Remove o efeito .parent
+    }, 5000);
+    // Retoma o parent após 10 segundos
+    setTimeout(() => {
+      // armaE.parent = parentBox; // Retoma o efeito .parent
+    }, 10000);
+	
 	const buildCar = () => {
       //base
       const outline = [
