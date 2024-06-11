@@ -200,9 +200,8 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   armaE.parent = null;
-				 //  if (triggerComponent.pressed) speed = 0.07;
-				 //  else speed = 0.0;
+				  if (triggerComponent.pressed) armaE.parent = null;
+				  else speed = 0.0;
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
@@ -245,7 +244,7 @@
     } 
 	// Remove o parent após 5 segundos
        setTimeout(() => {
-         armaE.parent = null; // Remove o efeito .parent
+       //  armaE.parent = null; // Remove o efeito .parent
        }, 5000);	
     // Retoma o parent após 10 segundos
     setTimeout(() => {
