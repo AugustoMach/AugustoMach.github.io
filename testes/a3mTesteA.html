@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1pessoa</title>
+  <title>Pessoa mov+maos+controle</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -154,9 +154,9 @@
 	   armaD.material = armaMat;
 	   
 	   // Carregar modelos de mãos ou armas
-       var armaE = BABYLON.SceneLoader.ImportMesh("", "glb/", "luvaBox.glb", scene, function(newMeshes) {
+       var armaE = BABYLON.SceneLoader.ImportMeshAsync("", "glb/", "luvaBox.glb", scene, function(newMeshes) {
 	       var hh = newMeshes[0];
-		   hh.scaling.scaleInPlace(0.1);
+		   hh.scaling.scaleInPlace(0.02);
  	      // hh.position = new BABYLON.Vector3(0, 0, -5);
 	   });
 	   //const armaE = BABYLON.MeshBuilder.CreateSphere("armaE", {diameter:.3,segments:32}, scene);
@@ -164,11 +164,19 @@
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
-            armaD.parent = controller.grip || controller.pointer;
-            xr.input.onControllerRemovedObservable.add(() => {});
+		    if (controller.motionController) {
+              controller.motionController.rootMesh.setEnabled(false);
+            }
+			// Clonar o modelo de mão ou arma
+            const cloneMesh = armaE.clone("armaE");
+            cloneMesh.parent = controller.grip; // Anexar ao grip do controle
+            cloneMesh.isPickable = false; // Desabilitar interações de picking
+
+            //armaE.parent = controller.grip || controller.pointer;
+            //xr.input.onControllerRemovedObservable.add(() => {});
           } 
 		  if (controller.inputSource.handedness === 'left') {
-            armaE.parent = controller.grip || controller.pointer;
+            armaD.parent = controller.grip || controller.pointer;
             xr.input.onControllerRemovedObservable.add(() => {});
           }
           controller.onMotionControllerInitObservable.add((motionController) => {
@@ -207,8 +215,8 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				  //if (triggerComponent.pressed) armaE.parent = null;
-				  //else speed = 0.0;
+				  if (triggerComponent.pressed) armaD.parent = null;
+				  else speed = 0.0;
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
