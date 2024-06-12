@@ -152,8 +152,14 @@
        armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
        armaD.position.z += 0.35;
 	   armaD.material = armaMat;
-	   const armaE = BABYLON.MeshBuilder.CreateSphere("armaE", {diameter:.3,segments:32}, scene);
-	   armaE.material = armaMat;
+	   
+	   // Carregar modelos de mãos ou armas
+       const armaE = BABYLON.SceneLoader.ImportMesh("", "glb/", "luvaBox.glb", scene, function(newMeshes) {
+	       var hh = newMeshes[0];
+ 	       hh.position = new BABYLON.Vector3(0.5, .6, -5);
+	   });
+	   //const armaE = BABYLON.MeshBuilder.CreateSphere("armaE", {diameter:.3,segments:32}, scene);
+	  // armaE.material = armaMat;
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
