@@ -154,9 +154,10 @@
 	   armaD.material = armaMat;
 	   
 	   // Carregar modelos de mãos ou armas
-       const armaE = BABYLON.SceneLoader.ImportMesh("", "glb/", "luvaBox.glb", scene, function(newMeshes) {
+       var armaE = BABYLON.SceneLoader.ImportMesh("", "glb/", "luvaBox.glb", scene, function(newMeshes) {
 	       var hh = newMeshes[0];
- 	       hh.position = new BABYLON.Vector3(0.5, .6, -5);
+		   hh.scaling.scaleInPlace(0.1);
+ 	      // hh.position = new BABYLON.Vector3(0, 0, -5);
 	   });
 	   //const armaE = BABYLON.MeshBuilder.CreateSphere("armaE", {diameter:.3,segments:32}, scene);
 	  // armaE.material = armaMat;
@@ -206,8 +207,8 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				  if (triggerComponent.pressed) armaE.parent = null;
-				  else speed = 0.0;
+				  //if (triggerComponent.pressed) armaE.parent = null;
+				  //else speed = 0.0;
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
