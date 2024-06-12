@@ -164,13 +164,13 @@
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
-		    if (controller.motionController) {
-              controller.motionController.rootMesh.setEnabled(false);
-            }
+		    //if (controller.motionController) {
+             // controller.motionController.rootMesh.setEnabled(false);
+           // }
 			// Clonar o modelo de mão ou arma
-            const cloneMesh = armaE.clone("armaE");
-            cloneMesh.parent = controller.grip; // Anexar ao grip do controle
-            cloneMesh.isPickable = false; // Desabilitar interações de picking
+           // const cloneMesh = armaE.clone("armaE");
+           // cloneMesh.parent = controller.grip; // Anexar ao grip do controle
+            //cloneMesh.isPickable = false; // Desabilitar interações de picking
 
             //armaE.parent = controller.grip || controller.pointer;
             //xr.input.onControllerRemovedObservable.add(() => {});
