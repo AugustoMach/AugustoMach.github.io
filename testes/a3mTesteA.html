@@ -154,7 +154,7 @@
 	   armaD.material = armaMat;
 	   
 	   // Carregar modelos de mãos ou armas
-       var armaE = BABYLON.SceneLoader.ImportMeshAsync("", "glb/", "luvaBox.glb", scene, function(newMeshes) {
+       var armaE = BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "luvaBox.glb", scene, function(newMeshes) {
 	       var hh = newMeshes[0];
 		   hh.scaling.scaleInPlace(0.02);
  	      // hh.position = new BABYLON.Vector3(0, 0, -5);
@@ -168,9 +168,9 @@
              // controller.motionController.rootMesh.setEnabled(false);
            // }
 			// Clonar o modelo de mão ou arma
-           // const cloneMesh = armaE.clone("armaE");
-           // cloneMesh.parent = controller.grip; // Anexar ao grip do controle
-            //cloneMesh.isPickable = false; // Desabilitar interações de picking
+             const cloneMesh = armaE.clone("armaE");
+             cloneMesh.parent = controller.grip; // Anexar ao grip do controle
+             cloneMesh.isPickable = false; // Desabilitar interações de picking
 
             //armaE.parent = controller.grip || controller.pointer;
             //xr.input.onControllerRemovedObservable.add(() => {});
