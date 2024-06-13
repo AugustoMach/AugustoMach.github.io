@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pessoa mov+maos+controle</title>
+  <title>Pessoa pers+mov+controle</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <style>
@@ -41,12 +41,20 @@
        ground.material = groundMaterial;
 	   // Carrega personagem
 	   var hero;
-       BABYLON.SceneLoader.ImportMesh("", "glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          hero = newMeshes[0];
-         hero.scaling.scaleInPlace(0.1);
+         hero.scaling.scaleInPlace(.1);
 		 hero.position.z = 0;
          const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
          Anim.start(true, 1.0, Anim.from, Anim.to, false);
+       });
+	   var monster;
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "monstro1.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+         monster = newMeshes[0];
+         monster.scaling.scaleInPlace(2);
+		 monster.position.z = 0;
+         //const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
+         //Anim.start(true, 1.0, 1, 77, false);
        });
        BABYLON.SceneLoader.ImportMesh("", "glb/", "pirateFort.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
           var fort = newMeshes[0];
