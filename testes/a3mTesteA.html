@@ -133,7 +133,8 @@
 	   var hh;
        var armaE = BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "luvaBox.glb", scene, function(newMeshes) {
 	       hh = newMeshes[0];
-		   hh.scaling.scaleInPlace(0.02);
+		   hh.scaling.scaleInPlace(0.015);
+		   hh.rotate(BABYLON.Axis.Z, Math.PI / 2);
  	      // hh.position = new BABYLON.Vector3(0, 0, -5);
 	   });
 	   //const armaE = BABYLON.MeshBuilder.CreateSphere("armaE", {diameter:.3,segments:32}, scene);
