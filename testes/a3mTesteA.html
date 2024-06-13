@@ -34,7 +34,7 @@
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
-       groundMaterial.diffuseTexture = new BABYLON.Texture("texturas/chao1.png", scene);
+       groundMaterial.diffuseTexture = new BABYLON.Texture("https://augustomach.github.io/testes/texturas/chao1.png", scene);
        groundMaterial.diffuseTexture.uScale = 6;
        groundMaterial.diffuseTexture.vScale = 6;
        groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -44,6 +44,7 @@
        BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          hero = newMeshes[0];
          hero.scaling.scaleInPlace(.1);
+		 hero.position.x = -10;
 		 hero.position.z = 0;
          const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
          Anim.start(true, 1.0, Anim.from, Anim.to, false);
@@ -56,29 +57,12 @@
          //const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
          //Anim.start(true, 1.0, 1, 77, false);
        });
-       BABYLON.SceneLoader.ImportMesh("", "glb/", "pirateFort.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "casaPirata.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
           var fort = newMeshes[0];
           fort.scaling.scaleInPlace(0.8);
 		  fort.position = new BABYLON.Vector3(17.5, .6, 20);
        });
-	   
-	   // Carregar modelos de mãos ou armas
-       // const handMeshTask = BABYLON.SceneLoader.ImportMesh("", "glb/", "cottage_fbx.fbx", scene, function(newMeshes) {
-	   // var hh = newMeshes[0];
- 	   // hh.position = new BABYLON.Vector3(0.5, .6, -5);
-	   // });
-	   // BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/CedricGuillemet/dump/master/", //"funnyGuy.glb", scene,
-       //   function (meshes, particleSystems, skeletons) {  
-       //  var skeleton = skeletons[2];
-       //  scene.beginAnimation(skeletons[0], 0, 50, true, 10.0);
-       //  });
- 	   // Carregar o modelo .obj
-       //  BABYLON.SceneLoader.ImportMesh("", "obj/", "wall.obj", scene, function (meshes) {
-       // Executa esta função quando o modelo é carregado
-       // "meshes" contém uma lista de malhas carregadas
-       // Aqui você pode fazer qualquer manipulação ou adicionar funcionalidades
-       //  });
-	   
+	   	   
 	   var headPosition;
 	   var leftHandPosition;
 	   var rightHandPosition;
@@ -136,22 +120,6 @@
        mesh1.position = new BABYLON.Vector3(-3, 3, 0);
        sphere1.dispose();
        box1.dispose();
-	   /*
-	   const car = buildCar ();
-	   const wheelRB = BABYLON.MeshBuilder.CreateCylinder("wheelRB", {diameter: 0.125, height: 0.05});
-       wheelRB.parent = car;
-       wheelRB.position.z = -0.1;
-       wheelRB.position.x = -0.2;
-       wheelRB.position.y = 0.035;
-
-       wheelRF = wheelRB.clone("wheelRF");
-       wheelRF.position.x = 0.1;
-
-       wheelLB = wheelRB.clone("wheelLB");
-       wheelLB.position.y = -0.2 - 0.035;
-
-       wheelLF = wheelRF.clone("wheelLF");
-       wheelLF.position.y = -0.2 - 0.035; */
 
        // Armas para Mãos
 	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
@@ -162,8 +130,9 @@
 	   armaD.material = armaMat;
 	   
 	   // Carregar modelos de mãos ou armas
+	   var hh;
        var armaE = BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "luvaBox.glb", scene, function(newMeshes) {
-	       var hh = newMeshes[0];
+	       hh = newMeshes[0];
 		   hh.scaling.scaleInPlace(0.02);
  	      // hh.position = new BABYLON.Vector3(0, 0, -5);
 	   });
@@ -176,12 +145,12 @@
              // controller.motionController.rootMesh.setEnabled(false);
            // }
 			// Clonar o modelo de mão ou arma
-             const cloneMesh = armaE.clone("armaE");
-             cloneMesh.parent = controller.grip; // Anexar ao grip do controle
-             cloneMesh.isPickable = false; // Desabilitar interações de picking
+             //const cloneMesh = armaE.clone("armaE");
+             //cloneMesh.parent = controller.grip; // Anexar ao grip do controle
+            // cloneMesh.isPickable = false; // Desabilitar interações de picking
 
-            //armaE.parent = controller.grip || controller.pointer;
-            //xr.input.onControllerRemovedObservable.add(() => {});
+             hh.parent = controller.grip || controller.pointer;
+             xr.input.onControllerRemovedObservable.add(() => {});
           } 
 		  if (controller.inputSource.handedness === 'left') {
             armaD.parent = controller.grip || controller.pointer;
@@ -265,33 +234,7 @@
    
 	   return scene;
     } 
-	// Remove o parent após 5 segundos
-       setTimeout(() => {
-       //  armaE.parent = null; // Remove o efeito .parent
-       }, 5000);	
-    // Retoma o parent após 10 segundos
-    setTimeout(() => {
-      // armaE.parent = parentBox; // Retoma o efeito .parent
-    }, 10000);
-	
-	const buildCar = () => {
-      //base
-      const outline = [
-        new BABYLON.Vector3(-0.3, 0, -0.1),
-        new BABYLON.Vector3(0.2, 0, -0.1),
-      ]
-      //curved front
-      for (let i = 0; i < 20; i++) {
-        outline.push(new BABYLON.Vector3(0.2 * Math.cos(i * Math.PI / 40), 0, 0.2 * Math.sin(i * Math.PI / 40) - 0.1));
-      }
-      //top
-      outline.push(new BABYLON.Vector3(0, 0, 0.1));
-      outline.push(new BABYLON.Vector3(-0.3, 0, 0.1));
-      //back formed automatically
-      const car = BABYLON.MeshBuilder.ExtrudePolygon("car", {shape: outline, depth: 0.2});
-      return car;
-    }
-	
+
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
