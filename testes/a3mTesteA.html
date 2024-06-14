@@ -41,12 +41,13 @@
        ground.material = groundMaterial;
 	   // Carrega personagem
 	   var hero;
-       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
-         hero = newMeshes[0];
-         hero.scaling.scaleInPlace(.1);
+      // BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+        BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "boneco.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+        hero = newMeshes[0];
+         hero.scaling.scaleInPlace(1);
 		 hero.position.x = -10;
 		 hero.position.z = 0;
-         const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
+         const Anim = scene.getAnimationGroupByName("running"); // Idle runing walking
          Anim.start(true, 1.0, Anim.from, Anim.to, false);
        });
 	   var monster;
@@ -210,7 +211,7 @@
 		  });      
 	   });
 	   // Movimenta personagem 
-       var moveSpeed = 0.03;
+       var moveSpeed = 0.03; //0.01
        var direction = new BABYLON.Vector3(0, 0, 1);
        scene.onBeforeRenderObservable.add(() => {
 		 if (hero) {
