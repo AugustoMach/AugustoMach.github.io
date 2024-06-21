@@ -4,6 +4,7 @@
   <title>Pessoa pers+mov+controle</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
   <style>
     html, body {
       margin: 0;
@@ -233,6 +234,24 @@
 		 //  }
 		 //});
 	   });
+	   
+	   // Buttons
+       var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("button", true, scene);
+       function createButton(id, text, top) {
+          let button = BABYLON.GUI.Button.CreateSimpleButton(id, text);
+          button.width = 0.2;
+          button.height = "50px";
+          button.color = "white";
+          button.background = "green";
+          button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+          button.top = top;
+          return button;
+       }
+
+       var buttonRagdoll = createButton("buttonRagdoll", "Ragdoll on", "10px");
+       advancedTexture.addControl(buttonRagdoll);
+       var buttonImpulse = createButton("buttonImpulse", "Impulse", "80px");
+       advancedTexture.addControl(buttonImpulse);
    
 	   return scene;
     } 
