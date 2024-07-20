@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pessoa 21jun24</title>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+    async function createScene() {
+       var speed = 0.0;
+	   const wg = 100;
+	   const hg = 100;
+       var scene = new BABYLON.Scene(engine);	   
+	   // Configurações de luz e câmera
+       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -8), scene); 
+       // Sons  
+       const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+	   const gatshot = new BABYLON.Sound("gunshot", "sons/explosao1.mp3", scene);
+       // Ground
+       const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
+       var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
+       groundMaterial.diffuseTexture = new BABYLON.Texture("https://augustomach.github.io/testes/texturas/chao1.png", scene);
+       groundMaterial.diffuseTexture.uScale = 6;
+       groundMaterial.diffuseTexture.vScale = 6;
+       groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+       ground.material = groundMaterial;
+	   // Carrega personagem
+	   var hero;
+       // BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "robot010.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+         hero = newMeshes[0];
+         hero.scaling.scaleInPlace(1);
+		 hero.position.x = -10;
+		 hero.position.z = 0;
+         const Anim = scene.getAnimationGroupByName("walk"); // Idle runing walking
+         Anim.start(true, 1.0, Anim.from, Anim.to, false);
+       });
+	   var monster;
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "monstro1.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+         monster = newMeshes[0];
+         monster.scaling.scaleInPlace(1);
+		 monster.position.z = 0;
+         //const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
+         //Anim.start(true, 1.0, Anim.from, Anim.to, false);
+       });
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "dome002.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          var fort = newMeshes[0];
+          fort.scaling.scaleInPlace(1.5);
+		  fort.position = new BABYLON.Vector3(0, 0, -2);
+       });
+	   	   
+	   var headPosition;
+	   var leftHandPosition;
+	   var rightHandPosition;
+       engine.onResizeObservable.add(() => { engine.resize(); });
+	   var xr = await scene.createDefaultXRExperienceAsync({
+          floorMeshes: [ground]  
+       });		
+       xr.pointerSelection.attach();
+       // Alvo
+	   const box = BABYLON.MeshBuilder.CreateBox("box", {});
+       const boxMaterial = new BABYLON.StandardMaterial("boxMat", scene);
+       boxMaterial.diffuseColor = BABYLON.Color3.Random();
+       box.material = boxMaterial;
+       box.position.z = -2;
+	   box.position.y = 1.7;
+	   // Array to hold the cloned boxes
+       var boxes = [];
+       // Clone the base box to create three boxes
+       for (var i = 0; i < 3; i++) {
+          var clonedBox = box.clone("clonedBox" + i);
+          clonedBox.position.x = i * 3 - 2; // Position the boxes
+		  clonedBox.actionManager = new BABYLON.ActionManager(scene);
+          clonedBox.actionManager.registerAction(
+            new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
+              function (evt) {
+                const sourceBox = evt.meshUnderPointer;
+                sourceBox.dispose();
+				gatshot.play();
+			  }
+            )
+	      );
+          boxes.push(clonedBox);
+       }
+       box.dispose();
+	   
+       // Materials
+       var mat1 = new BABYLON.StandardMaterial('mat1', scene);
+       mat1.diffuseColor = new BABYLON.Color3(1, 0, 0);
+       var mat2 = new BABYLON.StandardMaterial('mat2', scene);
+       mat2.diffuseColor = new BABYLON.Color3(0, 0, 1);
+       var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 1, segments: 32}, scene);
+       sphere1.position.y = 1;
+	   sphere1.material = mat1;
+       var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 1}, scene);
+       box1.position = new BABYLON.Vector3(-.50,  .5, -.5);	
+       box1.material = mat2;	   
+	   let sphereCSG = BABYLON.CSG.FromMesh(sphere1);
+       let boxCSG = BABYLON.CSG.FromMesh(box1);
+       let booleanCSG = sphereCSG.subtract(boxCSG);
+       let newMesh = booleanCSG.toMesh("newMesh", null, scene);
+       newMesh.position = new BABYLON.Vector3(2, 4, 0);
+	   newMesh.material = mat2;
+	   //parameters - arrayOfMeshes, disposeSource, allow32BitsIndices, meshSubclass, subdivideWithSubMeshes, multiMultiMaterial
+       var mesh1 = BABYLON.Mesh.MergeMeshes([sphere1, box1], false, true, undefined, false, true);
+       mesh1.position = new BABYLON.Vector3(-3, 3, 0);
+       sphere1.dispose();
+       box1.dispose();
+
+       // Armas para Mãos
+	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
+       armaMat.diffuseColor = BABYLON.Color3.Random();
+	   const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {height:0.9,diameter:0.03,tessellation:8}, scene);
+       armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
+       armaD.position.z += 0.35;
+	   armaD.material = armaMat;
+	   
+	   // Carregar modelos de mãos ou armas
+	   var hh;
+       var armaE = BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "luvaBox1.glb", scene, function(newMeshes) {
+	       hh = newMeshes[0];
+		  // hh.scaling.scaleInPlace(0.015);
+		  // hh.rotate(BABYLON.Axis.Z, Math.PI / 2);
+ 	      // hh.position = new BABYLON.Vector3(0, 0, -5);
+	   });
+	   //const armaE = BABYLON.MeshBuilder.CreateSphere("armaE", {diameter:.3,segments:32}, scene);
+	  // armaE.material = armaMat;
+	   
+       xr.input.onControllerAddedObservable.add((controller) => {
+	      if (controller.inputSource.handedness === 'right') {
+		    //if (controller.motionController) {
+             // controller.motionController.rootMesh.setEnabled(false);
+           // }
+			// Clonar o modelo de mão ou arma
+             //const cloneMesh = armaE.clone("armaE");
+             //cloneMesh.parent = controller.grip; // Anexar ao grip do controle
+            // cloneMesh.isPickable = false; // Desabilitar interações de picking
+
+             hh.parent = controller.grip || controller.pointer;
+             xr.input.onControllerRemovedObservable.add(() => {});
+          } 
+		  if (controller.inputSource.handedness === 'left') {
+            armaD.parent = controller.grip || controller.pointer;
+            xr.input.onControllerRemovedObservable.add(() => {});
+          }
+          controller.onMotionControllerInitObservable.add((motionController) => {
+            if (motionController.handness === 'right') {
+                const xr_ids = motionController.getComponentIds();
+				// 0 = xr-standard-trigger
+				// 1 = xr-standard-squeeze
+				// 2 = xr-standard-thumbstick
+				// 3 = x-button
+				// 4 = y-button
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+				   if (triggerComponent.pressed) {
+                      // Create a ray from the controller
+                      // const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
+                      // Check intersection with the character
+                      // const hit = scene.pickWithRay(ray);
+                      // if (hit.pickedMesh && hit.pickedMesh === hero) {
+					  //  hero.dispose();
+				       //  gatshot.play();
+					  // }
+				   } 
+                });
+				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+                xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				   if (xbuttonComponent.pressed) speed = -0.03;
+				   else speed = 0.0;
+                });
+				let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
+				ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				   if (ybuttonComponent.pressed) speed = 0.03;
+				   else speed = 0.0;
+                });
+			 }
+			 if (motionController.handness === 'left') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+				  if (triggerComponent.pressed) armaD.parent = null;
+				  else speed = 0.0;
+                });
+				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+                xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				   if (xbuttonComponent.pressed) speed = -0.07;
+				   else speed = 0.0;
+                });
+				let ybuttonComponent = motionController.getComponent(xr_ids[4]);//y-button
+				ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				   if (ybuttonComponent.pressed) speed = 0.07;
+				   else speed = 0.0;
+                });
+			 }
+		  });      
+	   });
+	   // Movimenta personagem 
+       var moveSpeed = 0.03; //0.01
+       var direction = new BABYLON.Vector3(0, 0, 1);
+       scene.onBeforeRenderObservable.add(() => {
+		 if (hero) {
+		   //const hf = hero.lookAt(hero.position.add(direction));
+           hero.position.z += moveSpeed;
+		   if (hero.position.z > 50) hero.position.z = -50;
+         }
+         const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
+		 if (Math.abs(speed)<0.05) forward.y = 0;
+         xr.baseExperience.camera.position.addInPlace(forward);
+		 if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
+         //var inputSources = xr.input.xrInput.controllers;
+         //inputSources.forEach (controller => {
+         //  if (controller.inputSource.handedness === "left") {
+         //    var leftHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
+         //  } else if (controller.inputSource.handedness === "right") {
+         //    var rightHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
+		 //	   box.position = rightHandPosition;
+		 //  }
+		 //});
+	   });
+	   
+	   // Buttons
+       var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("button", true, scene);
+       function createButton (id, text, top) {
+          let button = BABYLON.GUI.Button.CreateSimpleButton(id, text);
+          button.width = 0.2;
+          button.height = "50px";
+          button.color = "white";
+          button.background = "green";
+          button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+          button.top = top;
+          return button;
+       }
+       var button1 = createButton("buttonRagdoll", "Opção 1", "10px");
+       advancedTexture.addControl(button1);
+       var button2 = createButton("buttonImpulse", "Opção 2", "80px");
+       advancedTexture.addControl(button2);
+   
+	   return scene;
+    } 
+
+    async function run() {
+      const scene = await createScene();
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    }
+    run();
+  </script>
+</body>
+</html>
