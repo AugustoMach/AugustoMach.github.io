@@ -62,7 +62,7 @@
        BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "dome002.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
           var fort = newMeshes[0];
           fort.scaling.scaleInPlace(1.5);
-		  fort.position = new BABYLON.Vector3(0, 0, -2);
+		  fort.position = new BABYLON.Vector3(0, .3, -2);
        });
 	   	   
 	   var headPosition;
@@ -131,9 +131,9 @@
        armaD.position.z += 0.35;
 	   armaD.material = armaMat;
 	   
-	   // Carregar modelos de mãos ou armas
-	   var hh;
-       var armaE = BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "luvaBox1.glb", scene, function(newMeshes) {
+	   // Carregar modelos de mãos ou armas 
+	   var hh; //luvaBox1.glb
+       var armaE = BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "espada001.glb", scene, function(newMeshes) {
 	       hh = newMeshes[0];
 		  // hh.scaling.scaleInPlace(0.015);
 		  // hh.rotate(BABYLON.Axis.Z, Math.PI / 2);
@@ -223,7 +223,7 @@
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 		 if (Math.abs(speed)<0.05) forward.y = 0;
          xr.baseExperience.camera.position.addInPlace(forward);
-		 if (xr.baseExperience.camera.position.y < 1.7) xr.baseExperience.camera.position.y = 1.7;	
+		 if (xr.baseExperience.camera.position.y < -1.7) xr.baseExperience.camera.position.y = 1.7;	
          //var inputSources = xr.input.xrInput.controllers;
          //inputSources.forEach (controller => {
          //  if (controller.inputSource.handedness === "left") {
