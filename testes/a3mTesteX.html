@@ -22,6 +22,7 @@
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
+	   var dirglb = "https://augustomach.github.io/testes/glb/";
        var speed = 0.0;
 	   const wg = 100;
 	   const hg = 100;
@@ -29,9 +30,6 @@
 	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -8), scene); 
-       // Sons  
-       //const music = new BABYLON.Sound("musica", "sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
-	   //const gatshot = new BABYLON.Sound("gunshot", "sons/explosao1.mp3", scene);
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
@@ -42,26 +40,22 @@
        ground.material = groundMaterial;
 	   // Carrega personagens
 	   var p1;
-       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "dome00x1.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x1.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          p1 = newMeshes[0];
-        // hero.scaling.scaleInPlace(1);
-		 p1.position = new BABYLON.Vector3(-2, .3, 2);
-       //  const Anim = scene.getAnimationGroupByName("observador"); // Idle runing walking
-      //   Anim.start(true, 1.0, Anim.from, Anim.to, false);
+         p1.scaling.scaleInPlace(1);
+		 p1.position = new BABYLON.Vector3(-2, 0, 10);
        });
 	   var p2;
-       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "dome00x2.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x2.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          p2 = newMeshes[0];
          p2.scaling.scaleInPlace(1);
-		 p2.position = new BABYLON.Vector3(0, .3, 0);
-         //const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
-         //Anim.start(true, 1.0, Anim.from, Anim.to, false);
+		 p2.position = new BABYLON.Vector3(0, 0, 0);
        });
 	   var p3;
-       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "dome00x4.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x4.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
           p3 = newMeshes[0];
           p3.scaling.scaleInPlace(1);
-		  p3.position = new BABYLON.Vector3(0, .3, -2);
+		  p3.position = new BABYLON.Vector3(0, 0, -10);
        });
 	   	   
 	   var headPosition;
@@ -74,38 +68,25 @@
        xr.pointerSelection.attach();
 	   
        // Armas para Mãos
-	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
-       armaMat.diffuseColor = BABYLON.Color3.Random();
-	   const armaD = BABYLON.MeshBuilder.CreateCylinder('armaD', {height:0.9,diameter:0.03,tessellation:8}, scene);
-       armaD.rotate(BABYLON.Axis.X, Math.PI / 2);
-       armaD.position.z += 0.35;
-	   armaD.material = armaMat;
-	   
-	   // Carregar modelos de mãos ou armas 
-	   var hh; //luvaBox1.glb
-       var armaE = BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "espada001.glb", scene, function(newMeshes) {
-	       hh = newMeshes[0];
-		   hh.scaling.scaleInPlace(0.2);
-		  // hh.rotate(BABYLON.Axis.Z, Math.PI / 2);
- 	      // hh.position = new BABYLON.Vector3(0, 0, -5);
+	   var hd; 
+       var armaD = BABYLON.SceneLoader.ImportMesh("", dirglb, "espada001.glb", scene, function(newMeshes) {
+	       hd = newMeshes[0];
+		   hd.scaling.scaleInPlace(1);
+	   });
+	   var he; 
+       var armaE = BABYLON.SceneLoader.ImportMesh("", dirglb, "faca001.glb", scene, function(newMeshes) {
+	       he = newMeshes[0];
+		   he.scaling.scaleInPlace(1);
 	   });
 	   
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
-		    //if (controller.motionController) {
-             // controller.motionController.rootMesh.setEnabled(false);
-           // }
-			// Clonar o modelo de mão ou arma
-             //const cloneMesh = armaE.clone("armaE");
-             //cloneMesh.parent = controller.grip; // Anexar ao grip do controle
-            // cloneMesh.isPickable = false; // Desabilitar interações de picking
-
-             hh.parent = controller.grip || controller.pointer;
+             hd.parent = controller.grip || controller.pointer;
              xr.input.onControllerRemovedObservable.add(() => {});
           } 
 		  if (controller.inputSource.handedness === 'left') {
-            armaD.parent = controller.grip || controller.pointer;
-            xr.input.onControllerRemovedObservable.add(() => {});
+             he.parent = controller.grip || controller.pointer;
+             xr.input.onControllerRemovedObservable.add(() => {});
           }
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
