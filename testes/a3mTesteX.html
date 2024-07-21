@@ -43,25 +43,25 @@
 	   // Carrega personagem
 	   var hero;
        // BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "HVGirl.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
-       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "robot010.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "animBones.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          hero = newMeshes[0];
          hero.scaling.scaleInPlace(1);
 		 hero.position.x = -10;
 		 hero.position.z = 0;
-         const Anim = scene.getAnimationGroupByName("walk"); // Idle runing walking
+         const Anim = scene.getAnimationGroupByName("observador"); // Idle runing walking
          Anim.start(true, 1.0, Anim.from, Anim.to, false);
        });
 	   var monster;
-       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "monstro1.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "barril001.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          monster = newMeshes[0];
          monster.scaling.scaleInPlace(1);
-		 monster.position.z = 0;
+		 monster.position = new BABYLON.Vector3(0, .3, 2);
          //const Anim = scene.getAnimationGroupByName("Walking"); // Idle Samba Walking
          //Anim.start(true, 1.0, Anim.from, Anim.to, false);
        });
-       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "dome002.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+       BABYLON.SceneLoader.ImportMesh("", "https://augustomach.github.io/testes/glb/", "dome00x1.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
           var fort = newMeshes[0];
-          fort.scaling.scaleInPlace(1.5);
+          fort.scaling.scaleInPlace(1);
 		  fort.position = new BABYLON.Vector3(0, .3, -2);
        });
 	   	   
@@ -73,56 +73,7 @@
           floorMeshes: [ground]  
        });		
        xr.pointerSelection.attach();
-       // Alvo
-	   const box = BABYLON.MeshBuilder.CreateBox("box", {});
-       const boxMaterial = new BABYLON.StandardMaterial("boxMat", scene);
-       boxMaterial.diffuseColor = BABYLON.Color3.Random();
-       box.material = boxMaterial;
-       box.position.z = -2;
-	   box.position.y = 1.7;
-	   // Array to hold the cloned boxes
-       var boxes = [];
-       // Clone the base box to create three boxes
-       for (var i = 0; i < 3; i++) {
-          var clonedBox = box.clone("clonedBox" + i);
-          clonedBox.position.x = i * 3 - 2; // Position the boxes
-		  clonedBox.actionManager = new BABYLON.ActionManager(scene);
-          clonedBox.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, 
-              function (evt) {
-                const sourceBox = evt.meshUnderPointer;
-                sourceBox.dispose();
-				gatshot.play();
-			  }
-            )
-	      );
-          boxes.push(clonedBox);
-       }
-       box.dispose();
 	   
-       // Materials
-       var mat1 = new BABYLON.StandardMaterial('mat1', scene);
-       mat1.diffuseColor = new BABYLON.Color3(1, 0, 0);
-       var mat2 = new BABYLON.StandardMaterial('mat2', scene);
-       mat2.diffuseColor = new BABYLON.Color3(0, 0, 1);
-       var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter: 1, segments: 32}, scene);
-       sphere1.position.y = 1;
-	   sphere1.material = mat1;
-       var box1 = BABYLON.MeshBuilder.CreateBox("box1", {size: 1}, scene);
-       box1.position = new BABYLON.Vector3(-.50,  .5, -.5);	
-       box1.material = mat2;	   
-	   let sphereCSG = BABYLON.CSG.FromMesh(sphere1);
-       let boxCSG = BABYLON.CSG.FromMesh(box1);
-       let booleanCSG = sphereCSG.subtract(boxCSG);
-       let newMesh = booleanCSG.toMesh("newMesh", null, scene);
-       newMesh.position = new BABYLON.Vector3(2, 4, 0);
-	   newMesh.material = mat2;
-	   //parameters - arrayOfMeshes, disposeSource, allow32BitsIndices, meshSubclass, subdivideWithSubMeshes, multiMultiMaterial
-       var mesh1 = BABYLON.Mesh.MergeMeshes([sphere1, box1], false, true, undefined, false, true);
-       mesh1.position = new BABYLON.Vector3(-3, 3, 0);
-       sphere1.dispose();
-       box1.dispose();
-
        // Armas para Mãos
 	   const armaMat = new BABYLON.StandardMaterial("armaMat", scene);
        armaMat.diffuseColor = BABYLON.Color3.Random();
@@ -239,17 +190,18 @@
        var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("button", true, scene);
        function createButton (id, text, top) {
           let button = BABYLON.GUI.Button.CreateSimpleButton(id, text);
-          button.width = 0.2;
-          button.height = "50px";
+          button.width = "200px";
+          button.height = "40px";
           button.color = "white";
           button.background = "green";
           button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
           button.top = top;
+		  button.left = "500px";
           return button;
        }
-       var button1 = createButton("buttonRagdoll", "Opção 1", "10px");
+       var button1 = createButton("buttonRagdoll", "Opção 1", "20px");
        advancedTexture.addControl(button1);
-       var button2 = createButton("buttonImpulse", "Opção 2", "80px");
+       var button2 = createButton("buttonImpulse", "Opção 2", "70px");
        advancedTexture.addControl(button2);
    
 	   return scene;
