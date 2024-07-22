@@ -40,23 +40,42 @@
        ground.material = groundMaterial;
 	   // Carrega personagens
 	   var p1;
-       BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x1.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+       var g1 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x1.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          p1 = newMeshes[0];
          p1.scaling.scaleInPlace(1);
 		 p1.position = new BABYLON.Vector3(-2, 0, 10);
        });
 	   var p2;
-       BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x2.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
+       var g2 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x2.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
          p2 = newMeshes[0];
          p2.scaling.scaleInPlace(1);
 		 p2.position = new BABYLON.Vector3(0, 0, 0);
        });
 	   var p3;
-       BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x4.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+       var g3 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x4.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
           p3 = newMeshes[0];
           p3.scaling.scaleInPlace(1);
-		  p3.position = new BABYLON.Vector3(0, 0, -10);
+		  p3.position = new BABYLON.Vector3(0, 0, 10);
        });
+	   var p4;
+       var g4 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome003.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          p4 = newMeshes[0];
+          p4.scaling.scaleInPlace(1);
+		  p4.position = new BABYLON.Vector3(3, 0, 5);
+       });
+	   var p5;
+       var g5 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome0012.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          p5 = newMeshes[0];
+          p5.scaling.scaleInPlace(1);
+		  p5.position = new BABYLON.Vector3(-3, 0, 10);
+       });
+	   var p6;
+       var g6 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome0013.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          p5 = newMeshes[0];
+          p5.scaling.scaleInPlace(1);
+		  p5.position = new BABYLON.Vector3(0, 0, 10);
+       });
+
 	   	   
 	   var headPosition;
 	   var leftHandPosition;
@@ -177,11 +196,42 @@
 		  button.left = "500px";
           return button;
        }
-       var button1 = createButton("buttonRagdoll", "Opção 1", "20px");
+       var button1 = createButton("button1", "Opção 1", "20px");
        advancedTexture.addControl(button1);
-       var button2 = createButton("buttonImpulse", "Opção 2", "70px");
+	   button1.onPointerUpObservable.add(function() {
+         g1.dispose();
+		 alert("botao1!");
+       });
+       var button2 = createButton("button2", "Opção 2", "70px");
        advancedTexture.addControl(button2);
-   
+	   button2.onPointerUpObservable.add(function() {
+         g2.dispose();
+		 alert("botao2!");
+       });
+       var button3 = createButton("button3", "Opção 3", "120px");
+       advancedTexture.addControl(button3);
+	   button3.onPointerUpObservable.add(function() {
+         g3.dispose();
+		 alert("botao3!");
+       });
+	   var button4 = createButton("button4", "Opção 4", "170px");
+       advancedTexture.addControl(button4);       
+	   button4.onPointerUpObservable.add(function() {
+         g4.dispose();
+		 alert("botao4!");
+       });
+	   var button5 = createButton("button5", "Opção 5", "220px");
+       advancedTexture.addControl(button5);
+	   button5.onPointerUpObservable.add(function() {
+         g5.dispose();
+		 alert("botao5!");
+       });
+       var button6 = createButton("button6", "Opção 6", "270px");
+       advancedTexture.addControl(button6); 
+	   button6.onPointerUpObservable.add(function() {
+         g6.dispose();
+		 alert("botao6!");
+       });	   
 	   return scene;
     } 
 
