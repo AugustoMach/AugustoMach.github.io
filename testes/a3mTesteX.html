@@ -57,6 +57,18 @@
           p3.scaling.scaleInPlace(1);
 		  p3.position = new BABYLON.Vector3(0, 0, 10);
        });
+	   var p11;
+       var g11= BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x5.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          p11 = newMeshes[0];
+          p11.scaling.scaleInPlace(1);
+		  p11.position = new BABYLON.Vector3(-10, 0, 10);
+       });
+	   var p12;
+       var g12 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x6.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          p12 = newMeshes[0];
+          p12.scaling.scaleInPlace(1);
+		  p12.position = new BABYLON.Vector3(-5, 0, 5);
+       });
 	   var p4;
        var g4 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome003.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
           p4 = newMeshes[0];
@@ -103,12 +115,12 @@
 	   //g2.dispose();
 	   //g3.dispose();
 	   //g4.dispose();
-	  // g5.dispose();
-	  // g6.dispose();
+	   //g5.dispose();
+	   //g6.dispose();
 	   //g7.dispose();
-	   ///g8.dispose();
+	   //g8.dispose();
 	   //g9.dispose();
-	  // g10.dispose();
+	   //g10.dispose();
 	   
 	   var headPosition;
 	   var leftHandPosition;
