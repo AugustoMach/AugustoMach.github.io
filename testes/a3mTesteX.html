@@ -28,10 +28,10 @@
 	   const hg = 100;
        var scene = new BABYLON.Scene(engine);	   
 	   // Configurações de luz e câmera
-      // const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
        //var lamp = new BABYLON.SpotLight("Lamp", new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 1, 0), BABYLON.Tools.ToRadians(45), 0.1, scene);
- 	   var lamp = new BABYLON.PointLight("Lamp", new BABYLON.Vector3(0, .1, 5), scene);
-       lamp.diffuse = new BABYLON.Color3(1,0,0);
+ 	  // var lamp = new BABYLON.PointLight("Lamp", new BABYLON.Vector3(0, .1, 5), scene);
+      // lamp.diffuse = new BABYLON.Color3(1,0,0);
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -8), scene); 
 	   const gatshot = new BABYLON.Sound("https://augustomach.github.io/testes/sons/gunshot", "sons/explosao1.mp3", scene);
        // Ground
@@ -51,17 +51,21 @@
           });
 	      return g0;
 	   }
-	   var g1 = loadChar(dirglb,"dome00x1.glb",-2, 0, 10);
-	   var g2 = loadChar(dirglb,"dome00x2.glb",0, 0, 10);
-	   var g3 = loadChar(dirglb,"dome00x4.glb",2, 0, 10);
-	   var g4 = loadChar(dirglb,"dome00x5.glb",-2, 0, 7);
-	   var g5 = loadChar(dirglb,"dome00x6.glb",0, 0, 7);
-	   var g6 = loadChar(dirglb,"dome003.glb",2, 0, 7);
-	   var g7 = loadChar(dirglb,"dome012.glb",-2, 0, 4);
-	   var g8 = loadChar(dirglb,"dome013.glb",0, 0, 4);
-	   var g9 = loadChar(dirglb,"dome022.glb",2, 0, 4);
-	   var ga = loadChar(dirglb,"dome021.glb",-1, 0, 0);
-	   var gb = loadChar(dirglb,"dome021a.glb",1, 0, 0);
+	   var g1 = loadChar(dirglb,"dome00x1.glb",-3, 0, 10);
+	   var g2 = loadChar(dirglb,"dome00x2.glb",-1, 0, 10);
+	   var g3 = loadChar(dirglb,"dome00x4.glb",1, 0, 10);
+	   var g4 = loadChar(dirglb,"dome00x5.glb",3, 0, 10);
+	   var g5 = loadChar(dirglb,"dome00x6.glb",-3, 0, 7);
+	   var g6 = loadChar(dirglb,"dome002.glb",-1, 0, 7);
+	   var g6 = loadChar(dirglb,"dome003.glb",1, 0, 7);
+	   var g7 = loadChar(dirglb,"dome012.glb",3, 0, 7);
+	   var g8 = loadChar(dirglb,"dome013.glb",-3, 0, 4);
+	   var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
+	   var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
+	   var gb = loadChar(dirglb,"dome022.glb",3, 0, 4);
+	   var g9 = loadChar(dirglb,"dome023.glb",-3, 0, 1);
+	   var g9 = loadChar(dirglb,"dome024.glb",-1, 0, 1);
+	   var g6 = loadChar(dirglb,"dome00x.glb",1, 0, 7);
 
 	   var headPosition;
 	   var leftHandPosition;
@@ -92,7 +96,7 @@
              xr.input.onControllerRemovedObservable.add(() => {});
           } 
 		  if (controller.inputSource.handedness === 'left') {
-            // he.parent = controller.grip || controller.pointer;
+             he.parent = controller.grip || controller.pointer;
              xr.input.onControllerRemovedObservable.add(() => {});
           }
           controller.onMotionControllerInitObservable.add((motionController) => {
@@ -155,11 +159,11 @@
 		  // if (hero.position.z > 50) hero.position.z = -50;
         // }
           
-		 var lanterna = scene.getLightByName("Lamp");  
+		// var lanterna = scene.getLightByName("Lamp");  
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 		 if (Math.abs(speed)<0.07) forward.y = 0;
          xr.baseExperience.camera.position.addInPlace(forward);
-		 lanterna.position.addInPlace(forward);
+		 //lanterna.position.addInPlace(forward);
 		 if (xr.baseExperience.camera.position.y < -1.7) xr.baseExperience.camera.position.y = 1.7;	
          //var inputSources = xr.input.xrInput.controllers;
          //inputSources.forEach (controller => {
