@@ -30,6 +30,7 @@
 	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -8), scene); 
+	   const gatshot = new BABYLON.Sound("https://augustomach.github.io/testes/sons/gunshot", "sons/explosao1.mp3", scene);
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
@@ -39,90 +40,26 @@
        groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
        ground.material = groundMaterial;
 	   // Carrega personagens
-	/*   var p1;
-       var g1 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x1.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
-         p1 = newMeshes[0];
-         p1.scaling.scaleInPlace(1);
-		 p1.position = new BABYLON.Vector3(-2, 0, 10);
-       });
-	   var p2;
-       var g2 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x2.glb", scene, function (newMeshes, particleSystems, skeletons,animationGroups) {
-         p2 = newMeshes[0];
-         p2.scaling.scaleInPlace(1);
-		 p2.position = new BABYLON.Vector3(0, 0, 0);
-       });
-	   var p3;
-       var g3 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x4.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p3 = newMeshes[0];
-          p3.scaling.scaleInPlace(1);
-		  p3.position = new BABYLON.Vector3(0, 0, 10);
-       });
-	   var p11;
-       var g11= BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x5.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p11 = newMeshes[0];
-          p11.scaling.scaleInPlace(1);
-		  p11.position = new BABYLON.Vector3(-10, 0, 10);
-       });
-	   var p12;
-       var g12 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome00x6.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p12 = newMeshes[0];
-          p12.scaling.scaleInPlace(1);
-		  p12.position = new BABYLON.Vector3(-5, 0, 5);
-       });
-	   var p4;
-       var g4 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome003.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p4 = newMeshes[0];
-          p4.scaling.scaleInPlace(1);
-		  p4.position = new BABYLON.Vector3(3, 0, 5);
-       });
-	   var p5;
-       var g5 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome012.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p5 = newMeshes[0];
-          p5.scaling.scaleInPlace(1);
-		  p5.position = new BABYLON.Vector3(-3, 0, 10);
-       });
-	   var p6;
-       var g6 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome013.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p6 = newMeshes[0];
-          p6.scaling.scaleInPlace(1);
-		  p6.position = new BABYLON.Vector3(0, 0, 8);
-       });*/
-	   var p7;
-       var g7 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome021.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p7 = newMeshes[0];
-          p7.scaling.scaleInPlace(1);
-		  p7.position = new BABYLON.Vector3(1, 0, 5);
-       });
-	   var p8;
-      //  var g8 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome022.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-      var g8 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome021a.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p8 = newMeshes[0];
-          p8.scaling.scaleInPlace(1);
-		  p8.position = new BABYLON.Vector3(-1, 0, 5);
-       });
-	/*   var p9;
-       var g9 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome023.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p9 = newMeshes[0];
-          p9.scaling.scaleInPlace(1);
-		  p9.position = new BABYLON.Vector3(4, 0, 3);
-       });
-	   var p10;
-       var g10 = BABYLON.SceneLoader.ImportMesh("", dirglb, "dome024.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          p10 = newMeshes[0];
-          p10.scaling.scaleInPlace(1);
-		  p10.position = new BABYLON.Vector3(-5, 0, 0);
-       });
-	   g1.dispose();
-	   g2.dispose();
-	   g3.dispose();
-	  g4.dispose();
-	   g5.dispose();
-	   g6.dispose();
-	   //g7.dispose();
-	   //g8.dispose();
-	   g9.dispose();
-	   g10.dispose();*/
-	   
+	   function loadChar(dirc, fileC, px, py, pz){
+	     var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             var p0 = newMeshes[0];
+             p0.scaling.scaleInPlace(1);
+		     p0.position = new BABYLON.Vector3(px,py,pz);
+          });
+	      return g0;
+	   }
+	   var g1 = loadChar(dirglb,"dome00x1.glb",-2, 0, 10);
+	   var g2 = loadChar(dirglb,"dome00x2.glb",0, 0, 10);
+	   var g3 = loadChar(dirglb,"dome00x4.glb",2, 0, 10);
+	   var g4 = loadChar(dirglb,"dome00x5.glb",-2, 0, 7);
+	   var g5 = loadChar(dirglb,"dome00x6.glb",0, 0, 7);
+	   var g6 = loadChar(dirglb,"dome003.glb",2, 0, 7);
+	   var g7 = loadChar(dirglb,"dome012.glb",-2, 0, 4);
+	   var g8 = loadChar(dirglb,"dome013.glb",0, 0, 4);
+	   var g9 = loadChar(dirglb,"dome022.glb",2, 0, 4);
+	   var ga = loadChar(dirglb,"dome021.glb",-1, 0, 0);
+	   var gb = loadChar(dirglb,"dome021a.glb",1, 0, 0);
+
 	   var headPosition;
 	   var leftHandPosition;
 	   var rightHandPosition;
@@ -164,24 +101,22 @@
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
 				   if (triggerComponent.pressed) {
-                      // Create a ray from the controller
-                      // const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
-                      // Check intersection with the character
-                      // const hit = scene.pickWithRay(ray);
-                      // if (hit.pickedMesh && hit.pickedMesh === hero) {
-					  //  hero.dispose();
-				       //  gatshot.play();
-					  // }
+                        const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
+                        const hit = scene.pickWithRay(ray);
+                        if (hit.pickedMesh && hit.pickedMesh === p7) {
+					      g7.dispose();
+				          gatshot.play();
+					    }
 				   } 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
- 				   if (xbuttonComponent.pressed) speed = -0.03;
+ 				   if (xbuttonComponent.pressed) speed = -0.05;
 				   else speed = 0.0;
                 });
 				let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
 				ybuttonComponent.onButtonStateChangedObservable.add(() => {
-				   if (ybuttonComponent.pressed) speed = 0.03;
+				   if (ybuttonComponent.pressed) speed = 0.05;
 				   else speed = 0.0;
                 });
 			 }
@@ -194,12 +129,12 @@
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
- 				   if (xbuttonComponent.pressed) speed = -0.07;
+ 				   if (xbuttonComponent.pressed) speed = -0.1;
 				   else speed = 0.0;
                 });
 				let ybuttonComponent = motionController.getComponent(xr_ids[4]);//y-button
 				ybuttonComponent.onButtonStateChangedObservable.add(() => {
-				   if (ybuttonComponent.pressed) speed = 0.07;
+				   if (ybuttonComponent.pressed) speed = 0.1;
 				   else speed = 0.0;
                 });
 			 }
@@ -215,7 +150,7 @@
 		  // if (hero.position.z > 50) hero.position.z = -50;
         // }
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
-		 if (Math.abs(speed)<0.05) forward.y = 0;
+		 if (Math.abs(speed)<0.07) forward.y = 0;
          xr.baseExperience.camera.position.addInPlace(forward);
 		 if (xr.baseExperience.camera.position.y < -1.7) xr.baseExperience.camera.position.y = 1.7;	
          //var inputSources = xr.input.xrInput.controllers;
@@ -254,30 +189,7 @@
         // g2.dispose();
 		 alert("botao2!");
        });
-       var button3 = createButton("button3", "Opção 3", "120px");
-       advancedTexture.addControl(button3);
-	   button3.onPointerUpObservable.add(function() {
-        // g3.dispose();
-		 alert("botao3!");
-       });
-	   var button4 = createButton("button4", "Opção 4", "170px");
-       advancedTexture.addControl(button4);       
-	   button4.onPointerUpObservable.add(function() {
-       //  g4.dispose();
-		 alert("botao4!");
-       });
-	   var button5 = createButton("button5", "Opção 5", "220px");
-       advancedTexture.addControl(button5);
-	   button5.onPointerUpObservable.add(function() {
-       //  g5.dispose();
-		 alert("botao5!");
-       });
-       var button6 = createButton("button6", "Opção 6", "270px");
-       advancedTexture.addControl(button6); 
-	   button6.onPointerUpObservable.add(function() {
-       //  g6.dispose();
-		 alert("botao6!");
-       });	   
+  
 	   return scene;
     } 
 
