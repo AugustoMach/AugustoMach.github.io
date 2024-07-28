@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pessoa 27jul24</title>
+  <title>Pessoa 27jul24b</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -76,7 +76,7 @@
 				// 4 = y-button
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speedy = -0.01;
+				   if (triggerComponent.pressed) speedy = -0.005;
 				   else speedy = 0.00; 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
@@ -94,8 +94,8 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				  if (triggerComponent.pressed) armaD.parent = null;
-				  else speed = 0.0;
+				   if (triggerComponent.pressed) speedy = 0.01;
+				   else speedy = 0.00; 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
@@ -111,14 +111,13 @@
 		  });      
 	   });
 	   // Movimenta personagem 
-       var moveSpeed = 0.03; //0.01
        var direction = new BABYLON.Vector3(0, 0, 1);
        scene.onBeforeRenderObservable.add(() => {
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 		 if (Math.abs(speed)<0.07) forward.y = 0;
 		 if (speedy !=0) forward.y +=speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
-		 if (xr.baseExperience.camera.position.y < -1.7) xr.baseExperience.camera.position.y = 1.7;	
+		 if (xr.baseExperience.camera.position.y < -2) xr.baseExperience.camera.position.y = -2;	
 	   });
 	   return scene;
     } 
