@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pessoa 25jul24a</title>
+  <title>Pessoa 27jul24</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -41,7 +41,7 @@
        //groundMaterial.diffuseTexture.uScale = 6;
        //groundMaterial.diffuseTexture.vScale = 6;
        //groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-	   groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+	   groundMaterial.diffuseColor = new BABYLON.Color3(.2, .2, .2);
        ground.material = groundMaterial;
 	   // Carrega personagens
 	   function loadChar(dirc, fileC, px, py, pz){
@@ -56,10 +56,10 @@
 	 //  var g2 = loadChar(dirglb,"dome00x2.glb",-1, 0, 10);
 	  // var g3 = loadChar(dirglb,"dome00x4.glb",1, 0, 10);
 	  // var g4 = loadChar(dirglb,"dome00x5.glb",3, 0, 10);
-	   var g5 = loadChar(dirglb,"dome00x6.glb",-3, 0, 7);
+	  // var g5 = loadChar(dirglb,"dome00x6.glb",-3, 0, 7);
 	   var g6 = loadChar(dirglb,"dome002.glb",-1, 0, 7);
 	   var g7 = loadChar(dirglb,"dome003.glb",1, 0, 7);
-	   var g8 = loadChar(dirglb,"dome012.glb",3, 0, 7);
+	  // var g8 = loadChar(dirglb,"dome012.glb",3, 0, 7);
 	 //  var g9 = loadChar(dirglb,"dome013.glb",-3, 0, 4);
 	 //  var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
 	  // var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
@@ -73,7 +73,8 @@
 	   var rightHandPosition;
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
-          floorMeshes: [ground]  
+          floorMeshes: [ground] 
+          uiOptions: { sessionMode: 'immersive-ar' }		  
        });		
        xr.pointerSelection.attach();
 	   
@@ -89,11 +90,11 @@
 	  //     he = newMeshes[0];
 		//   he.scaling.scaleInPlace(1);
 	  // });
-	  	 var lanterna; 
-         var lamp = BABYLON.SceneLoader.ImportMesh("", dirglb, "faca001.glb", scene, function(newMeshes) {
-	        lanterna = newMeshes[0];
-		    lanterna.scaling.scaleInPlace(1);
-	     });
+	  	// var lanterna; 
+        // var lamp = BABYLON.SceneLoader.ImportMesh("", dirglb, "faca001.glb", scene, function(newMeshes) {
+	      //  lanterna = newMeshes[0];
+		 //   lanterna.scaling.scaleInPlace(1);
+	   //  });
 	   
          xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right') {
@@ -117,8 +118,8 @@
                 triggerComponent.onButtonStateChangedObservable.add(() => {
 				   if (triggerComponent.pressed) {
 				       speed = -0.01;
-                       const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
-                       const hit = scene.pickWithRay(ray);
+                       //const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
+                      // const hit = scene.pickWithRay(ray);
                        // if (hit.pickedMesh && hit.pickedMesh === p7) {
 					     // g7.dispose();
 				          //gatshot.play();
@@ -184,7 +185,7 @@
 	   });
 	   
 	   // Buttons
-     //  var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("button", true, scene);
+       var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("button", true, scene);
        function createButton (id, text, top) {
           let button = BABYLON.GUI.Button.CreateSimpleButton(id, text);
           button.width = "200px";
@@ -196,12 +197,13 @@
 		  button.left = "500px";
           return button;
        }
-      // var button1 = createButton("button1", "Opção 1", "20px");
-       //advancedTexture.addControl(button1);
-	   //button1.onPointerUpObservable.add(function() {
+      
+	  var button1 = createButton("button1", "Opção 1", "20px");
+       advancedTexture.addControl(button1);
+	   button1.onPointerUpObservable.add(function() {
        //  g1.dispose();
-		// alert("botao1!");
-      // });
+		  alert("botao1!");
+       });
       // var button2 = createButton("button2", "Opção 2", "70px");
       // advancedTexture.addControl(button2);
 	   //button2.onPointerUpObservable.add(function() {
@@ -209,15 +211,14 @@
 		// alert("botao2!");
        ////});
 	   
-	   	    const box = BABYLON.MeshBuilder.CreateBox("box", {});
-        const boxMaterial = new BABYLON.StandardMaterial("boxMat", scene);
+	   const box = BABYLON.MeshBuilder.CreateBox("box", {});
+       const boxMaterial = new BABYLON.StandardMaterial("boxMat", scene);
        boxMaterial.diffuseColor = BABYLON.Color3.Random();
        box.material = boxMaterial;
      
-	  box.onBeforeDrawObservable.add(() => {
-     box.position.copyFrom(camera.position);
-      // add some offsets to sphere.position if needed
-     });
+	   box.onBeforeDrawObservable.add(() => {
+         box.position.copyFrom(camera.position);
+       });
 	   return scene;
     } 
 
