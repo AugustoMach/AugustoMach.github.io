@@ -33,6 +33,7 @@
  	  // var lamp = new BABYLON.PointLight("Lamp", new BABYLON.Vector3(0, .1, 5), scene);
       // lamp.diffuse = new BABYLON.Color3(1,0,0);
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, 15), scene); 
+       camera.target = new BABYLON.Vector3(0, 1.7, 0);
 	   //const gatshot = new BABYLON.Sound("https://augustomach.github.io/testes/sons/gunshot", "sons/explosao1.mp3", scene);
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);

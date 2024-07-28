@@ -30,16 +30,21 @@
        var scene = new BABYLON.Scene(engine);	   
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, 15), scene); 
+       camera.target = new BABYLON.Vector3(0, 1.7, 0);
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
-       var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
-	   groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+       var groundMaterial = new BABYLON.StandardMaterial("groundM", scene);
+	  // groundMaterial.diffuseColor = new BABYLON.Color3(1, 0, 1);
+	   groundMaterial.diffuseTexture = new BABYLON.Texture("https://augustomach.github.io/testes/texturas/chao1.png", scene);
+       groundMaterial.diffuseTexture.uScale = 20;
+       groundMaterial.diffuseTexture.vScale = 20;
+       groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
        ground.material = groundMaterial;
 	   // Carrega personagens
 	   function loadChar(dirc, fileC, px, py, pz){
 	     var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              var p0 = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-             p0.scaling.scaleInPlace(1);
+            // p0.scaling.scaleInPlace(1);
 		     p0.position = new BABYLON.Vector3(px,py,pz);
           });
 	      return g0;
@@ -49,15 +54,15 @@
 	  // var g3 = loadChar(dirglb,"dome00x4.glb",1, 0, 10);
 	  // var g4 = loadChar(dirglb,"dome00x5.glb",3, 0, 10);
 	  // var g5 = loadChar(dirglb,"dome00x6.glb",-3, 0, 7);
-	   var g6 = loadChar(dirglb,"dome002.glb",-1, 0, 7);
-	   var g7 = loadChar(dirglb,"dome003.glb",1, 0, 7);
+	  // var g6 = loadChar(dirglb,"dome002.glb",-1, 0, 7);
+	   //var g7 = loadChar(dirglb,"dome003.glb",1, 0, 7);
 	  // var g8 = loadChar(dirglb,"dome012.glb",3, 0, 7);
 	   var g9 = loadChar(dirglb,"dome013.glb",-3, 0, 4);
-	 //  var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
-	  // var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
-	 //  var gc = loadChar(dirglb,"dome022.glb",3, 0, 4);
-	 //  var gd = loadChar(dirglb,"dome023.glb",-3, 0, 1);
-	 //  var ge = loadChar(dirglb,"dome024.glb",-1, 0, 1);
+	   var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
+	   var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
+	   // var gc = loadChar(dirglb,"dome022.glb",3, 0, 4);
+	  // var gd = loadChar(dirglb,"dome023.glb",-3, 0, 1);
+	    //var ge = loadChar(dirglb,"dome024.glb",-1, 0, 1);
 	  //var gf = loadChar(dirglb,"dome00x.glb",1, 0, 1);
 	  /*   var g1a = BABYLON.SceneLoader.ImportMesh("p1a", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              var p1a = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
@@ -76,9 +81,9 @@
        });		
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
-	      if (controller.inputSource.handedness === 'left') {
+	      //if (controller.inputSource.handedness === 'left') {
             //  p1a.parent = controller.grip || controller.pointer;
-          }
+          //}
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
