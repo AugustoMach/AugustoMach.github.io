@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pessoa 27jul24b</title>
+  <title>Pessoa 28jul24</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -59,13 +59,26 @@
 	 //  var gd = loadChar(dirglb,"dome023.glb",-3, 0, 1);
 	 //  var ge = loadChar(dirglb,"dome024.glb",-1, 0, 1);
 	  //var gf = loadChar(dirglb,"dome00x.glb",1, 0, 1);
-
+	     var g1a = BABYLON.SceneLoader.ImportMesh("", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             var p1a = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+             p1a.scaling.scaleInPlace(1);
+		     //p1.position = new BABYLON.Vector3(0,py,pz);
+          });
+		  var g2a = BABYLON.SceneLoader.ImportMesh("", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             var p2a = newMeshes[0].getChildMeshes()[0]; //newMeshes[0].getChildMeshes()[0]
+             p2a.scaling.scaleInPlace(1);
+		     //p1.position = new BABYLON.Vector3(0,py,pz);
+          });   
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] 
+		  //disableTeleportation: true
        });		
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
+	      if (controller.inputSource.handedness === 'left') {
+              p1a.parent = controller.grip || controller.pointer;
+          }
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
@@ -110,14 +123,18 @@
 			 }
 		  });      
 	   });
-	   // Movimenta personagem 
-       var direction = new BABYLON.Vector3(0, 0, 1);
+	   // Movimenta camera 
        scene.onBeforeRenderObservable.add(() => {
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 		 if (Math.abs(speed)<0.07) forward.y = 0;
 		 if (speedy !=0) forward.y +=speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
 		 if (xr.baseExperience.camera.position.y < -2) xr.baseExperience.camera.position.y = -2;	
+         //var xxx = xr.baseExperience.camera.position.x;
+		 //alert (xxx);
+		 // p2a.position.x = xxx;
+		 // p2a.position.z = xr.baseExperience.camera.position.z;
+         //= xr.baseExperience.camera.getPosition(BABYLON.Vector3.Forward());
 	   });
 	   return scene;
     } 
