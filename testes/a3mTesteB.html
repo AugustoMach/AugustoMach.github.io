@@ -18,20 +18,25 @@
 <body>
   <canvas id="renderCanvas"></canvas>
   <script>
+	var c1 = document.getElementById('cod');
+	//alert(c1.value);
     const canvas = document.getElementById("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
+	  var dirglb = "https://augustomach.github.io/testes/glb/";
       var scene = new BABYLON.Scene(engine);
       var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
       camera.setTarget(BABYLON.Vector3.Zero());
       camera.attachControl(canvas, true);
       var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-      light.intensity = 0.7;
-      var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
-      sphere.position.y = 2;
-      sphere.position.z = 5;
+      light.intensity = 1;
+	  var he; 
+      var armaE = BABYLON.SceneLoader.ImportMesh("", dirglb, "canhaoPirata.glb", scene, function(newMeshes) {
+	     he = newMeshes[0];
+	     he.scaling.scaleInPlace(1);
+	  });
       const xr = await scene.createDefaultXRExperienceAsync({
-        uiOptions: { sessionMode: 'immersive-ar' }
+          uiOptions: { sessionMode: 'immersive-ar' }
       });
 	  return scene;
     }      
