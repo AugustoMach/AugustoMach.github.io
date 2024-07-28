@@ -29,7 +29,7 @@
 	   const hg = 100;
        var scene = new BABYLON.Scene(engine);	   
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -8), scene); 
+       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, 15), scene); 
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
@@ -52,7 +52,7 @@
 	   var g6 = loadChar(dirglb,"dome002.glb",-1, 0, 7);
 	   var g7 = loadChar(dirglb,"dome003.glb",1, 0, 7);
 	  // var g8 = loadChar(dirglb,"dome012.glb",3, 0, 7);
-	 //  var g9 = loadChar(dirglb,"dome013.glb",-3, 0, 4);
+	   var g9 = loadChar(dirglb,"dome013.glb",-3, 0, 4);
 	 //  var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
 	  // var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
 	 //  var gc = loadChar(dirglb,"dome022.glb",3, 0, 4);
