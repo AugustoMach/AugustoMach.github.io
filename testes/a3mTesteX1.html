@@ -87,6 +87,11 @@
 				// 2 = xr-standard-thumbstick
 				// 3 = x-button
 				// 4 = y-button
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+				   if (triggerComponent.pressed) speedy = 0.01;
+				   else speedy = 0.00; 
+                });				
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
  				   if (xbuttonComponent.pressed) speed = -0.05;
