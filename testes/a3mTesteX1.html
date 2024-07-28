@@ -74,7 +74,7 @@
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] 
-          uiOptions: { sessionMode: 'immersive-ar' }		  
+         // uiOptions: { sessionMode: 'immersive-ar' }		  
        });		
        xr.pointerSelection.attach();
 	   
