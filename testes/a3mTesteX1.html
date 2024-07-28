@@ -24,24 +24,16 @@
     async function createScene() {
 	   var dirglb = "https://augustomach.github.io/testes/glb/";
        var speed = 0.0;
+       var speedy = 0.0;
 	   const wg = 100;
 	   const hg = 100;
        var scene = new BABYLON.Scene(engine);	   
-	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-       //var lamp = new BABYLON.SpotLight("Lamp", new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 1, 0), BABYLON.Tools.ToRadians(45), 0.1, scene);
- 	  // var lamp = new BABYLON.PointLight("Lamp", new BABYLON.Vector3(0, .1, 5), scene);
-      // lamp.diffuse = new BABYLON.Color3(1,0,0);
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -8), scene); 
-	   //const gatshot = new BABYLON.Sound("https://augustomach.github.io/testes/sons/gunshot", "sons/explosao1.mp3", scene);
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
-       //groundMaterial.diffuseTexture = new BABYLON.Texture("https://augustomach.github.io/testes/texturas/chao1.png", scene);
-       //groundMaterial.diffuseTexture.uScale = 6;
-       //groundMaterial.diffuseTexture.vScale = 6;
-       //groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-	   groundMaterial.diffuseColor = new BABYLON.Color3(.2, .2, .2);
+	   groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
        ground.material = groundMaterial;
 	   // Carrega personagens
 	   function loadChar(dirc, fileC, px, py, pz){
@@ -68,44 +60,12 @@
 	 //  var ge = loadChar(dirglb,"dome024.glb",-1, 0, 1);
 	  //var gf = loadChar(dirglb,"dome00x.glb",1, 0, 1);
 
-	   var headPosition;
-	   var leftHandPosition;
-	   var rightHandPosition;
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] 
-         // uiOptions: { sessionMode: 'immersive-ar' }		  
        });		
        xr.pointerSelection.attach();
-	   
-       // Armas para Mãos
-	  // var hd; 
-      // var armaD = BABYLON.SceneLoader.ImportMesh("", dirglb, "espada001.glb", scene, function(newMeshes) {
-	      // hd = newMeshes[0];
-		 //  hd.scaling.scaleInPlace(1);
-	  // });
-	  
-	  // var he; 
-      // var armaE = BABYLON.SceneLoader.ImportMesh("", dirglb, "faca001.glb", scene, function(newMeshes) {
-	  //     he = newMeshes[0];
-		//   he.scaling.scaleInPlace(1);
-	  // });
-	  	// var lanterna; 
-        // var lamp = BABYLON.SceneLoader.ImportMesh("", dirglb, "faca001.glb", scene, function(newMeshes) {
-	      //  lanterna = newMeshes[0];
-		 //   lanterna.scaling.scaleInPlace(1);
-	   //  });
-	   
-         xr.input.onControllerAddedObservable.add((controller) => {
-	      if (controller.inputSource.handedness === 'right') {
-           //  hd.parent = controller.grip || controller.pointer;
-			// lamp.parent = controller.grip || controller.pointer;
-             xr.input.onControllerRemovedObservable.add(() => {});
-          } 
-		  if (controller.inputSource.handedness === 'left') {
-          //   he.parent = controller.grip || controller.pointer;
-             xr.input.onControllerRemovedObservable.add(() => {});
-          }
+       xr.input.onControllerAddedObservable.add((controller) => {
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
@@ -116,15 +76,8 @@
 				// 4 = y-button
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) {
-				       speed = -0.01;
-                       //const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
-                      // const hit = scene.pickWithRay(ray);
-                       // if (hit.pickedMesh && hit.pickedMesh === p7) {
-					     // g7.dispose();
-				          //gatshot.play();
-					   // }
-				   } 
+				   if (triggerComponent.pressed) speedy = -0.01;
+				   else speedy = 0.00; 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
@@ -161,67 +114,14 @@
        var moveSpeed = 0.03; //0.01
        var direction = new BABYLON.Vector3(0, 0, 1);
        scene.onBeforeRenderObservable.add(() => {
-		// if (hero) {
-		   //const hf = hero.lookAt(hero.position.add(direction));
-          // hero.position.z += moveSpeed;
-		  // if (hero.position.z > 50) hero.position.z = -50;
-        // }
-          
-		// var lanterna = scene.getLightByName("Lamp");  
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 		 if (Math.abs(speed)<0.07) forward.y = 0;
+		 if (speedy !=0) forward.y +=speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
-		 //lanterna.position.addInPlace(forward);
 		 if (xr.baseExperience.camera.position.y < -1.7) xr.baseExperience.camera.position.y = 1.7;	
-         //var inputSources = xr.input.xrInput.controllers;
-         //inputSources.forEach (controller => {
-         //  if (controller.inputSource.handedness === "left") {
-         //    var leftHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
-         //  } else if (controller.inputSource.handedness === "right") {
-         //    var rightHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
-		 //	   box.position = rightHandPosition;
-		 //  }
-		 //});
 	   });
-	   
-	   // Buttons
-       var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("button", true, scene);
-       function createButton (id, text, top) {
-          let button = BABYLON.GUI.Button.CreateSimpleButton(id, text);
-          button.width = "200px";
-          button.height = "40px";
-          button.color = "white";
-          button.background = "green";
-          button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-          button.top = top;
-		  button.left = "500px";
-          return button;
-       }
-      
-	  var button1 = createButton("button1", "Opção 1", "20px");
-       advancedTexture.addControl(button1);
-	   button1.onPointerUpObservable.add(function() {
-       //  g1.dispose();
-		  alert("botao1!");
-       });
-      // var button2 = createButton("button2", "Opção 2", "70px");
-      // advancedTexture.addControl(button2);
-	   //button2.onPointerUpObservable.add(function() {
-        // g2.dispose();
-		// alert("botao2!");
-       ////});
-	   
-	   const box = BABYLON.MeshBuilder.CreateBox("box", {});
-       const boxMaterial = new BABYLON.StandardMaterial("boxMat", scene);
-       boxMaterial.diffuseColor = BABYLON.Color3.Random();
-       box.material = boxMaterial;
-     
-	   box.onBeforeDrawObservable.add(() => {
-         box.position.copyFrom(camera.position);
-       });
 	   return scene;
     } 
-
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {
