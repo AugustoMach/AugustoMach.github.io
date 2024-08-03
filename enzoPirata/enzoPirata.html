@@ -24,19 +24,19 @@
     async function createScene() {
 	   var dirbase = "https://augustomach.github.io/enzoPirata/";
 	   var dirglb = "https://augustomach.github.io/enzoPirata/glb/";
-	   
-       var speed = 0.0;
 	   const wg = 100;
 	   const hg = 100;
+	   var speed = 0.0;
+       var speedy = 0.0;
        var scene = new BABYLON.Scene(engine);	   
 	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -3), scene); 
+       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, 11), scene); 
        camera.target = new BABYLON.Vector3(0, 1.7, 0);
        // Som de fundo
-       const music = new BABYLON.Sound("musica", dirbase+"sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+       //const music = new BABYLON.Sound("musica", dirbase+"sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
        // Som do gatilho dos controles
-	   const gatshot1 = new BABYLON.Sound("gunshot1", dirbase+"sons/metal1.mp3", scene);
+	  // const gatshot1 = new BABYLON.Sound("gunshot1", dirbase+"sons/metal2.mp3", scene);
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
@@ -44,7 +44,6 @@
        groundMaterial.diffuseTexture.uScale = 12;
        groundMaterial.diffuseTexture.vScale = 12;
        groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-	   //groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
        ground.material = groundMaterial;
 	   // Carrega personagens
 	   function loadChar(dirc, fileC, px, py, pz){
@@ -55,41 +54,33 @@
           });
 	      return g0;
 	   }
-	   var g1 = loadChar(dirglb,"bauP01.glb",-2, 0, 5);
-	   var g2 = loadChar(dirglb,"bauP02.glb",2, 0, 5);
-	   var j1 = loadChar(dirglb,"legoPirata.glb",-1, 0, 0);
-	   var j2 = loadChar(dirglb,"char001.glb",1, 0, 0);
+	  var o1 = loadChar(dirglb,"bauP02.glb",.5, 0, 2);
+	 //  var g2 = loadChar(dirglb,"bauP02.glb",2, 0, 5);
+	   var c1 = loadChar(dirglb,"casaPirata.glb",0.5, 0, 0);
+	   var j2 = loadChar(dirglb,"char061.glb",0, 0, 0);
 
-	   var headPosition;
-	   var leftHandPosition;
-	   var rightHandPosition;
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground]  
        });		
        xr.pointerSelection.attach();
-  
        xr.input.onControllerAddedObservable.add((controller) => {
-	      if (controller.inputSource.handedness === 'right') {
-             xr.input.onControllerRemovedObservable.add(() => {});
-          } 
-		  if (controller.inputSource.handedness === 'left') {
-             xr.input.onControllerRemovedObservable.add(() => {});
-          }
+	      //if (controller.inputSource.handedness === 'left') {
+            //  p1a.parent = controller.grip || controller.pointer;
+          //}
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
+				// 0 = xr-standard-trigger
+				// 1 = xr-standard-squeeze
+				// 2 = xr-standard-thumbstick
+				// 3 = x-button
+				// 4 = y-button
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) {
-                        const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
-                        const hit = scene.pickWithRay(ray);
-                        //if (hit.pickedMesh && hit.pickedMesh === p7) {
-					     // g7.dispose();
-				       //   gatshot.play();
-					   // }
-				   } 
-                });
+				   if (triggerComponent.pressed) speedy = 0.01;
+				   else speedy = 0.00; 
+                });				
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
  				   if (xbuttonComponent.pressed) speed = -0.05;
@@ -105,8 +96,8 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				//  if (triggerComponent.pressed) armaD.parent = null;
-				//  else speed = 0.0;
+				   if (triggerComponent.pressed) speedy = -0.01;
+				   else speedy = 0.00; 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
@@ -121,51 +112,20 @@
 			 }
 		  });      
 	   });
-	   // Movimenta personagem 
-       var moveSpeed = 0.03; //0.01
-       var direction = new BABYLON.Vector3(0, 0, 1);
+	   // Movimenta camera 
        scene.onBeforeRenderObservable.add(() => {
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 		 if (Math.abs(speed)<0.07) forward.y = 0;
+		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
-		 if (xr.baseExperience.camera.position.y < -1.7) xr.baseExperience.camera.position.y = 1.7;	
-	   });
+		// if (xr.baseExperience.camera.position.y < -2) xr.baseExperience.camera.position.y = -2;	
+         //var xxx = xr.baseExperience.camera.position.x;
+		 //alert (xxx);
+		 // p2a.position.x = xxx;
+		 // p2a.position.z = xr.baseExperience.camera.position.z;
+         //= xr.baseExperience.camera.getPosition(BABYLON.Vector3.Forward());
+	   });	   
 	   
-	   // Buttons
-	   var plane = BABYLON.Mesh.CreatePlane("plane", 1);
-       plane.position = new BABYLON.Vector3(1.4, 1.5, 0.4)
-       var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
-       function createText (id, text, top) {
-          var header = new BABYLON.GUI.TextBlock();
-          header.text = text;
-          header.height = "100px";
-          header.color = "white";
-          header.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-          header.fontSize = "120";
-		  header.top = top;
-          return header;
-       }
-       function createButton (id, text, top) {
-          let button = BABYLON.GUI.Button.CreateSimpleButton(id, text);
-          button.width = "200px";
-          button.height = "40px";
-          button.color = "white";
-          button.background = "green";
-          button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-          button.top = top;
-		  button.left = "500px";
-          return button;
-       }
-       var button1 = createButton("button1", "Opção 1", "20px");
-       advancedTexture.addControl(button1);
-	   button1.onPointerUpObservable.add(function() {
-		 alert("botao1!");
-       });
-       var button2 = createButton("button2", "Opção 2", "70px");
-       advancedTexture.addControl(button2);
-	   button2.onPointerUpObservable.add(function() {
-		 alert("botao2!");
-       });
 	   return scene;
     } 
 
