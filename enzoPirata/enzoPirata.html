@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Enzo Pirata</title>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+    async function createScene() {
+	   var dirbase = "https://augustomach.github.io/enzoPirata/";
+	   var dirglb = "https://augustomach.github.io/enzoPirata/glb/";
+	   
+       var speed = 0.0;
+	   const wg = 100;
+	   const hg = 100;
+       var scene = new BABYLON.Scene(engine);	   
+	   // Configurações de luz e câmera
+       const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+       const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, -3), scene); 
+       camera.target = new BABYLON.Vector3(0, 1.7, 0);
+       // Som de fundo
+       const music = new BABYLON.Sound("musica", dirbase+"sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
+       // Som do gatilho dos controles
+	   const gatshot1 = new BABYLON.Sound("gunshot1", dirbase+"sons/metal1.mp3", scene);
+       // Ground
+       const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
+       var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
+       groundMaterial.diffuseTexture = new BABYLON.Texture(dirbase+"texturas/chao1.png", scene);
+       groundMaterial.diffuseTexture.uScale = 12;
+       groundMaterial.diffuseTexture.vScale = 12;
+       groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+	   //groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+       ground.material = groundMaterial;
+	   // Carrega personagens
+	   function loadChar(dirc, fileC, px, py, pz){
+	     var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             var p0 = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+             p0.scaling.scaleInPlace(1);
+		     p0.position = new BABYLON.Vector3(px,py,pz);
+          });
+	      return g0;
+	   }
+	   var g1 = loadChar(dirglb,"bauP01.glb",-2, 0, 5);
+	   var g2 = loadChar(dirglb,"bauP02.glb",2, 0, 5);
+	   var j1 = loadChar(dirglb,"legoPirata.glb",-1, 0, 0);
+	   var j2 = loadChar(dirglb,"char001.glb",1, 0, 0);
+
+	   var headPosition;
+	   var leftHandPosition;
+	   var rightHandPosition;
+       engine.onResizeObservable.add(() => { engine.resize(); });
+	   var xr = await scene.createDefaultXRExperienceAsync({
+          floorMeshes: [ground]  
+       });		
+       xr.pointerSelection.attach();
+  
+       xr.input.onControllerAddedObservable.add((controller) => {
+	      if (controller.inputSource.handedness === 'right') {
+             xr.input.onControllerRemovedObservable.add(() => {});
+          } 
+		  if (controller.inputSource.handedness === 'left') {
+             xr.input.onControllerRemovedObservable.add(() => {});
+          }
+          controller.onMotionControllerInitObservable.add((motionController) => {
+            if (motionController.handness === 'right') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+				   if (triggerComponent.pressed) {
+                        const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
+                        const hit = scene.pickWithRay(ray);
+                        //if (hit.pickedMesh && hit.pickedMesh === p7) {
+					     // g7.dispose();
+				       //   gatshot.play();
+					   // }
+				   } 
+                });
+				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+                xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				   if (xbuttonComponent.pressed) speed = -0.05;
+				   else speed = 0.0;
+                });
+				let ybuttonComponent = motionController.getComponent(xr_ids[4]); //y-button
+				ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				   if (ybuttonComponent.pressed) speed = 0.05;
+				   else speed = 0.0;
+                });
+			 }
+			 if (motionController.handness === 'left') {
+                const xr_ids = motionController.getComponentIds();
+                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
+                triggerComponent.onButtonStateChangedObservable.add(() => {
+				//  if (triggerComponent.pressed) armaD.parent = null;
+				//  else speed = 0.0;
+                });
+				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
+                xbuttonComponent.onButtonStateChangedObservable.add(() => {
+ 				   if (xbuttonComponent.pressed) speed = -0.1;
+				   else speed = 0.0;
+                });
+				let ybuttonComponent = motionController.getComponent(xr_ids[4]);//y-button
+				ybuttonComponent.onButtonStateChangedObservable.add(() => {
+				   if (ybuttonComponent.pressed) speed = 0.1;
+				   else speed = 0.0;
+                });
+			 }
+		  });      
+	   });
+	   // Movimenta personagem 
+       var moveSpeed = 0.03; //0.01
+       var direction = new BABYLON.Vector3(0, 0, 1);
+       scene.onBeforeRenderObservable.add(() => {
+         const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
+		 if (Math.abs(speed)<0.07) forward.y = 0;
+         xr.baseExperience.camera.position.addInPlace(forward);
+		 if (xr.baseExperience.camera.position.y < -1.7) xr.baseExperience.camera.position.y = 1.7;	
+	   });
+	   
+	   // Buttons
+	   var plane = BABYLON.Mesh.CreatePlane("plane", 1);
+       plane.position = new BABYLON.Vector3(1.4, 1.5, 0.4)
+       var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
+       function createText (id, text, top) {
+          var header = new BABYLON.GUI.TextBlock();
+          header.text = text;
+          header.height = "100px";
+          header.color = "white";
+          header.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+          header.fontSize = "120";
+		  header.top = top;
+          return header;
+       }
+       function createButton (id, text, top) {
+          let button = BABYLON.GUI.Button.CreateSimpleButton(id, text);
+          button.width = "200px";
+          button.height = "40px";
+          button.color = "white";
+          button.background = "green";
+          button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+          button.top = top;
+		  button.left = "500px";
+          return button;
+       }
+       var button1 = createButton("button1", "Opção 1", "20px");
+       advancedTexture.addControl(button1);
+	   button1.onPointerUpObservable.add(function() {
+		 alert("botao1!");
+       });
+       var button2 = createButton("button2", "Opção 2", "70px");
+       advancedTexture.addControl(button2);
+	   button2.onPointerUpObservable.add(function() {
+		 alert("botao2!");
+       });
+	   return scene;
+    } 
+
+    async function run() {
+      const scene = await createScene();
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    }
+    run();
+  </script>
+</body>
+</html>
