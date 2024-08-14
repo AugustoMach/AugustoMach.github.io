@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pessoa 28jul24a</title>
+  <title>Pessoa 31jul24</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -23,6 +23,7 @@
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
 	   var dirglb = "https://augustomach.github.io/testes/glb/";
+	   var dira3m = "http://ammma.com.br/work/glb/";
        var speed = 0.0;
        var speedy = 0.0;
 	   const wg = 100;
@@ -56,10 +57,10 @@
 	  // var g5 = loadChar(dirglb,"dome00x6.glb",-3, 0, 7);
 	  // var g6 = loadChar(dirglb,"dome002.glb",-1, 0, 7);
 	   //var g7 = loadChar(dirglb,"dome003.glb",1, 0, 7);
-	  // var g8 = loadChar(dirglb,"dome012.glb",3, 0, 7);
- 	   var g9 = loadChar(dirglb,"dome013.glb",-3, 0, 4);
- 	   var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
- 	   var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
+	   var g8 = loadChar(dirglb,"domeM01vz.glb",3, 0, 7);
+ 	      var g9 = loadChar(dirglb,"dome002.glb",-3, 0, 4);
+ 	      var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
+ 	      var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
 	   // var gc = loadChar(dirglb,"dome022.glb",3, 0, 4);
 	  // var gd = loadChar(dirglb,"dome023.glb",-3, 0, 1);
 	    //var ge = loadChar(dirglb,"dome024.glb",-1, 0, 1);
@@ -74,7 +75,7 @@
              p2a.scaling.scaleInPlace(1);
 		     //p1.position = new BABYLON.Vector3(0,py,pz);
           });   */
-		BABYLON.SceneLoader.ImportMesh("", dirglb, "char011a.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+	/*	BABYLON.SceneLoader.ImportMesh("", dirglb, "char011a.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
         var hero = newMeshes[0];
         //Scale the model down        
         hero.scaling.scaleInPlace(1);
@@ -82,7 +83,7 @@
         //Get the Samba animation Group
         const sambaAnim = scene.getAnimationGroupByName("atack");
         sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
-       });
+       });*/
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] 
