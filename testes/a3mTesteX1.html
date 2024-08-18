@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pessoa 31jul24</title>
+  <title>Pessoa 17ago24</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -19,7 +19,15 @@
 <body>
   <canvas id="renderCanvas"></canvas>
   <script>
-    const canvas = document.getElementById("renderCanvas");
+    const searchParams = new URLSearchParams(window.location.search);
+	var personagens;
+	if (searchParams.has("id") === false) {
+	   //personagens = "002,003,004,021,022,023,024,021,021";
+	}else{
+       personagens = searchParams.get('id');  
+	}
+
+    const canvas = document.getElementById ("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
 	   var dirglb = "https://augustomach.github.io/testes/glb/";
@@ -35,7 +43,6 @@
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
        var groundMaterial = new BABYLON.StandardMaterial("groundM", scene);
-	  // groundMaterial.diffuseColor = new BABYLON.Color3(1, 0, 1);
 	   groundMaterial.diffuseTexture = new BABYLON.Texture("https://augustomach.github.io/testes/texturas/chao1.png", scene);
        groundMaterial.diffuseTexture.uScale = 20;
        groundMaterial.diffuseTexture.vScale = 20;
@@ -43,28 +50,28 @@
        ground.material = groundMaterial;
 	   // Carrega personagens
 	   function loadChar(dirc, fileC, px, py, pz){
-	     var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+	      var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              var p0 = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-            // p0.scaling.scaleInPlace(1);
+             //p0.scaling.scaleInPlace(1);
 		     p0.position = new BABYLON.Vector3(px,py,pz);
+             //const anim = scene.getAnimationGroupByName("atack");
+             //anim.start(true, 1.0, anim.from, anim.to, false);
           });
 	      return g0;
 	   }
-	 //  var g1 = loadChar(dirglb,"dome00x1.glb",-3, 0, 10);
-	 //  var g2 = loadChar(dirglb,"dome00x2.glb",-1, 0, 10);
-	  // var g3 = loadChar(dirglb,"dome00x4.glb",1, 0, 10);
-	  // var g4 = loadChar(dirglb,"dome00x5.glb",3, 0, 10);
-	  // var g5 = loadChar(dirglb,"dome00x6.glb",-3, 0, 7);
-	  // var g6 = loadChar(dirglb,"dome002.glb",-1, 0, 7);
-	   //var g7 = loadChar(dirglb,"dome003.glb",1, 0, 7);
-	   var g8 = loadChar(dirglb,"domeM01vz.glb",3, 0, 7);
- 	      var g9 = loadChar(dirglb,"dome002.glb",-3, 0, 4);
- 	      var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
- 	      var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
-	   // var gc = loadChar(dirglb,"dome022.glb",3, 0, 4);
-	  // var gd = loadChar(dirglb,"dome023.glb",-3, 0, 1);
-	    //var ge = loadChar(dirglb,"dome024.glb",-1, 0, 1);
-	  //var gf = loadChar(dirglb,"dome00x.glb",1, 0, 1);
+
+	   var px = -5;
+	   var py = 0;
+	   var pz = 10;
+	   var nomes = personagens.split(',');
+	   for(i = 0; i < nomes.length; i = i+1 ){
+	      arq = "dome" + nomes[i] + ".glb";
+	     // alert (arq);
+		  px = px + 2; 
+		  if ( px > 3 ) px = -3;
+		  if ( px == -3 ) pz = pz-3;
+	      var g1 = loadChar (dirglb, arq, px, py, pz);
+	   }
 	  /*   var g1a = BABYLON.SceneLoader.ImportMesh("p1a", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              var p1a = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
              p1a.scaling.scaleInPlace(1);
@@ -74,7 +81,7 @@
              var p2a = newMeshes[0].getChildMeshes()[0]; //newMeshes[0].getChildMeshes()[0]
              p2a.scaling.scaleInPlace(1);
 		     //p1.position = new BABYLON.Vector3(0,py,pz);
-          });   */
+          });    
 	/*	BABYLON.SceneLoader.ImportMesh("", dirglb, "char011a.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
         var hero = newMeshes[0];
         //Scale the model down        
@@ -83,6 +90,8 @@
         //Get the Samba animation Group
         const sambaAnim = scene.getAnimationGroupByName("atack");
         sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
+		//kek = scene.getMeshByName("test")
+        //kek.isVisible =false;
        });*/
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
