@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pessoa 25jul24a</title>
+  <title>Pessoa 17ago24</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -19,88 +19,91 @@
 <body>
   <canvas id="renderCanvas"></canvas>
   <script>
-    const canvas = document.getElementById("renderCanvas");
+    const searchParams = new URLSearchParams(window.location.search);
+	var personagens;
+	if (searchParams.has("id") === false) {
+	   personagens = "casaP01,,,char051";
+	}else{
+       personagens = searchParams.get('id');  
+	}
+
+    const canvas = document.getElementById ("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
 	   var dirglb = "https://augustomach.github.io/testes/glb/";
+	   var dira3m = "http://ammma.com.br/work/glb/";
        var speed = 0.0;
+       var speedy = 0.0;
 	   const wg = 100;
 	   const hg = 100;
        var scene = new BABYLON.Scene(engine);	   
-	   // Configurações de luz e câmera
        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-       //var lamp = new BABYLON.SpotLight("Lamp", new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 1, 0), BABYLON.Tools.ToRadians(45), 0.1, scene);
- 	  // var lamp = new BABYLON.PointLight("Lamp", new BABYLON.Vector3(0, .1, 5), scene);
-      // lamp.diffuse = new BABYLON.Color3(1,0,0);
        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.7, 15), scene); 
        camera.target = new BABYLON.Vector3(0, 1.7, 0);
-	   //const gatshot = new BABYLON.Sound("https://augustomach.github.io/testes/sons/gunshot", "sons/explosao1.mp3", scene);
        // Ground
        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: wg, height: hg }, scene);
-       var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
-       //groundMaterial.diffuseTexture = new BABYLON.Texture("https://augustomach.github.io/testes/texturas/chao1.png", scene);
-       //groundMaterial.diffuseTexture.uScale = 6;
-       //groundMaterial.diffuseTexture.vScale = 6;
-       //groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-	   groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+       var groundMaterial = new BABYLON.StandardMaterial("groundM", scene);
+	   groundMaterial.diffuseTexture = new BABYLON.Texture("https://augustomach.github.io/testes/texturas/chao1.png", scene);
+       groundMaterial.diffuseTexture.uScale = 20;
+       groundMaterial.diffuseTexture.vScale = 20;
+       groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
        ground.material = groundMaterial;
 	   // Carrega personagens
 	   function loadChar(dirc, fileC, px, py, pz){
-	     var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+	      var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              var p0 = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-             p0.scaling.scaleInPlace(1);
+             //p0.scaling.scaleInPlace(1);
 		     p0.position = new BABYLON.Vector3(px,py,pz);
+             //const anim = scene.getAnimationGroupByName("atack");
+             //anim.start(true, 1.0, anim.from, anim.to, false);
           });
 	      return g0;
 	   }
-	   var g1 = loadChar(dirglb,"dome00x1.glb",-3, 0, 10);
-	   var g2 = loadChar(dirglb,"dome00x2.glb",-1, 0, 10);
-	   var g3 = loadChar(dirglb,"dome00x4.glb",1, 0, 10);
-	   var g4 = loadChar(dirglb,"dome00x5.glb",3, 0, 10);
-	   var g5 = loadChar(dirglb,"dome00x6.glb",-3, 0, 7);
-	   var g6 = loadChar(dirglb,"dome002.glb",-1, 0, 7);
-	   var g7 = loadChar(dirglb,"dome003.glb",1, 0, 7);
-	   var g8 = loadChar(dirglb,"dome012.glb",3, 0, 7);
-	   var g9 = loadChar(dirglb,"dome013.glb",-3, 0, 4);
-	   var ga = loadChar(dirglb,"dome021.glb",-1, 0, 4);
-	   var gb = loadChar(dirglb,"dome021a.glb",1, 0, 4);
-	   var gc = loadChar(dirglb,"dome022.glb",3, 0, 4);
-	   var gd = loadChar(dirglb,"dome023.glb",-3, 0, 1);
-	   var ge = loadChar(dirglb,"dome024.glb",-1, 0, 1);
-	  //var gf = loadChar(dirglb,"dome00x.glb",1, 0, 1);
 
-	   var headPosition;
-	   var leftHandPosition;
-	   var rightHandPosition;
+	   var px = -5;
+	   var py = 0;
+	   var pz = 10;
+	   var nomes = personagens.split(',');
+	   for(i = 0; i < nomes.length; i = i+1 ){
+	      if (nomes[i].length > 4) arq = nomes[i] + ".glb";
+	      else arq = "dome" + nomes[i] + ".glb";
+	     // alert (arq);
+		  px = px + 2; 
+		  if ( px > 3 ) px = -3;
+		  if ( px == -3 ) pz = pz-3;
+	      var g1 = loadChar (dirglb, arq, px, py, pz);
+	   }
+	  /*   var g1a = BABYLON.SceneLoader.ImportMesh("p1a", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             var p1a = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+             p1a.scaling.scaleInPlace(1);
+		     //p1.position = new BABYLON.Vector3(0,py,pz);
+          });
+		  var g2a = BABYLON.SceneLoader.ImportMesh("p2a", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             var p2a = newMeshes[0].getChildMeshes()[0]; //newMeshes[0].getChildMeshes()[0]
+             p2a.scaling.scaleInPlace(1);
+		     //p1.position = new BABYLON.Vector3(0,py,pz);
+          });    
+	/*	BABYLON.SceneLoader.ImportMesh("", dirglb, "char011a.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+        var hero = newMeshes[0];
+        //Scale the model down        
+        hero.scaling.scaleInPlace(1);
+		hero.position.z = 0;
+        //Get the Samba animation Group
+        const sambaAnim = scene.getAnimationGroupByName("atack");
+        sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
+		//kek = scene.getMeshByName("test")
+        //kek.isVisible =false;
+       });*/
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
-          floorMeshes: [ground]  
+          floorMeshes: [ground] 
+		  //disableTeleportation: true
        });		
        xr.pointerSelection.attach();
-	   
-       // Armas para Mãos
-	  // var hd; 
-      // var armaD = BABYLON.SceneLoader.ImportMesh("", dirglb, "espada001.glb", scene, function(newMeshes) {
-	      // hd = newMeshes[0];
-		 //  hd.scaling.scaleInPlace(1);
-	  // });
-	   var he; 
-       var armaE = BABYLON.SceneLoader.ImportMesh("", dirglb, "faca001.glb", scene, function(newMeshes) {
-	       he = newMeshes[0];
-		   he.scaling.scaleInPlace(1);
-	   });
-	   
        xr.input.onControllerAddedObservable.add((controller) => {
-	      if (controller.inputSource.handedness === 'right') {
-           //  hd.parent = controller.grip || controller.pointer;
-			 //lamp.parent = controller.grip || controller.pointer;
-			 
-             xr.input.onControllerRemovedObservable.add(() => {});
-          } 
-		  if (controller.inputSource.handedness === 'left') {
-          //   he.parent = controller.grip || controller.pointer;
-             xr.input.onControllerRemovedObservable.add(() => {});
-          }
+	      //if (controller.inputSource.handedness === 'left') {
+            //  p1a.parent = controller.grip || controller.pointer;
+          //}
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
@@ -111,15 +114,9 @@
 				// 4 = y-button
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) {
-                        const ray = new BABYLON.Ray(controller.grip.position, controller.pointer.forward, 10);
-                        const hit = scene.pickWithRay(ray);
-                        if (hit.pickedMesh && hit.pickedMesh === p7) {
-					      g7.dispose();
-				          gatshot.play();
-					    }
-				   } 
-                });
+				   if (triggerComponent.pressed) speedy = 0.01;
+				   else speedy = 0.00; 
+                });				
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
  				   if (xbuttonComponent.pressed) speed = -0.05;
@@ -135,8 +132,8 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				  if (triggerComponent.pressed) armaD.parent = null;
-				  else speed = 0.0;
+				   if (triggerComponent.pressed) speedy = -0.01;
+				   else speedy = 0.00; 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
@@ -151,90 +148,21 @@
 			 }
 		  });      
 	   });
-	   // Movimenta personagem 
-       var moveSpeed = 0.03; //0.01
-       var direction = new BABYLON.Vector3(0, 0, 1);
+	   // Movimenta camera 
        scene.onBeforeRenderObservable.add(() => {
-		// if (hero) {
-		   //const hf = hero.lookAt(hero.position.add(direction));
-          // hero.position.z += moveSpeed;
-		  // if (hero.position.z > 50) hero.position.z = -50;
-        // }
-          
-		// var lanterna = scene.getLightByName("Lamp");  
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 		 if (Math.abs(speed)<0.07) forward.y = 0;
+		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
-		 //lanterna.position.addInPlace(forward
-		 //cube = scene.getMeshByName("Cube.003"););
-		 if (xr.baseExperience.camera.position.y < -1.7) xr.baseExperience.camera.position.y = 1.7;	
-         //var inputSources = xr.input.xrInput.controllers;
-         //inputSources.forEach (controller => {
-         //  if (controller.inputSource.handedness === "left") {
-         //    var leftHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
-         //  } else if (controller.inputSource.handedness === "right") {
-         //    var rightHandPosition = controller.grip ? controller.grip.position : controller.pointer.position;
-		 //	   box.position = rightHandPosition;
-		 //  }
-		 //});
+		// if (xr.baseExperience.camera.position.y < -2) xr.baseExperience.camera.position.y = -2;	
+         //var xxx = xr.baseExperience.camera.position.x;
+		 //alert (xxx);
+		 // p2a.position.x = xxx;
+		 // p2a.position.z = xr.baseExperience.camera.position.z;
+         //= xr.baseExperience.camera.getPosition(BABYLON.Vector3.Forward());
 	   });
-	   
-	   // Buttons
-	   var plane = BABYLON.Mesh.CreatePlane("plane", 1);
-       plane.position = new BABYLON.Vector3(1.4, 1.5, 0.4)
-       var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
-     //  var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("button", true, scene);
-     //  var panel = new BABYLON.GUI.StackPanel();
-     //  advancedTexture.addControl(panel); 
-	// var panel = new BABYLON.GUI.StackPanel();
-   //advancedTexture.addControl(panel);
-   //var picker = new BABYLON.GUI.ColorPicker();
-//picker.value = sphere.material.diffuseColor;
-//picker.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-//picker.height = "350px";
-//picker.width = "350px";
-//picker.onValueChangedObservable.add(function(value) {
- //   sphere.material.diffuseColor.copyFrom(value);
-//});
-//panel.addControl(picker);
-       function createText (id, text, top) {
-          var header = new BABYLON.GUI.TextBlock();
-          header.text = text;
-          header.height = "100px";
-          header.color = "white";
-          header.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-          header.fontSize = "120";
-		  header.top = top;
-          return header;
-       }
-
-       function createButton (id, text, top) {
-          let button = BABYLON.GUI.Button.CreateSimpleButton(id, text);
-          button.width = "200px";
-          button.height = "40px";
-          button.color = "white";
-          button.background = "green";
-          button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-          button.top = top;
-		  button.left = "500px";
-          return button;
-       }
-       var button1 = createButton("button1", "Opção 1", "20px");
-       advancedTexture.addControl(button1);
-	   button1.onPointerUpObservable.add(function() {
-       //  g1.dispose();
-		 alert("botao1!");
-       });
-       var button2 = createButton("button2", "Opção 2", "70px");
-       advancedTexture.addControl(button2);
-	   button2.onPointerUpObservable.add(function() {
-        // g2.dispose();
-		 alert("botao2!");
-       });
-  
 	   return scene;
     } 
-
     async function run() {
       const scene = await createScene();
       engine.runRenderLoop(() => {

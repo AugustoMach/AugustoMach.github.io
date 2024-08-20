@@ -22,7 +22,7 @@
     const searchParams = new URLSearchParams(window.location.search);
 	var personagens;
 	if (searchParams.has("id") === false) {
-	   //personagens = "002,003,004,021,022,023,024,021,021";
+	   personagens = "casaP01,,,char051";
 	}else{
        personagens = searchParams.get('id');  
 	}
@@ -65,7 +65,8 @@
 	   var pz = 10;
 	   var nomes = personagens.split(',');
 	   for(i = 0; i < nomes.length; i = i+1 ){
-	      arq = "dome" + nomes[i] + ".glb";
+	      if (nomes[i].length > 4) arq = nomes[i] + ".glb";
+	      else arq = "dome" + nomes[i] + ".glb";
 	     // alert (arq);
 		  px = px + 2; 
 		  if ( px > 3 ) px = -3;
