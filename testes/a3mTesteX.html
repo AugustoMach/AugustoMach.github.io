@@ -24,9 +24,9 @@
 	if (searchParams.has("id") === false) {
 	   personagens = "casaP01,,,char051";
 	}else if (searchParams.get('id') === "ns1") {
-	   personagens = "#pena,002,003,010,012,013,021,021a,022,023,024";
+	   personagens = "~pena,002,003,010,012,013,021,021a,022,023,024,00x4,00x5,00x6";
 	}else if (searchParams.get('id') === "ns2") {
-	   personagens = "#pena,00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
+	   personagens = "~pena,00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
 	}else{
        personagens = searchParams.get('id');  
 	}
@@ -68,7 +68,7 @@
 	   var nomes = personagens.split(',');
 	   var arma = "bolichePino.glb";
 	   for(i = 0; i < nomes.length; i = i+1 ){
-	      if (nomes[i].substr(0,1) !== '#'){
+	      if (nomes[i].substr(0,1) !== '~'){
 	        if (nomes[i].length > 5) arq = nomes[i] + ".glb";
 	        else arq = "dome" + nomes[i] + ".glb";
 		    px = px + 2; 
@@ -76,7 +76,7 @@
 		    if ( px == -3 ) pz = pz-3;
 	        var g1 = loadChar (dirglb, arq, px, py, pz);
 		  }else{
-		    arma = nomes[i].substr(1);
+		    arma = nomes[i].substr(1)+ ".glb";
 		  }
 	   }
 	   var g1a = BABYLON.SceneLoader.ImportMesh("", dirglb, arma, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
