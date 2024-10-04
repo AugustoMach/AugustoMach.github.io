@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Testes 04out24</title>
+  <title>Testes 04out24a</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -24,13 +24,20 @@
 	if (searchParams.has("id") === false) {
 	   personagens = "casaP01,,,char051";
 	}else if (searchParams.get('id') === "ns1") {
-	   personagens = "~pena,002,003,010,012,013,021,021a,022,023,024,00x4,00x5,00x6";
+	   personagens = "002,003,010,012,013,021,021a,022,023,024,00x4,00x5,00x6";
 	}else if (searchParams.get('id') === "ns2") {
-	   personagens = "~pena,00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
+	   personagens = "00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
 	}else{
        personagens = searchParams.get('id');  
 	}
-
+	var armaE = "bolichePino.glb";
+	if (searchParams.has("ae") === true) {
+	   armaE = searchParams.get("ae")+".glb";
+	}
+	var armaD = "bolichePino.glb";
+	if (searchParams.has("ad") === true) {
+	   armaD = searchParams.get("ad")+".glb";
+	} 
     const canvas = document.getElementById ("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
@@ -62,27 +69,30 @@
           });
 	      return g0;
 	   }
+	    
+	   var aE = BABYLON.SceneLoader.ImportMesh("", dirglb, armaE, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          var aEm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+		  aEm.position = new BABYLON.Vector3(-.5,1,1);
+       });
+
+	   var aD = BABYLON.SceneLoader.ImportMesh("", dirglb, armaD, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+          var aDm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+		  aDm.position = new BABYLON.Vector3(.5,1,1);
+       }); 
+	   
 	   var px = -5;
 	   var py = 0;
 	   var pz = 10;
 	   var nomes = personagens.split(',');
-	   var arma = "bolichePino.glb";
 	   for(i = 0; i < nomes.length; i = i+1 ){
-	      if (nomes[i].substr(0,1) !== '~'){
-	        if (nomes[i].length > 5) arq = nomes[i] + ".glb";
-	        else arq = "dome" + nomes[i] + ".glb";
-		    px = px + 2; 
-		    if ( px > 3 ) px = -3;
-		    if ( px == -3 ) pz = pz-3;
-	        var g1 = loadChar (dirglb, arq, px, py, pz);
-		  }else{
-		    arma = nomes[i].substr(1)+ ".glb";
-		  }
+	      if (nomes[i].length > 5) arq = nomes[i] + ".glb";
+	      else arq = "dome" + nomes[i] + ".glb";
+		  px = px + 2; 
+		  if ( px > 3 ) px = -3;
+		  if ( px == -3 ) pz = pz-3;
+	      var g1 = loadChar (dirglb, arq, px, py, pz);
 	   }
-	   var g1a = BABYLON.SceneLoader.ImportMesh("", dirglb, arma, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-           var p1a = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-		   p1a.position = new BABYLON.Vector3(1,1,1);
-       });
+
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] 
@@ -90,8 +100,11 @@
        });		
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
-	      if (controller.inputSource.handedness === 'left') {
-             p1a.parent = controller.grip || controller.pointer;
+	      if (controller.inputSource.handedness === 'right') {
+             aDm.parent = controller.grip || controller.pointer;
+          }
+		  if (controller.inputSource.handedness === 'left') {
+             aDe.parent = controller.grip || controller.pointer;
           }
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
