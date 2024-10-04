@@ -95,8 +95,11 @@
 
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
-          floorMeshes: [ground] 
+          floorMeshes: [ground],
 		  //disableTeleportation: true
+		  inputOptions: {
+              doNotLoadControllerMeshes: true,
+          },
        });		
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
