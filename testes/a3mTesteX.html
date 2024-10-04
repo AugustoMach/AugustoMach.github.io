@@ -24,9 +24,9 @@
 	if (searchParams.has("id") === false) {
 	   personagens = "casaP01,,,char051";
 	}else if (searchParams.get('id') === "ns1") {
-	   personagens = "002,003,010,012,013,021,021a,022,023,024";
+	   personagens = "#pena,002,003,010,012,013,021,021a,022,023,024";
 	}else if (searchParams.get('id') === "ns2") {
-	   personagens = "00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
+	   personagens = "#pena,00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
 	}else{
        personagens = searchParams.get('id');  
 	}
@@ -66,35 +66,23 @@
 	   var py = 0;
 	   var pz = 10;
 	   var nomes = personagens.split(',');
+	   var arma = "bolichePino.glb";
 	   for(i = 0; i < nomes.length; i = i+1 ){
-	      if (nomes[i].length > 5) arq = nomes[i] + ".glb";
-	      else arq = "dome" + nomes[i] + ".glb";
-		  px = px + 2; 
-		  if ( px > 3 ) px = -3;
-		  if ( px == -3 ) pz = pz-3;
-	      var g1 = loadChar (dirglb, arq, px, py, pz);
+	      if (nomes[i].substr(0,1) !== '#'){
+	        if (nomes[i].length > 5) arq = nomes[i] + ".glb";
+	        else arq = "dome" + nomes[i] + ".glb";
+		    px = px + 2; 
+		    if ( px > 3 ) px = -3;
+		    if ( px == -3 ) pz = pz-3;
+	        var g1 = loadChar (dirglb, arq, px, py, pz);
+		  }else{
+		    arma = nomes[i].substr(1);
+		  }
 	   }
-	   var g1a = BABYLON.SceneLoader.ImportMesh("", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-             var p1a = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-		     p1a.position = new BABYLON.Vector3(1,1,1);
+	   var g1a = BABYLON.SceneLoader.ImportMesh("", dirglb, arma, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+           var p1a = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+		   p1a.position = new BABYLON.Vector3(1,1,1);
        });
-	   /*
-		  var g2a = BABYLON.SceneLoader.ImportMesh("p2a", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-             var p2a = newMeshes[0].getChildMeshes()[0]; //newMeshes[0].getChildMeshes()[0]
-             p2a.scaling.scaleInPlace(1);
-		     //p1.position = new BABYLON.Vector3(0,py,pz);
-          });   */ 
-	/*	BABYLON.SceneLoader.ImportMesh("", dirglb, "char011a.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-        var hero = newMeshes[0];
-        //Scale the model down        
-        hero.scaling.scaleInPlace(1);
-		hero.position.z = 0;
-        //Get the Samba animation Group
-        const sambaAnim = scene.getAnimationGroupByName("atack");
-        sambaAnim.start(true, 1.0, sambaAnim.from, sambaAnim.to, false);
-		//kek = scene.getMeshByName("test")
-        //kek.isVisible =false;
-       });*/
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
           floorMeshes: [ground] 
@@ -155,12 +143,6 @@
 		 if (Math.abs(speed)<0.07) forward.y = 0;
 		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
-		// if (xr.baseExperience.camera.position.y < -2) xr.baseExperience.camera.position.y = -2;	
-         //var xxx = xr.baseExperience.camera.position.x;
-		 //alert (xxx);
-		 // p2a.position.x = xxx;
-		 // p2a.position.z = xr.baseExperience.camera.position.z;
-         //= xr.baseExperience.camera.getPosition(BABYLON.Vector3.Forward());
 	   });
 	   return scene;
     } 
