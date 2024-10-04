@@ -56,14 +56,12 @@
 	   function loadChar(dirc, fileC, px, py, pz){
 	      var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              var p0 = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-             //p0.scaling.scaleInPlace(1);
 		     p0.position = new BABYLON.Vector3(px,py,pz);
              //const anim = scene.getAnimationGroupByName("atack");
              //anim.start(true, 1.0, anim.from, anim.to, false);
           });
 	      return g0;
 	   }
-
 	   var px = -5;
 	   var py = 0;
 	   var pz = 10;
@@ -71,22 +69,21 @@
 	   for(i = 0; i < nomes.length; i = i+1 ){
 	      if (nomes[i].length > 4) arq = nomes[i] + ".glb";
 	      else arq = "dome" + nomes[i] + ".glb";
-	     // alert (arq);
 		  px = px + 2; 
 		  if ( px > 3 ) px = -3;
 		  if ( px == -3 ) pz = pz-3;
 	      var g1 = loadChar (dirglb, arq, px, py, pz);
 	   }
-	  /*   var g1a = BABYLON.SceneLoader.ImportMesh("p1a", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+	   var g1a = BABYLON.SceneLoader.ImportMesh("", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              var p1a = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-             p1a.scaling.scaleInPlace(1);
-		     //p1.position = new BABYLON.Vector3(0,py,pz);
-          });
+		     p1a.position = new BABYLON.Vector3(1,1,1);
+       });
+	   /*
 		  var g2a = BABYLON.SceneLoader.ImportMesh("p2a", dirglb, 'bolichePino.glb', scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              var p2a = newMeshes[0].getChildMeshes()[0]; //newMeshes[0].getChildMeshes()[0]
              p2a.scaling.scaleInPlace(1);
 		     //p1.position = new BABYLON.Vector3(0,py,pz);
-          });    
+          });   */ 
 	/*	BABYLON.SceneLoader.ImportMesh("", dirglb, "char011a.glb", scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
         var hero = newMeshes[0];
         //Scale the model down        
@@ -105,9 +102,9 @@
        });		
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
-	      //if (controller.inputSource.handedness === 'left') {
-            //  p1a.parent = controller.grip || controller.pointer;
-          //}
+	      if (controller.inputSource.handedness === 'left') {
+             p1a.parent = controller.grip || controller.pointer;
+          }
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
@@ -118,7 +115,7 @@
 				// 4 = y-button
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speedy = 0.01;
+				   if (triggerComponent.pressed) speedy = -0.01;
 				   else speedy = 0.00; 
                 });				
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
@@ -136,7 +133,7 @@
                 const xr_ids = motionController.getComponentIds();
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speedy = -0.01;
+				   if (triggerComponent.pressed) speedy = 0.01;
 				   else speedy = 0.00; 
                 });
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
