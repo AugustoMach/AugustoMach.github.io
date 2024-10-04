@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pessoa 17ago24</title>
+  <title>Pessoa 03out24</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -23,6 +23,10 @@
 	var personagens;
 	if (searchParams.has("id") === false) {
 	   personagens = "casaP01,,,char051";
+	}else if (searchParams.get('id') === "ns1") {
+	   personagens = "002,003,010,012,013,021,021a,022,023,024";
+	}else if (searchParams.get('id') === "ns2") {
+	   personagens = "00x1a,00x1b,00x1c,00x1d";
 	}else{
        personagens = searchParams.get('id');  
 	}
