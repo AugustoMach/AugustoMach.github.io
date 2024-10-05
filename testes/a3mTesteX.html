@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Testes 04out24a</title>
+  <title>Testes 04out24b</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -95,20 +95,20 @@
 
        engine.onResizeObservable.add(() => { engine.resize(); });
 	   var xr = await scene.createDefaultXRExperienceAsync({
-          floorMeshes: [ground],
+          floorMeshes: [ground] 
 		  //disableTeleportation: true
-		  inputOptions: {
-              doNotLoadControllerMeshes: true,
-          },
+		 // inputOptions: {
+             // doNotLoadControllerMeshes: true,
+         // },
        });		
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
-	      if (controller.inputSource.handedness === 'right') {
+	     /* if (controller.inputSource.handedness === 'right') {
              aDm.parent = controller.grip || controller.pointer;
           }
 		  if (controller.inputSource.handedness === 'left') {
              aEm.parent = controller.grip || controller.pointer;
-          }
+          }*/
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
