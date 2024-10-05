@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Testes 04out24b</title>
+  <title>Testes 04out24c</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
   <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -20,16 +20,6 @@
   <canvas id="renderCanvas"></canvas>
   <script>
     const searchParams = new URLSearchParams(window.location.search);
-	var personagens;
-	if (searchParams.has("id") === false) {
-	   personagens = "casaP01,,,char051";
-	}else if (searchParams.get('id') === "ns1") {
-	   personagens = "002,003,010,012,013,021,021a,022,023,024,00x4,00x5,00x6";
-	}else if (searchParams.get('id') === "ns2") {
-	   personagens = "00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
-	}else{
-       personagens = searchParams.get('id');  
-	}
 	var armaE = "bolichePino.glb";
 	if (searchParams.has("ae") === true) {
 	   armaE = searchParams.get("ae")+".glb";
@@ -38,6 +28,19 @@
 	if (searchParams.has("ad") === true) {
 	   armaD = searchParams.get("ad")+".glb";
 	} 
+	var personagens;
+	if (searchParams.has("id") === false) {
+	   personagens = "casaP01,,,char051";
+	}else if (searchParams.get('id') === "ns1") {
+	   personagens = "002,003,010,012,013,021,021a,022,023,024,00x4,00x5,00x6";
+	   armaD = "pena.glb";
+	}else if (searchParams.get('id') === "ns2") {
+	   personagens = "00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
+	   armaD = "pena.glb";
+	}else{
+       personagens = searchParams.get('id');  
+	}
+
     const canvas = document.getElementById ("renderCanvas");
     const engine = new BABYLON.Engine(canvas, true);
     async function createScene() {
@@ -69,14 +72,14 @@
           });
 	      return g0;
 	   }
-	    
+	   var aEm;
 	   var aE = BABYLON.SceneLoader.ImportMesh("", dirglb, armaE, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          var aEm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+          aEm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
 		  aEm.position = new BABYLON.Vector3(-.5,1,1);
        });
-
+       var aDm;
 	   var aD = BABYLON.SceneLoader.ImportMesh("", dirglb, armaD, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          var aDm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+          aDm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
 		  aDm.position = new BABYLON.Vector3(.5,1,1);
        }); 
 	   
@@ -103,10 +106,10 @@
        });		
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
-	     /* if (controller.inputSource.handedness === 'right') {
+	      if (controller.inputSource.handedness === 'right') {
              aDm.parent = controller.grip || controller.pointer;
           }
-		  if (controller.inputSource.handedness === 'left') {
+		  /*if (controller.inputSource.handedness === 'left') {
              aEm.parent = controller.grip || controller.pointer;
           }*/
           controller.onMotionControllerInitObservable.add((motionController) => {
