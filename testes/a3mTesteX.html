@@ -20,11 +20,11 @@
   <canvas id="renderCanvas"></canvas>
   <script>
     const searchParams = new URLSearchParams(window.location.search);
-	var armaE = "bolichePino.glb";
+	var armaE = "";
 	if (searchParams.has("ae") === true) {
 	   armaE = searchParams.get("ae")+".glb";
 	}
-	var armaD = "bolichePino.glb";
+	var armaD = "";
 	if (searchParams.has("ad") === true) {
 	   armaD = searchParams.get("ad")+".glb";
 	} 
@@ -73,15 +73,19 @@
 	      return g0;
 	   }
 	   var aEm;
-	   var aE = BABYLON.SceneLoader.ImportMesh("", dirglb, armaE, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          aEm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-		  aEm.position = new BABYLON.Vector3(-.5,1,1);
-       });
+	   if (armaE !== "") {
+	      var aE = BABYLON.SceneLoader.ImportMesh("", dirglb, armaE, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             aEm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+		     aEm.position = new BABYLON.Vector3(-.5,1,1);
+          });
+	   }
        var aDm;
-	   var aD = BABYLON.SceneLoader.ImportMesh("", dirglb, armaD, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
-          aDm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-		  aDm.position = new BABYLON.Vector3(.5,1,1);
-       }); 
+	   if (armaD !== "") {
+	      var aD = BABYLON.SceneLoader.ImportMesh("", dirglb, armaD, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             aDm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+		     aDm.position = new BABYLON.Vector3(.5,1,1);
+          }); 
+	   }
 	   
 	   var px = -5;
 	   var py = 0;
@@ -106,12 +110,12 @@
        });		
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
-	      if (controller.inputSource.handedness === 'right') {
+	      if (controller.inputSource.handedness === 'right' &&  armaD !== "") {
              aDm.parent = controller.grip || controller.pointer;
           }
-		  /*if (controller.inputSource.handedness === 'left') {
+		  if (controller.inputSource.handedness === 'left' &&  armaE !== "") {
              aEm.parent = controller.grip || controller.pointer;
-          }*/
+          }
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
