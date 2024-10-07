@@ -126,7 +126,11 @@
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right' &&  armaD !== "") {
-             aDm.parent = controller.grip || controller.pointer;
+		    controller.grip.dispose(); // Remove o modelo padrão
+            // Substitui pelo mesh customizado
+            aDm.parent = controller.grip || controller.pointer;
+            //handMesh.parent = controller.grip;  // Define a mão como filha do grip para seguir a posição e rotação
+            aDm.isVisible = true; /
           }
 		  if (controller.inputSource.handedness === 'left' &&  armaE !== "") {
              aEm.parent = controller.grip || controller.pointer;
