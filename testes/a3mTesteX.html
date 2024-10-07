@@ -20,6 +20,10 @@
   <canvas id="renderCanvas"></canvas>
   <script>
     const searchParams = new URLSearchParams(window.location.search);
+	var armaC = "";
+	if (searchParams.has("ac") === true) {
+	   armaC = searchParams.get("ac")+".glb";
+	}
 	var armaE = "";
 	if (searchParams.has("ae") === true) {
 	   armaE = searchParams.get("ae")+".glb";
@@ -28,15 +32,18 @@
 	if (searchParams.has("ad") === true) {
 	   armaD = searchParams.get("ad")+".glb";
 	} 
+	console.log(armaD);
 	var personagens;
 	if (searchParams.has("id") === false) {
 	   personagens = "casaP01,,,char051";
 	}else if (searchParams.get('id') === "ns1") {
 	   personagens = "002,003,010,012,013,021,021a,022,023,024,00x4,00x5,00x6";
 	   armaD = "pena.glb";
+	   armaC = "penb.glb";
 	}else if (searchParams.get('id') === "ns2") {
-	   personagens = "00x1a,00x1b,00x1c,00x1d,00x2a,00x2b,00x2c,00x2d,00x3a,00x3b";
+	   personagens = "nsC001xa,nsC001xb,nsC001xc,nsC001xd,nsC001xe,nsC001xf,nsC001xg,nsC001xh,nsC001xi,nsC001xj";
 	   armaD = "pena.glb";
+	   armaC = "penb.glb";
 	}else{
        personagens = searchParams.get('id');  
 	}
@@ -62,6 +69,7 @@
        groundMaterial.diffuseTexture.vScale = 20;
        groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
        ground.material = groundMaterial;
+	    
 	   // Carrega personagens
 	   function loadChar(dirc, fileC, px, py, pz){
 	      var g0 = BABYLON.SceneLoader.ImportMesh("", dirc, fileC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
@@ -71,6 +79,13 @@
              //anim.start(true, 1.0, anim.from, anim.to, false);
           });
 	      return g0;
+	   }
+	   var aCm;
+	   if (armaC !== "") {
+	      var aC = BABYLON.SceneLoader.ImportMesh("", dirglb, armaC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
+             aCm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
+		     aCm.position = new BABYLON.Vector3(-.5,1,1);
+          });
 	   }
 	   var aEm;
 	   if (armaE !== "") {
@@ -166,6 +181,11 @@
 		 if (Math.abs(speed)<0.07) forward.y = 0;
 		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
+		 if (armaC !== "") {
+            aCm.position.copyFrom(xr.baseExperience.camera.position); 
+			aCm.position.y += 1;
+            aCm.rotationQuaternion.copyFrom(xr.baseExperience.camera.rotationQuaternion); 
+          }
 	   });
 	   return scene;
     } 
