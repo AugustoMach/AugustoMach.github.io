@@ -44,6 +44,10 @@
 	   personagens = "nsC001xa,nsC001xb,nsC001xc,nsC001xd,nsC001xe,nsC001xf,nsC001xg,nsC001xh,nsC001xi,nsC001xj";
 	   armaD = "pena.glb";
 	   armaC = "penb.glb";
+	}else if (searchParams.get('id') === "ns3") {
+	   personagens = "domeM01vx,domeM01vz";
+	   armaD = "pena.glb";
+	   armaC = "penb.glb";
 	}else{
        personagens = searchParams.get('id');  
 	}
@@ -84,7 +88,7 @@
 	   if (armaC !== "") {
 	      var aC = BABYLON.SceneLoader.ImportMesh("", dirglb, armaC, scene, function (newMeshes, particleSystems, skeletons, animationGroups) {
              aCm = newMeshes[0]; //newMeshes[0].getChildMeshes()[0]
-		     aCm.position = new BABYLON.Vector3(-.5,1,1);
+		     aCm.position = new BABYLON.Vector3(0,1,1);
           });
 	   }
 	   var aEm;
@@ -130,7 +134,7 @@
             // Substitui pelo mesh customizado
             aDm.parent = controller.grip || controller.pointer;
             //handMesh.parent = controller.grip;  // Define a mão como filha do grip para seguir a posição e rotação
-            aDm.isVisible = true; /
+            aDm.isVisible = true;  
           }
 		  if (controller.inputSource.handedness === 'left' &&  armaE !== "") {
              aEm.parent = controller.grip || controller.pointer;
@@ -186,9 +190,10 @@
 		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
 		 if (armaC !== "") {
-            aCm.position.copyFrom(xr.baseExperience.camera.position); 
-			aCm.position.y += 1;
-            aCm.rotationQuaternion.copyFrom(xr.baseExperience.camera.rotationQuaternion); 
+		   // aCm.position += forward.x;
+           //aCm.position.copyFrom(xr.baseExperience.camera.position); 
+		   //aCm.position.y += 1;
+           //aCm.rotationQuaternion.copyFrom(xr.baseExperience.camera.rotationQuaternion); 
           }
 	   });
 	   return scene;
