@@ -45,7 +45,7 @@
 	   armaD = "pena.glb";
 	   armaC = "penb.glb";
 	}else if (searchParams.get('id') === "ns3") {
-	   personagens = "domeM01vx,domeM01vz";
+	   personagens = "domeM01vx,domeM01vz,nsC100x,nsC100x-a";
 	   armaD = "pena.glb";
 	   armaC = "penb.glb";
 	}else{
@@ -190,7 +190,7 @@
 		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
 		 if (armaC !== "") {
-		   // aCm.position += forward.x;
+		   //aCm.position = new BABYLON.Vector3(0,1,1);
            //aCm.position.copyFrom(xr.baseExperience.camera.position); 
 		   //aCm.position.y += 1;
            //aCm.rotationQuaternion.copyFrom(xr.baseExperience.camera.rotationQuaternion); 
