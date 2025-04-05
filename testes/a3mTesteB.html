@@ -25,11 +25,6 @@
 	  var dirtex = "https://augustomach.github.io/testes/texturas/";
 	  var speed = 0.0;
       var speedy = 0.0;
-	  const wg = 100;
-	  const hg = 100;
-	  var armaC = "";
-	  var armaE = "";
-	  var armaD = "";
       var scene = new BABYLON.Scene(engine);
       var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 1.5, 5), scene);
       camera.setTarget(BABYLON.Vector3.Zero());
@@ -53,8 +48,8 @@
       eu.position = new BABYLON.Vector3(0, 0.1, 5);
 	  eu.material = burMat;
 	  
- 	  if (searchParams.has("grd") === true) grade = searchParams.get("grd")+",,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-	  else grade =",,X,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
+	  grade =",,X,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
+ 	  if (searchParams.has("grd") === true) grade = searchParams.get("grd");
 	  var grd = grade.split(',');
 	  for(i = 0; i < 3; i = i+1 ) {
 	     for(j = 0; j < 10; j = j+1) {
@@ -70,29 +65,9 @@
        });
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
-	      if (controller.inputSource.handedness === 'right' &&  armaD !== "") {
-		    //controller.grip.dispose(); // Remove o modelo padrão
-            //Substitui pelo mesh customizado
-            //aDm.parent = controller.grip || controller.pointer;
-            //handMesh.parent = controller.grip;  // Define a mão como filha do grip para seguir a posição e rotação
-            //aDm.isVisible = true;  
-          }
-		  if (controller.inputSource.handedness === 'left' &&  armaE !== "") {
-             //aEm.parent = controller.grip || controller.pointer;
-          }
           controller.onMotionControllerInitObservable.add((motionController) => {
             if (motionController.handness === 'right') {
                 const xr_ids = motionController.getComponentIds();
-				// 0 = xr-standard-trigger
-				// 1 = xr-standard-squeeze
-				// 2 = xr-standard-thumbstick
-				// 3 = x-button
-				// 4 = y-button
-                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-                triggerComponent.onButtonStateChangedObservable.add(() => {
-				 //  if (triggerComponent.pressed) speedy = -0.01;
-				 //  else speedy = 0.00; 
-                });				
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
  				   if (xbuttonComponent.pressed) speed = -0.05;
@@ -112,7 +87,7 @@
 		 if (Math.abs(speed)<0.07) forward.y = 0;
 		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
-		 eu.position.addInPlace(forward);
+		// eu.position.addInPlace(forward);
 	  });
 	  
 	  return scene;
