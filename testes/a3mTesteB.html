@@ -26,7 +26,7 @@
 	  var speed = 0.0;
       var speedy = 0.0;
 	  const wg = 100;
-	  const hg = 100;5
+	  const hg = 100;
 	  var armaC = "";
 	  var armaE = "";
 	  var armaD = "";
@@ -36,27 +36,32 @@
       camera.attachControl(canvas, true);
       var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 5, 15), scene);
       light.intensity = 1;
-	  
+	  var dimX = .5,
 	  // Chao	  
       const grdMat = new BABYLON.StandardMaterial("grdMat");
       grdMat.diffuseTexture = new BABYLON.Texture(dirtex+"caixa1.png");	  
-      var ponte = BABYLON.MeshBuilder.CreateBox("ponte",{height:0.05, width: 0.5, depth: 0.5},scene);
+      var ponte = BABYLON.MeshBuilder.CreateBox("ponte",{height:0.05, width: dimX, depth: dimX},scene);
       ponte.position = new BABYLON.Vector3(-0,0,0);
 	  ponte.material = grdMat;
 	  const burMat = new BABYLON.StandardMaterial("burMat");
       burMat.diffuseTexture = new BABYLON.Texture(dirtex+"chao1.png");	  
-      var buraco = BABYLON.MeshBuilder.CreateBox("buraco",{height:0.05, width: 0.5, depth: 0.5},scene);
+      var buraco = BABYLON.MeshBuilder.CreateBox("buraco",{height:0.05, width: dimX, depth: dimX},scene);
       buraco.position = new BABYLON.Vector3(-0,0,0);
 	  buraco.material = burMat;
- 
-	  grade =",,X,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
+	  
+	  var eu = BABYLON.MeshBuilder.CreateBox("eu",{height:0.1, width: dimX/4, depth: dimX/4},scene);
+      eu.position = new BABYLON.Vector3(0, 0.1, 5);
+	  eu.material = burMat;
+	  
+ 	  if (searchParams.has("grd") === true) grade = searchParams.get("grd")+",,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	  else grade =",,X,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
 	  var grd = grade.split(',');
 	  for(i = 0; i < 3; i = i+1 ) {
 	     for(j = 0; j < 10; j = j+1) {
 		    var box2;
 		    if (grd[i*j+i] === "X") box2 = buraco.clone("buraco");
 		    else box2 = ponte.clone("ponte");
-		    box2.position  = new BABYLON.Vector3(i*.5,0,j*.5); 
+		    box2.position  = new BABYLON.Vector3(i*.dimX,0,j*.dimX); 
 	     }
 	   }   
 	   engine.onResizeObservable.add(() => { engine.resize(); });
@@ -67,10 +72,10 @@
        xr.input.onControllerAddedObservable.add((controller) => {
 	      if (controller.inputSource.handedness === 'right' &&  armaD !== "") {
 		    //controller.grip.dispose(); // Remove o modelo padrão
-            // Substitui pelo mesh customizado
-           // aDm.parent = controller.grip || controller.pointer;
+            //Substitui pelo mesh customizado
+            //aDm.parent = controller.grip || controller.pointer;
             //handMesh.parent = controller.grip;  // Define a mão como filha do grip para seguir a posição e rotação
-           // aDm.isVisible = true;  
+            //aDm.isVisible = true;  
           }
 		  if (controller.inputSource.handedness === 'left' &&  armaE !== "") {
              //aEm.parent = controller.grip || controller.pointer;
@@ -85,8 +90,8 @@
 				// 4 = y-button
                 let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
                 triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speedy = -0.01;
-				   else speedy = 0.00; 
+				 //  if (triggerComponent.pressed) speedy = -0.01;
+				 //  else speedy = 0.00; 
                 });				
 				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
                 xbuttonComponent.onButtonStateChangedObservable.add(() => {
@@ -99,24 +104,6 @@
 				   else speed = 0.0;
                 });
 			 }
-			 if (motionController.handness === 'left') {
-                const xr_ids = motionController.getComponentIds();
-                let triggerComponent = motionController.getComponent(xr_ids[0]); //xr-standard-trigger
-                triggerComponent.onButtonStateChangedObservable.add(() => {
-				   if (triggerComponent.pressed) speedy = 0.01;
-				   else speedy = 0.00; 
-                });
-				let xbuttonComponent = motionController.getComponent(xr_ids[3]); //x-button
-                xbuttonComponent.onButtonStateChangedObservable.add(() => {
- 				   if (xbuttonComponent.pressed) speed = -0.1;
-				   else speed = 0.0;
-                });
-				let ybuttonComponent = motionController.getComponent(xr_ids[4]);//y-button
-				ybuttonComponent.onButtonStateChangedObservable.add(() => {
-				   if (ybuttonComponent.pressed) speed = 0.1;
-				   else speed = 0.0;
-                });
-			 }
 		  });      
 	  });	  
 	  // Movimenta camera 
@@ -125,6 +112,7 @@
 		 if (Math.abs(speed)<0.07) forward.y = 0;
 		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
+		 eu.position.addInPlace(forward);
 	  });
 	  
 	  return scene;
