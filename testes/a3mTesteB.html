@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ponte</title>
+  <title>Ponte1</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -31,7 +31,8 @@
       camera.attachControl(canvas, true);
       var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 5, 15), scene);
       light.intensity = 1;
-	  var dimX = .5,
+	  var dimX = .7;
+	  var dimE = .2;
 	  // Chao	  
       const grdMat = new BABYLON.StandardMaterial("grdMat");
       grdMat.diffuseTexture = new BABYLON.Texture(dirtex+"caixa1.png");	  
@@ -44,19 +45,20 @@
       buraco.position = new BABYLON.Vector3(-0,0,0);
 	  buraco.material = burMat;
 	  
-	  var eu = BABYLON.MeshBuilder.CreateBox("eu",{height:0.1, width: dimX/4, depth: dimX/4},scene);
+	  var eu = BABYLON.MeshBuilder.CreateBox("eu",{height:0.1, width: dimE, depth: dimE},scene);
       eu.position = new BABYLON.Vector3(0, 0.1, 5);
-	  eu.material = burMat;
+	 // eu.material = burMat;
 	  
-	  grade =",,X,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
- 	  if (searchParams.has("grd") === true) grade = searchParams.get("grd");
+	  var grade = ",,X,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
+ 	//  if (searchParams.has("id") === true) grade = searchParams.get("id");
+	  
 	  var grd = grade.split(',');
 	  for(i = 0; i < 3; i = i+1 ) {
 	     for(j = 0; j < 10; j = j+1) {
 		    var box2;
 		    if (grd[i*j+i] === "X") box2 = buraco.clone("buraco");
 		    else box2 = ponte.clone("ponte");
-		    box2.position  = new BABYLON.Vector3(i*.dimX,0,j*.dimX); 
+		    box2.position  = new BABYLON.Vector3(i*dimX,0,j*dimX); 
 	     }
 	   }   
 	   engine.onResizeObservable.add(() => { engine.resize(); });
@@ -87,7 +89,7 @@
 		 if (Math.abs(speed)<0.07) forward.y = 0;
 		 if (speedy != 0) forward.y += speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
-		// eu.position.addInPlace(forward);
+		 eu.position.addInPlace(forward);
 	  });
 	  
 	  return scene;
