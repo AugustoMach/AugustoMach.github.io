@@ -26,42 +26,51 @@
 	  var speed = 0.0;
 	  var speedy = 0.0;
       var scene = new BABYLON.Scene(engine);
-      var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 1.5, 5), scene);
+      var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 31.5, 5), scene);
       camera.setTarget(BABYLON.Vector3.Zero());
       camera.attachControl(canvas, true);
-      var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 5, 15), scene);
+      var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 55, 15), scene);
       light.intensity = 1;
 	  var dimX = .7;
 	  var dimE = .2;
-	  // Chao	  
+      //Ground
+      const ground = BABYLON.MeshBuilder.CreateGround("ground", { width:50, height:50 }, scene);
+      var groundMaterial = new BABYLON.StandardMaterial("groundM", scene);
+	  groundMaterial.diffuseTexture = new BABYLON.Texture("https://augustomach.github.io/testes/texturas/chao1.png", scene);
+      groundMaterial.diffuseTexture.uScale = 20;
+      groundMaterial.diffuseTexture.vScale = 20;
+      groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+      ground.material = groundMaterial;
+	  //Ponte
       const grdMat = new BABYLON.StandardMaterial("grdMat");
       grdMat.diffuseTexture = new BABYLON.Texture(dirtex+"caixa1.png");	  
       var ponte = BABYLON.MeshBuilder.CreateBox("ponte",{height:0.05, width: dimX, depth: dimX},scene);
-      ponte.position = new BABYLON.Vector3(-0,0,0);
+      ponte.position = new BABYLON.Vector3(-0,30,0);
 	  ponte.material = grdMat;
 	  const burMat = new BABYLON.StandardMaterial("burMat");
       burMat.diffuseTexture = new BABYLON.Texture(dirtex+"chao1.png");	  
       var buraco = BABYLON.MeshBuilder.CreateBox("buraco",{height:0.05, width: dimX, depth: dimX},scene);
-      buraco.position = new BABYLON.Vector3(-0,0,0);
+      buraco.position = new BABYLON.Vector3(-0,30,0);
 	  buraco.material = burMat;
 	  
 	  var eu = BABYLON.MeshBuilder.CreateBox("eu",{height:0.1, width: dimE, depth: dimE},scene);
-      eu.position = new BABYLON.Vector3(0, 0.1, 5);
+      eu.position = new BABYLON.Vector3(0, 30.1, 5);
 	 // eu.material = burMat;
 	  
 	  var grade = ",,X,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
- 	// if (searchParams.has("id") === true) grade = searchParams.get("id");
+ 	//if (searchParams.has("id") === true) grade = searchParams.get("id");
 	  var grd = grade.split(',');
 	  for(i = 0; i < 3; i = i+1 ) {
 	     for(j = 0; j < 10; j = j+1) {
 		    var box2;
 		    if (grd[i*j+i] === "X") box2 = buraco.clone("buraco");
 		    else box2 = ponte.clone("ponte");
-		    box2.position  = new BABYLON.Vector3(i*dimX,0,j*dimX); 
+		    box2.position  = new BABYLON.Vector3(i*dimX,30,j*dimX); 
 	     }
 	   }   
 	   engine.onResizeObservable.add(() => { engine.resize(); });
        const xr = await scene.createDefaultXRExperienceAsync({
+          floorMeshes: [ground] 
        });
        xr.pointerSelection.attach();
        xr.input.onControllerAddedObservable.add((controller) => {
@@ -81,17 +90,27 @@
 			 }
 		  });      
 	  });	  
-	  // Movimenta camera 
-      scene.onBeforeRenderObservable.add(() => {
+	   // Movimenta camera 
+       scene.onBeforeRenderObservable.add(() => {
          const forward = xr.baseExperience.camera.getDirection(BABYLON.Vector3.Forward()).scale(speed);			   
 		 forward.y = speedy;
          xr.baseExperience.camera.position.addInPlace(forward);
 		 eu.position.addInPlace(forward);
-		 if ((eu.position.x > 1 && eu.position.x < 2) && (eu.position.z > 1 && eu.position.z < 2)){
-		    speedy = -.07;
+		 for(i = 0; i < 3; i = i+1 ) {
+	        for(j = 0; j < 10; j = j+1) {
+ 		    if (grd[i*j+i] === "X") {
+		 	    if ((eu.position.x>i*dimX && eu.position.x<i*dimX+dimX) && (eu.position.z>j*dimX &&  eu.position.z<j*dimX+dim)){
+		          speedy = -.07;
+		        }
+			}
+		    box2.position  = new BABYLON.Vector3(i*dimX,30,j*dimX); 
+	     }
+	    } 
+		if (eu.position.y<0){
+		    speedy = 0.0;
 		 }
-	  });
-	  return scene;
+	   });
+	   return scene;
     }  
     
     async function run() {
