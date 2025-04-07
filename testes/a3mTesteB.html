@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ponte</title>
+  <title>PonteX</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -57,7 +57,7 @@
       eu.position = new BABYLON.Vector3(0, 30.1, 5);
 	 // eu.material = burMat;
 	  
-	  var grade = ",,X,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
+	  var grade = ",,,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
  	//if (searchParams.has("id") === true) grade = searchParams.get("id");
 	  var grd = grade.split(',');
 	  for(i = 0; i < 3; i = i+1 ) {
@@ -99,7 +99,7 @@
 		 for(i = 0; i < 3; i = i+1 ) {
 	        for(j = 0; j < 10; j = j+1) {
  		    if (grd[i*j+i] === "X") {
-		 	    if ((eu.position.x>i*dimX && eu.position.x<i*dimX+dimX) && (eu.position.z>j*dimX &&  eu.position.z<j*dimX+dim)){
+		 	    if ((eu.position.x>i*dimX && eu.position.x<i*dimX+dimX) && (eu.position.z>j*dimX && eu.position.z<j*dimX+dimX)){
 		          speedy = -.07;
 		        }
 			}
