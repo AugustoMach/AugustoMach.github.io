@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ponte Y</title>
+  <title>Ponte Ya</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -26,7 +26,7 @@
 	  var speed = 0.0;
 	  var speedy = 0.0;
 	  // Som do gatilho dos controles
-	  const gatshot = new BABYLON.Sound("gunshot", "https://augustomach.github.io/testes/sons/metal1.wav", scene);
+	  const gatshot = new BABYLON.Sound("gunshot", "https://augustomach.github.io/testes/sons/metal1.mp3", scene);
 
       var scene = new BABYLON.Scene(engine);
       var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 1.5, 5), scene);
@@ -60,7 +60,7 @@
       eu.position = new BABYLON.Vector3(0, 0.1, 5);
 	 // eu.material = burMat;
 	  
-	  var grade = ",X,X,,,X,,,,,,,,,,,,,,,,,X,,,,,,,";
+	  var grade = ",X,X,,,X,,,,,,,,,,,,,,,,,X,,,,,,,,,";
  	//if (searchParams.has("id") === true) grade = searchParams.get("id");
 	  var grd = grade.split(',');
 	  for(i = 0; i < 3; i=i+1 ) {
@@ -103,7 +103,7 @@
 	        for(j = 0; j < 10; j = j+1) {
  		    if (grd[i*j+i] === "X") {
 		 	    if ((eu.position.x>i*dimX && eu.position.x<i*dimX+dimX) && (eu.position.z>j*dimX && eu.position.z<j*dimX+dimX)){
-					if (speedy=== 0.0){
+					if (speedy === 0.0){
 					   gatshot.play();
    		               speedy = -.07;
 					}
