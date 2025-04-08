@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ponte Ya</title>
+  <title>Ponte aYa</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -26,7 +26,8 @@
 	  var speed = 0.0;
 	  var speedy = 0.0;
 	  // Som do gatilho dos controles
-	  const gatshot = new BABYLON.Sound("gunshot", "https://augustomach.github.io/testes/sons/metal1.mp3", scene);
+	  const gatshot = new BABYLON.Sound("gunshot", "https://augustomach.github.io/testes/sons/explosao1.mp3", scene);
+      const music = new BABYLON.Sound("musica", "https://augustomach.github.io/testes/sons/musica1.mp3", scene, null, { loop: true, autoplay: true });
 
       var scene = new BABYLON.Scene(engine);
       var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 1.5, 5), scene);
