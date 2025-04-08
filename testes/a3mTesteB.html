@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PonteXX</title>
+  <title>Ponte Y</title>
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
  <style>
@@ -25,11 +25,14 @@
 	  var dirtex = "https://augustomach.github.io/testes/texturas/";
 	  var speed = 0.0;
 	  var speedy = 0.0;
+	  // Som do gatilho dos controles
+	  const gatshot = new BABYLON.Sound("gunshot", "https://augustomach.github.io/testes/sons/metal1.wav", scene);
+
       var scene = new BABYLON.Scene(engine);
-      var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 31.5, 5), scene);
+      var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 1.5, 5), scene);
       camera.setTarget(BABYLON.Vector3.Zero());
       camera.attachControl(canvas, true);
-      var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 55, 15), scene);
+      var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 25, 15), scene);
       light.intensity = 1;
 	  var dimX = .7;
 	  var dimE = .2;
@@ -45,27 +48,27 @@
       const grdMat = new BABYLON.StandardMaterial("grdMat");
       grdMat.diffuseTexture = new BABYLON.Texture(dirtex+"caixa1.png");	  
       var ponte = BABYLON.MeshBuilder.CreateBox("ponte",{height:0.05, width: dimX, depth: dimX},scene);
-      ponte.position = new BABYLON.Vector3(-0,30,0);
+      ponte.position = new BABYLON.Vector3(-0,0,0);
 	  ponte.material = grdMat;
 	  const burMat = new BABYLON.StandardMaterial("burMat");
       burMat.diffuseTexture = new BABYLON.Texture(dirtex+"chao1.png");	  
       var buraco = BABYLON.MeshBuilder.CreateBox("buraco",{height:0.05, width: dimX, depth: dimX},scene);
-      buraco.position = new BABYLON.Vector3(-0,30,0);
+      buraco.position = new BABYLON.Vector3(-0,0,0);
 	  buraco.material = burMat;
 	  
 	  var eu = BABYLON.MeshBuilder.CreateBox("eu",{height:0.1, width: dimE, depth: dimE},scene);
-      eu.position = new BABYLON.Vector3(0, 30.1, 5);
+      eu.position = new BABYLON.Vector3(0, 0.1, 5);
 	 // eu.material = burMat;
 	  
-	  var grade = ",,,,,,,X,,,,,,,X,,,,,,,,X,,,,,,,";
+	  var grade = ",X,X,,,X,,,,,,,,,,,,,,,,,X,,,,,,,";
  	//if (searchParams.has("id") === true) grade = searchParams.get("id");
 	  var grd = grade.split(',');
-	  for(i = 0; i < 3; i = i+1 ) {
-	     for(j = 0; j < 10; j = j+1) {
+	  for(i = 0; i < 3; i=i+1 ) {
+	     for(j = 0; j < 10; j=j+1) {
 		    var box2;
-		    if (grd[i*j+i] === "X") box2 = buraco.clone("buraco");
+		    if (grd[i*j+i] === 'X') box2 = buraco.clone("buraco");
 		    else box2 = ponte.clone("ponte");
-		    box2.position  = new BABYLON.Vector3(i*dimX,30,j*dimX); 
+		    box2.position  = new BABYLON.Vector3(i*dimX,0,j*dimX); 
 	     }
 	   }   
 	   engine.onResizeObservable.add(() => { engine.resize(); });
@@ -100,13 +103,16 @@
 	        for(j = 0; j < 10; j = j+1) {
  		    if (grd[i*j+i] === "X") {
 		 	    if ((eu.position.x>i*dimX && eu.position.x<i*dimX+dimX) && (eu.position.z>j*dimX && eu.position.z<j*dimX+dimX)){
-		         // speedy = -.07;
+					if (speedy=== 0.0){
+					   gatshot.play();
+   		               speedy = -.07;
+					}
 		        }
 			}
 		    box2.position  = new BABYLON.Vector3(i*dimX,30,j*dimX); 
 	     }
 	    } 
-		if (eu.position.y<0){
+		if (eu.position.y<-10){
 		    speedy = 0.0;
 		 }
 	   });
